@@ -1,0 +1,83 @@
+Redis启动命令（终端）：
+redis-server  启动Redis服务
+redis-cli     连接Redis服务，进入Redis命令行界面
+
+常用通用命令：
+KEYS:查看符合模板的所有key KEYS "name"
+删除DEL   删除指定key DEL "name"
+EXIST 判断一个key是否存在 EXIST "name"
+expire 给一个key设置有效期，有效期到时key自动被删除   expire "name" 10 (10秒后删除)
+ttl 查看一个key的剩余有效期 ttl "name"  
+
+
+
+
+STring类型命令：
+SET 设置/修改字符串 SET "name" "zhangsan"
+GET 获取字符串 GET "name"
+MSET 批量设置字符串 MSET "name" "zhangsan" "age" "20"
+MGET 批量获取字符串 MGET "name" "age"
+INCR 对字符串进行加1操作 INCR "age"
+INCRBY 对字符串进行加指定数值操作 INCRBY "age" 5  每次加5
+INCRBYFLOAT 对字符串进行加指定浮点数操作 INCRBYFLOAT "price" 2.5  每次加2.5
+DECR 对字符串进行减1操作 DECR "age"
+DECRBY 对字符串进行减指定数值操作 DECRBY "age" 3  每次减3
+SETNX:只有在key不存在时才设置 SETNX "name" "lisi"
+SETEX:设置key和有效期 SETEX "name" 10 "zhangsan" (10秒后删除)  另一种写法： SET "name" "zhangsan" EX 10
+
+
+
+
+Key的层级格式：
+用户信息:userId:属性
+如：用户信息:user01:name  用户信息:user01:age
+[项目名称]:[模块名称]:[功能名称]:[属性名称]
+
+
+Hash类型命令：
+HSET 设置/修改hash HSET "user:01" "name" "zhangsan"
+HGET 获取hash HGET "user:01" "name"
+HMSET 批量设置  HMSET "user:01" "name" "zhangsan" "age" "20"
+HMGET 批量获取  HMGET "user:01" "name" "age"
+HGETALL 获取所有 HGETALL "user:01"
+HDEL 删除指定字段 HDEL "user:01" "age"  
+HKeys 获取所有字段 HKeys "user:01" 
+HVALS 获取所有值 HVALS "user:01"
+HSETS 判断字段是否存在 HSETS "user:01" "name"
+
+
+List类型命令：
+LPUSH 从左侧插入元素 LPUSH "fruits" "apple"
+LPOP 移除并返回左侧元素 LPOP "fruits"
+RPUSH 从右侧插入元素 RPUSH "fruits" "banana"
+RPOP 从右侧获取元素 RPOP "fruits"
+BLPOP 阻塞式移除并返回左侧元素 BLPOP "fruits" 0 (0表示一直阻塞，直到有元素可弹出)
+
+
+Set类型命令：
+SADD 向集合添加元素 SADD "colors" "red"
+SREM 从集合移除元素 SREM "colors" "red"
+SCARD 获取集合元素数量 SCARD "colors"
+SMEMBERS 获取集合所有元素 SMEMBERS "colors"
+SISMEMBER 判断元素是否在集合中 SISMEMBER "colors" "red"
+SINTER 求交集 SINTER "colors" "red" "blue"
+SUNION 求并集 SUNION "colors" "red" "blue"
+SDIFF 求差集 SDIFF "colors" "red" "blue"
+
+Sorted Set类型命令：
+ZADD 向有序集合添加元素 ZADD "leaderboard" 100 "player1"
+ZREM 从有序集合移除元素 ZREM "leaderboard" "player1"
+ZSCORE 获取元素分数 ZSCORE "leaderboard" "player1"
+ZRANK 获取元素排名 ZRANK "leaderboard" "player1"
+ZCARD 获取有序集合元素数量 ZCARD "leaderboard"
+ZCount 计算指定分数范围内的元素数量 ZCount "leaderboard" 50 150
+ZINCRBY 为有序集合中的元素的分数加上增量 ZINCRBY "leaderboard" 10 "player1"
+ZRANGE 按分数从低到高获取有序集合元素 ZRANGE "leaderboard" 0 -1 WITHSCORES
+ZRANGEBYSCORE 按分数范围获取有序集合元素 ZRANGEBYSCORE "leaderboard" 50 150 WITHSCORES
+ZDIFF 求有序集合的差集 ZDIFF 2 "leaderboard1" "leaderboard2"
+ZINTER 求有序集合的交集 ZINTER 2 "leaderboard1" "leaderboard2"
+ZUNION 求有序集合的并集 ZUNION 2 "leaderboard1" "leaderboard2"  
+
+
+Jedis知识：
+
