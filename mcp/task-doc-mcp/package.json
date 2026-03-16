@@ -1,0 +1,23 @@
+{
+  "name": "task-doc-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "MCP server for generating and updating task plan/handoff markdown documents under docs/tasks.",
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "tsc -p .",
+    "start": "node dist/server.js",
+    "dev": "ts-node src/server.ts"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.27.1",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2"
+  }
+}
