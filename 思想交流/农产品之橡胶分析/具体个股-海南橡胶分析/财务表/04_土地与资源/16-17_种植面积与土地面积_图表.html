@@ -1,0 +1,555 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>海南橡胶 · 橡胶种植面积 vs 总土地面积（2009—2025）</title>
+<style>
+  :root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --surface-2:      #f9f9f7;
+    --ink-1:          #0b0b0b;
+    --ink-2:          #52514e;
+    --ink-3:          #898781;
+    --grid:           #e1e0d9;
+    --baseline:       #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+    --series-1:       #2a78d6;
+    --series-1-soft:  rgba(42,120,214,0.18);
+    --series-2:       #eb6834;
+    --series-2-soft:  rgba(235,104,52,0.18);
+    --event-color:    #c3c2b7;
+    --event-hi:       #d03b3b;
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --surface-1:      #1a1a19;
+    --surface-2:      #0d0d0d;
+    --ink-1:          #ffffff;
+    --ink-2:          #c3c2b7;
+    --ink-3:          #898781;
+    --grid:           #2c2c2a;
+    --baseline:       #383835;
+    --border:         rgba(255,255,255,0.10);
+    --series-1:       #3987e5;
+    --series-1-soft:  rgba(57,135,229,0.22);
+    --series-2:       #d95926;
+    --series-2-soft:  rgba(217,89,38,0.22);
+    --event-color:    #383835;
+    --event-hi:       #e66767;
+  }
+  html, body { background: var(--surface-2); color: var(--ink-1); }
+  body {
+    margin: 0;
+    font: 14px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-variant-numeric: tabular-nums;
+  }
+  .page { max-width: 1120px; margin: 0 auto; padding: 28px 24px 56px; }
+  header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  h1 { font-size: 22px; font-weight: 600; margin: 0 0 4px; letter-spacing: 0.2px; }
+  .sub { color: var(--ink-2); font-size: 13px; margin: 0; }
+  .toolbar { display: flex; gap: 8px; }
+  .btn {
+    border: 1px solid var(--border);
+    background: var(--surface-1);
+    color: var(--ink-1);
+    padding: 6px 12px;
+    border-radius: 999px;
+    font: inherit;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .btn:hover { background: var(--surface-2); }
+  .btn[aria-pressed="true"] { background: var(--ink-1); color: var(--surface-1); }
+
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin: 20px 0 16px;
+  }
+  .stat {
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 14px;
+  }
+  .stat .lbl { color: var(--ink-2); font-size: 12px; }
+  .stat .val { font-size: 22px; font-weight: 600; margin-top: 4px; }
+  .stat .sub2 { color: var(--ink-3); font-size: 11px; margin-top: 2px; }
+
+  .panels { display: grid; grid-template-columns: 1fr; gap: 20px; }
+  @media (min-width: 980px) { .panels { grid-template-columns: 1fr 1fr; } }
+  .panel {
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px 18px 18px;
+  }
+  .panel h2 {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0 0 2px;
+  }
+  .panel .cap { color: var(--ink-2); font-size: 12px; margin-bottom: 10px; }
+  .legend { display: flex; gap: 14px; margin-bottom: 6px; font-size: 12px; color: var(--ink-2); flex-wrap: wrap; }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .legend i { width: 14px; height: 12px; border-radius: 3px; display: inline-block; }
+  .legend i.bar   { background: var(--series-1); }
+  .legend i.gap   { background: rgba(195,194,183,0.4); border: 1px dashed var(--event-color); }
+  .legend i.event { background: var(--event-hi); }
+  svg { width: 100%; height: 360px; display: block; }
+  svg text { fill: var(--ink-2); font-size: 11px; }
+
+  /* Tooltip */
+  #tt {
+    position: fixed;
+    pointer-events: none;
+    background: var(--surface-1);
+    color: var(--ink-1);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 12px;
+    line-height: 1.45;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.10);
+    opacity: 0;
+    transform: translate(-50%, -120%);
+    transition: opacity 0.12s;
+    z-index: 10;
+    min-width: 220px;
+  }
+  #tt .t-title { font-weight: 600; margin-bottom: 4px; }
+  #tt .t-row { display: flex; justify-content: space-between; gap: 12px; }
+  #tt .t-row i { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; vertical-align: middle; }
+  #tt .gap-note { color: var(--ink-3); font-size: 11px; margin-top: 4px; font-style: italic; }
+  #tt .ev-tag {
+    display: inline-block;
+    margin-top: 4px;
+    padding: 1px 6px;
+    background: var(--event-hi);
+    color: #fff;
+    border-radius: 4px;
+    font-size: 10px;
+  }
+
+  .table-wrap { display: none; }
+  body.show-table .panels, body.show-table .stat-row, body.show-table .timeline, body.show-table .note { display: none; }
+  body.show-table .table-wrap { display: block; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--surface-1);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 20px;
+  }
+  th, td {
+    padding: 10px 14px;
+    text-align: right;
+    border-bottom: 1px solid var(--border);
+    font-variant-numeric: tabular-nums;
+  }
+  th:first-child, td:first-child { text-align: left; }
+  thead th { background: var(--surface-2); color: var(--ink-2); font-weight: 500; font-size: 12px; }
+  td.na { color: var(--ink-3); font-style: italic; }
+  td .pill {
+    display: inline-block;
+    padding: 1px 6px;
+    border-radius: 999px;
+    font-size: 10px;
+    background: var(--surface-2);
+    color: var(--ink-2);
+  }
+  td .ev { color: var(--event-hi); font-weight: 600; }
+
+  .timeline {
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px 18px;
+    margin-top: 20px;
+  }
+  .timeline h3 { font-size: 14px; font-weight: 600; margin: 0 0 12px; }
+  .tl-row {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+  }
+  .tl-row:last-child { border-bottom: none; }
+  .tl-year { color: var(--event-hi); font-weight: 600; }
+  .tl-content { color: var(--ink-2); }
+  .tl-content strong { color: var(--ink-1); }
+
+  .note {
+    margin-top: 18px;
+    padding: 12px 16px;
+    background: var(--surface-1);
+    border-left: 3px solid var(--ink-3);
+    border-radius: 6px;
+    color: var(--ink-2);
+    font-size: 12px;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div>
+      <h1>海南橡胶 · 橡胶种植面积 vs 总土地面积</h1>
+      <p class="sub">2009—2025 · 单位：万亩 · 标注 6 大海外扩张 / 灾害事件</p>
+    </div>
+    <div class="toolbar">
+      <button class="btn" id="themeBtn" aria-pressed="false">🌗 深色模式</button>
+      <button class="btn" id="viewBtn" aria-pressed="false">📋 表格视图</button>
+    </div>
+  </header>
+
+  <div class="stat-row">
+    <div class="stat">
+      <div class="lbl">2023 末 · 橡胶种植面积（峰值）</div>
+      <div class="val">~ 400<span style="font-size:13px;color:var(--ink-2);"> 万亩</span></div>
+      <div class="sub2">合并合盛农业后</div>
+    </div>
+    <div class="stat">
+      <div class="lbl">2023 末 · 总土地面积（峰值）</div>
+      <div class="val">~ 500<span style="font-size:13px;color:var(--ink-2);"> 万亩</span></div>
+      <div class="sub2">境内外合计</div>
+    </div>
+    <div class="stat">
+      <div class="lbl">2024-09 台风"摩羯"</div>
+      <div class="val">-23<span style="font-size:13px;color:var(--ink-2);"> 万亩</span></div>
+      <div class="sub2">橡胶种植园报废</div>
+    </div>
+    <div class="stat">
+      <div class="lbl">海外种植园（合盛农业）</div>
+      <div class="val">~ 60<span style="font-size:13px;color:var(--ink-2);"> 万亩</span></div>
+      <div class="sub2">4 万公顷 · 喀麦隆/马来西亚</div>
+    </div>
+  </div>
+
+  <div class="panels">
+    <div class="panel">
+      <h2>① 橡胶种植面积（境内外合计）</h2>
+      <p class="cap">单位：万亩 · 柱状图。2009—2022 仅境内；2023 起含合盛农业海外</p>
+      <div class="legend">
+        <span><i class="bar"></i>橡胶种植面积</span>
+        <span><i class="event"></i>关键事件</span>
+        <span><i class="gap"></i>数据点间隔</span>
+      </div>
+      <svg id="chartRubber" viewBox="0 0 820 360" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
+
+    <div class="panel">
+      <h2>② 总土地面积（含海外）</h2>
+      <p class="cap">单位：万亩 · 柱状图。境内承包 + 海外经营土地</p>
+      <div class="legend">
+        <span><i class="bar"></i>总土地面积</span>
+        <span><i class="event"></i>关键事件</span>
+        <span><i class="gap"></i>数据点间隔</span>
+      </div>
+      <svg id="chartLand" viewBox="0 0 820 360" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
+  </div>
+
+  <div class="timeline">
+    <h3>📌 海外扩张 & 关键事件时间线</h3>
+    <div class="tl-row">
+      <div class="tl-year">2012</div>
+      <div class="tl-content"><strong>并购新加坡 R1 公司</strong> — 海南农垦集团 → 后转入海南橡胶，全球最大橡胶贸易企业之一</div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-year">2017-07</div>
+      <div class="tl-content"><strong>控股股东收购 KM（印尼）45% + ART 62.5%</strong> — 1.37 亿美元；承诺 30 个月内优先转让给上市公司；获印尼种植园 ~16 万亩 + 14 家加工厂</div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-year">2018-10</div>
+      <div class="tl-content"><strong>海南橡胶收购 R1 国际 71.58%</strong> — 7,671 万美元；贸易公司，无直接种植园</div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-year">2022-11</div>
+      <div class="tl-content"><strong>披露收购合盛农业（Halcyon Agri）36%</strong> — 1.81 亿美元，0.315 美元/股</div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-year">2023-02/05</div>
+      <div class="tl-content"><strong>完成收购合盛农业</strong> — 协议转让 36% + 强制要约 32.10% = 持股 <strong>68.10%</strong>，总成本 3.42 亿美元；<strong>一次性获得海外种植园约 164 万亩</strong>（喀麦隆/科特迪瓦/马来西亚）</div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-year">2024-09-06</div>
+      <div class="tl-content"><strong>台风"摩羯"重创</strong> — 超强台风级（17 级以上）海南文昌登陆；<strong>橡胶种植园报废约 23 万亩</strong>，干胶减产约 1.8 万吨</div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-year">2025</div>
+      <div class="tl-content"><strong>公司最新披露</strong> — 全球经营管理土地 <strong>~ 490 万亩</strong>、橡胶种植面积 <strong>~ 400 万亩</strong>（境内 341 + 境外 60）；同步推进 <strong>180 万亩省级标准化胶园建设</strong>（非新增，是升级）</div>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>年份</th>
+          <th>橡胶种植面积合计（万亩）</th>
+          <th>其中：境内</th>
+          <th>其中：境外</th>
+          <th>总土地面积（万亩）</th>
+          <th>关键事件</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>2009（招股）</td><td>~ 328</td><td>328</td><td>0</td><td>~ 353.20</td><td>招股说明书披露 25 万亩防护林</td></tr>
+        <tr><td>2010</td><td>~ 328</td><td>328</td><td>0</td><td>351.55</td><td>《补充协议》确认</td></tr>
+        <tr><td>2011—2015</td><td class="na">未直接命中</td><td class="na">—</td><td>0</td><td>~ 351—353</td><td>—</td></tr>
+        <tr><td>2016</td><td>~ 328</td><td>328</td><td>0</td><td>~ 353</td><td>—</td></tr>
+        <tr><td>2017</td><td>~ 328</td><td>328</td><td>0</td><td>~ 353</td><td><span class="ev">控股股东收购 KM/ART</span></td></tr>
+        <tr><td>2018</td><td class="na">未直接命中</td><td class="na">—</td><td>0</td><td>~ 353</td><td><span class="ev">收购 R1 国际 71.58%</span></td></tr>
+        <tr><td>2019—2022</td><td>~ 316</td><td>316</td><td>0</td><td>~ 341</td><td>辅业剥离</td></tr>
+        <tr><td>2023-02 之前</td><td>~ 316</td><td>316</td><td>0</td><td>~ 341</td><td>—</td></tr>
+        <tr><td>2023-02 之后</td><td>~ 376</td><td>316</td><td>~ 60</td><td>~ 441</td><td><span class="ev">合并合盛农业</span></td></tr>
+        <tr><td>2023 末（董秘）</td><td>~ 400</td><td>~ 341</td><td>~ 60</td><td>~ 500</td><td>完整合并口径</td></tr>
+        <tr><td>2024（台风前）</td><td>~ 392</td><td>~ 333</td><td>~ 60</td><td>~ 500</td><td>—</td></tr>
+        <tr><td>2024（台风后）</td><td>~ 369</td><td>~ 310</td><td>~ 60</td><td>~ 477</td><td><span class="ev">台风"摩羯" -23 万亩</span></td></tr>
+        <tr><td>2025</td><td>~ 400</td><td>~ 341</td><td>~ 60</td><td>~ 490</td><td>合盛农业整合完成，最新披露</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <strong>说明：</strong>
+    ① 2011—2018 年部分年份数据公司未单独披露，建议查对应年报；
+    ② "橡胶种植面积"指<strong>实际种植橡胶树的种植园面积</strong>（不含防护林）；"总土地面积"指<strong>境内外全部经营管理土地</strong>（含加工厂、农场等多元化用地）；
+    ③ 2017 KM/ART 收购是<strong>控股股东</strong>层面操作，海南橡胶上市公司当年并未直接获得种植园；2023 合盛农业才是海南橡胶<strong>直接获得海外种植园</strong>的关键事件；
+    ④ "180 万亩标准化胶园"是<strong>改造升级</strong>，不是新增土地。
+  </div>
+</div>
+
+<div id="tt"></div>
+
+<script>
+/* ---------- Data ---------- */
+// Rubber planting area, total = domestic + overseas, unit: 万亩. null = no data point
+const RUBBER = [
+  { y: 2009, v: 328,  domestic: 328, overseas: 0 },
+  { y: 2010, v: 328,  domestic: 328, overseas: 0 },
+  { y: 2011, v: null },                                       // no data
+  { y: 2012, v: null },
+  { y: 2013, v: null },
+  { y: 2014, v: null },
+  { y: 2015, v: null },
+  { y: 2016, v: 328,  domestic: 328, overseas: 0 },
+  { y: 2017, v: 328,  domestic: 328, overseas: 0, event: '控股股东收购 KM/ART' },
+  { y: 2018, v: null },                                       // ~316 transition
+  { y: 2019, v: 316,  domestic: 316, overseas: 0 },
+  { y: 2020, v: 316,  domestic: 316, overseas: 0 },
+  { y: 2021, v: 316,  domestic: 316, overseas: 0 },
+  { y: 2022, v: 316,  domestic: 316, overseas: 0 },
+  { y: 2023, v: 400,  domestic: 341, overseas: 60, event: '合并合盛农业（+164 万亩）' },
+  { y: 2024, v: 369,  domestic: 310, overseas: 60, event: '台风"摩羯" -23 万亩' },
+  { y: 2025, v: 400,  domestic: 341, overseas: 60, event: '合盛农业整合完成，最新披露' }
+];
+
+// Total land area (including overseas), 万亩
+const LAND = [
+  { y: 2009, v: 353.20 },
+  { y: 2010, v: 351.55 },
+  { y: 2011, v: null },
+  { y: 2012, v: null },
+  { y: 2013, v: null },
+  { y: 2014, v: null },
+  { y: 2015, v: null },
+  { y: 2016, v: 353 },
+  { y: 2017, v: 353, event: '控股股东收购 KM/ART' },
+  { y: 2018, v: 353 },
+  { y: 2019, v: 341 },
+  { y: 2020, v: 341 },
+  { y: 2021, v: 341 },
+  { y: 2022, v: 341 },
+  { y: 2023, v: 500, event: '合并合盛农业（+160 万亩海外）' },
+  { y: 2024, v: 477, event: '台风"摩羯" -23 万亩' },
+  { y: 2025, v: 490 }  // 2025 公司最新公开披露
+];
+
+/* ---------- Theme / view toggles ---------- */
+const root = document.documentElement;
+const tt = document.getElementById('tt');
+
+document.getElementById('themeBtn').addEventListener('click', () => {
+  const isDark = root.getAttribute('data-theme') === 'dark';
+  root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.getElementById('themeBtn').setAttribute('aria-pressed', String(!isDark));
+  document.getElementById('themeBtn').textContent = isDark ? '🌗 深色模式' : '☀️ 浅色模式';
+  drawAll();
+});
+document.getElementById('viewBtn').addEventListener('click', () => {
+  const showing = document.body.classList.toggle('show-table');
+  document.getElementById('viewBtn').setAttribute('aria-pressed', String(showing));
+  document.getElementById('viewBtn').textContent = showing ? '📊 图表视图' : '📋 表格视图';
+});
+
+/* ---------- SVG helpers ---------- */
+const svgEl = (name, attrs) => {
+  const el = document.createElementNS('http://www.w3.org/2000/svg', name);
+  for (const k in attrs) el.setAttribute(k, attrs[k]);
+  return el;
+};
+const css = (v) => getComputedStyle(root).getPropertyValue(v).trim();
+function showTooltip(html, evt) {
+  tt.innerHTML = html;
+  tt.style.opacity = 1;
+  tt.style.left = evt.clientX + 'px';
+  tt.style.top  = evt.clientY + 'px';
+}
+function hideTooltip() { tt.style.opacity = 0; }
+
+/* ---------- Generic bar chart with event markers ---------- */
+function drawBars(svgId, data, opts) {
+  const svg = document.getElementById(svgId);
+  svg.innerHTML = '';
+  const W = 820, H = 360;
+  const ml = 60, mr = 16, mt = 36, mb = 44;
+  const pw = W - ml - mr, ph = H - mt - mb;
+
+  // Y scale
+  const vals = data.filter(d => d.v != null).map(d => d.v);
+  const yMax = Math.max(...vals) * 1.18;
+  const niceStep = niceTick(yMax / 5);
+  const yMaxFinal = Math.ceil(yMax / niceStep) * niceStep;
+  const yOf = (v) => mt + ph - (v / yMaxFinal) * ph;
+
+  // Grid + Y axis
+  for (let i = 0; i <= 5; i++) {
+    const v = yMaxFinal * i / 5;
+    const y = yOf(v);
+    svg.appendChild(svgEl('line', {
+      x1: ml, x2: W - mr, y1: y, y2: y,
+      stroke: css('--grid'), 'stroke-width': 1
+    }));
+    svg.appendChild(svgEl('text', {
+      x: ml - 8, y: y + 3, 'text-anchor': 'end'
+    })).textContent = (v >= 100 ? Math.round(v) : v.toFixed(0)) + '';
+  }
+  svg.appendChild(svgEl('line', {
+    x1: ml, x2: W - mr, y1: mt + ph, y2: mt + ph,
+    stroke: css('--baseline'), 'stroke-width': 1
+  }));
+
+  // Bars
+  const n = data.length;
+  const slotW = (i) => ml + pw / n * (i + 0.5);
+  const barW = pw / n * 0.55;
+
+  // Event vertical lines
+  data.forEach((d, i) => {
+    if (!d.event) return;
+    const x = slotW(i);
+    svg.appendChild(svgEl('line', {
+      x1: x, x2: x, y1: mt, y2: mt + ph,
+      stroke: css('--event-hi'), 'stroke-width': 1.2,
+      'stroke-dasharray': '4 4', opacity: 0.6
+    }));
+    // Event label above
+    const txt = svgEl('text', {
+      x, y: mt - 10, 'text-anchor': 'middle',
+      fill: css('--event-hi'), 'font-size': 10, 'font-weight': '600'
+    });
+    txt.textContent = '★ ' + (d.event.length > 14 ? d.event.slice(0, 14) + '…' : d.event);
+    svg.appendChild(txt);
+  });
+
+  data.forEach((d, i) => {
+    const cx = slotW(i);
+    const x = cx - barW / 2;
+    const baseY = mt + ph;
+
+    if (d.v == null) {
+      // Gap marker
+      const gy = yOf(yMaxFinal * 0.92);
+      const gh = baseY - gy;
+      svg.appendChild(svgEl('rect', {
+        x, y: gy, width: barW, height: gh, rx: 2,
+        fill: css('--series-1-soft'),
+        stroke: css('--event-color'),
+        'stroke-dasharray': '3 3', 'stroke-width': 1
+      }));
+      svg.appendChild(svgEl('text', {
+        x: cx, y: H - 16, 'text-anchor': 'middle', fill: css('--ink-3')
+      })).textContent = String(d.y);
+      return;
+    }
+
+    const yTop = yOf(d.v);
+    const h = baseY - yTop;
+    svg.appendChild(svgEl('rect', {
+      x, y: yTop, width: barW, height: h, rx: 3,
+      fill: css(opts.color)
+    }));
+
+    // Value label
+    const lbl = svgEl('text', {
+      x: cx, y: yTop - 8, 'text-anchor': 'middle',
+      fill: css('--ink-1'), 'font-weight': '600', 'font-size': 11
+    });
+    lbl.textContent = d.v.toFixed(opts.v == 500 ? 0 : (opts.dp || 0)) + '';
+    svg.appendChild(lbl);
+
+    // Hover hit
+    const hit = svgEl('rect', {
+      x, y: yTop, width: barW, height: h,
+      fill: 'transparent', style: 'cursor:pointer'
+    });
+    hit.addEventListener('mousemove', (e) => {
+      const lines = [`<div class="t-title">${d.y} 年</div>`];
+      if (d.v != null) {
+        lines.push(`<div class="t-row"><span><i style="background:${css(opts.color)};"></i>${opts.label}</span><strong>${d.v.toFixed(opts.dp || 0)} 万亩</strong></div>`);
+        if (d.domestic != null) {
+          lines.push(`<div class="t-row"><span>境内</span><span>${d.domestic.toFixed(0)} 万亩</span></div>`);
+          lines.push(`<div class="t-row"><span>境外</span><span>${d.overseas.toFixed(0)} 万亩</span></div>`);
+        }
+      }
+      if (d.event) lines.push(`<div class="ev-tag">${d.event}</div>`);
+      showTooltip(lines.join(''), e);
+    });
+    hit.addEventListener('mouseleave', hideTooltip);
+    svg.appendChild(hit);
+
+    // Year label
+    svg.appendChild(svgEl('text', {
+      x: cx, y: H - 16, 'text-anchor': 'middle', fill: css('--ink-1'),
+      'font-weight': d.event ? '600' : '400'
+    })).textContent = String(d.y);
+  });
+
+  // Y axis title
+  const yt = svgEl('text', {
+    x: 14, y: mt + ph / 2,
+    transform: `rotate(-90 14 ${mt + ph / 2})`,
+    'text-anchor': 'middle', fill: css('--ink-2'), 'font-size': 11
+  });
+  yt.textContent = '万亩';
+  svg.appendChild(yt);
+}
+
+function niceTick(rough) {
+  const exp = Math.pow(10, Math.floor(Math.log10(rough)));
+  const f = rough / exp;
+  let nice;
+  if (f < 1.5) nice = 1;
+  else if (f < 3) nice = 2;
+  else if (f < 7) nice = 5;
+  else nice = 10;
+  return nice * exp;
+}
+
+function drawAll() {
+  drawBars('chartRubber', RUBBER, { color: '--series-1', label: '橡胶种植面积', dp: 0 });
+  drawBars('chartLand',    LAND,    { color: '--series-2', label: '总土地面积',   dp: 0 });
+}
+drawAll();
+</script>
+</body>
+</html>

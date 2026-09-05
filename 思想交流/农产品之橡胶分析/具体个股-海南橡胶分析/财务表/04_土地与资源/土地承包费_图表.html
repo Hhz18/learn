@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>海南橡胶 · 土地承包费变化（2009—2025）</title>
+<style>
+  :root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --surface-2:      #f9f9f7;
+    --ink-1:          #0b0b0b;
+    --ink-2:          #52514e;
+    --ink-3:          #898781;
+    --grid:           #e1e0d9;
+    --baseline:       #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+    --series-1:       #2a78d6;
+    --series-1-soft:  rgba(42,120,214,0.18);
+    --series-2:       #eb6834;
+    --gap-color:      #c3c2b7;
+    --gap-bg:         rgba(195,194,183,0.25);
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --surface-1:      #1a1a19;
+    --surface-2:      #0d0d0d;
+    --ink-1:          #ffffff;
+    --ink-2:          #c3c2b7;
+    --ink-3:          #898781;
+    --grid:           #2c2c2a;
+    --baseline:       #383835;
+    --border:         rgba(255,255,255,0.10);
+    --series-1:       #3987e5;
+    --series-1-soft:  rgba(57,135,229,0.22);
+    --series-2:       #d95926;
+    --gap-color:      #383835;
+    --gap-bg:         rgba(56,56,53,0.5);
+  }
+  html, body { background: var(--surface-2); color: var(--ink-1); }
+  body {
+    margin: 0;
+    font: 14px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-variant-numeric: tabular-nums;
+  }
+  .page { max-width: 1120px; margin: 0 auto; padding: 28px 24px 56px; }
+  header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  h1 { font-size: 22px; font-weight: 600; margin: 0 0 4px; letter-spacing: 0.2px; }
+  .sub { color: var(--ink-2); font-size: 13px; margin: 0; }
+  .toolbar { display: flex; gap: 8px; }
+  .btn {
+    border: 1px solid var(--border);
+    background: var(--surface-1);
+    color: var(--ink-1);
+    padding: 6px 12px;
+    border-radius: 999px;
+    font: inherit;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .btn:hover { background: var(--surface-2); }
+  .btn[aria-pressed="true"] { background: var(--ink-1); color: var(--surface-1); }
+
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin: 20px 0 16px;
+  }
+  .stat {
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 14px;
+  }
+  .stat .lbl { color: var(--ink-2); font-size: 12px; }
+  .stat .val { font-size: 22px; font-weight: 600; margin-top: 4px; }
+  .stat .sub2 { color: var(--ink-3); font-size: 11px; margin-top: 2px; }
+
+  .panels { display: grid; grid-template-columns: 1fr; gap: 20px; }
+  @media (min-width: 980px) { .panels { grid-template-columns: 1.4fr 1fr; } }
+  .panel {
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px 18px 18px;
+  }
+  .panel h2 {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0 0 2px;
+  }
+  .panel .cap { color: var(--ink-2); font-size: 12px; margin-bottom: 10px; }
+  .legend { display: flex; gap: 14px; margin-bottom: 6px; font-size: 12px; color: var(--ink-2); flex-wrap: wrap; }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .legend i { width: 14px; height: 12px; border-radius: 3px; display: inline-block; }
+  .legend i.known  { background: var(--series-1); }
+  .legend i.proto  { background: var(--series-1-soft); border: 1px dashed var(--series-1); }
+  .legend i.gap    { background: var(--gap-bg); border: 1px dashed var(--gap-color); }
+  svg { width: 100%; height: 360px; display: block; }
+  svg text { fill: var(--ink-2); font-size: 11px; }
+
+  /* Tooltip */
+  #tt {
+    position: fixed;
+    pointer-events: none;
+    background: var(--surface-1);
+    color: var(--ink-1);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 12px;
+    line-height: 1.45;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.10);
+    opacity: 0;
+    transform: translate(-50%, -120%);
+    transition: opacity 0.12s;
+    z-index: 10;
+    min-width: 200px;
+  }
+  #tt .t-title { font-weight: 600; margin-bottom: 4px; }
+  #tt .t-row { display: flex; justify-content: space-between; gap: 12px; }
+  #tt .t-row i { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; vertical-align: middle; }
+  #tt .gap-note { color: var(--ink-3); font-size: 11px; margin-top: 4px; font-style: italic; }
+
+  .info-box {
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-top: 20px;
+  }
+  .info-box h3 { font-size: 13px; font-weight: 600; margin: 0 0 8px; color: var(--ink-2); }
+  .info-box table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .info-box th, .info-box td { padding: 6px 8px; text-align: right; }
+  .info-box th:first-child, .info-box td:first-child { text-align: left; }
+  .info-box thead th { color: var(--ink-2); font-weight: 500; border-bottom: 1px solid var(--border); }
+  .info-box tbody td { border-bottom: 1px solid var(--border); }
+  .info-box td.dim { color: var(--ink-3); font-style: italic; }
+
+  .note {
+    margin-top: 18px;
+    padding: 12px 16px;
+    background: var(--surface-1);
+    border-left: 3px solid var(--ink-3);
+    border-radius: 6px;
+    color: var(--ink-2);
+    font-size: 12px;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div>
+      <h1>海南橡胶 · 土地承包费变化</h1>
+      <p class="sub">2009—2025 · 单位：万元 · 仅 2010 协议金额 + 2023/24/25 年报披露四个数据点</p>
+    </div>
+    <div class="toolbar">
+      <button class="btn" id="themeBtn" aria-pressed="false">🌗 深色模式</button>
+    </div>
+  </header>
+
+  <div class="stat-row">
+    <div class="stat">
+      <div class="lbl">2010 协议金额（峰值）</div>
+      <div class="val">21,470.51<span style="font-size:13px;color:var(--ink-2);"> 万元</span></div>
+      <div class="sub2">351.55 万亩 · 加权 61.07 元/亩</div>
+    </div>
+    <div class="stat">
+      <div class="lbl">2025 年（最新）</div>
+      <div class="val">19,716.68<span style="font-size:13px;color:var(--ink-2);"> 万元</span></div>
+      <div class="sub2">较 2010 协议 -8.17%</div>
+    </div>
+    <div class="stat">
+      <div class="lbl">2023 → 2024</div>
+      <div class="val">0.00%</div>
+      <div class="sub2">保持 19,745.05 万元</div>
+    </div>
+    <div class="stat">
+      <div class="lbl">占收入比变化</div>
+      <div class="val">3.39% → 0.40%</div>
+      <div class="sub2">贸易业务规模化稀释</div>
+    </div>
+  </div>
+
+  <div class="panels">
+    <div class="panel">
+      <h2>① 土地承包费历年金额</h2>
+      <p class="cap">单位：万元 · 柱状图。2010 为协议金额；2023/24/25 为年报披露；中间年份未单独披露</p>
+      <div class="legend">
+        <span><i class="known"></i>年报披露数据</span>
+        <span><i class="proto"></i>2010 协议金额</span>
+        <span><i class="gap"></i>未单独披露</span>
+      </div>
+      <svg id="chartFee" viewBox="0 0 820 360" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
+
+    <div class="panel">
+      <h2>② 土地承包费占收入比</h2>
+      <p class="cap">结构变化：贸易/加工业务规模化后，刚性费用被稀释</p>
+      <div class="legend">
+        <span><i class="known"></i>土地承包费 / 营业收入</span>
+      </div>
+      <svg id="chartRatio" viewBox="0 0 460 360" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <h3>土地单价分级（2010 协议）</h3>
+    <table>
+      <thead><tr><th>土地类型</th><th>年承包金（元/亩）</th></tr></thead>
+      <tbody>
+        <tr><td>开割胶园 一级</td><td>85</td></tr>
+        <tr><td>开割胶园 二级</td><td>70</td></tr>
+        <tr><td>开割胶园 三级</td><td>60</td></tr>
+        <tr><td>未开割胶园</td><td>40</td></tr>
+        <tr><td>防护林</td><td>30</td></tr>
+        <tr><td><strong>加权平均（351.55 万亩）</strong></td><td><strong>≈ 61.07</strong></td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:11px;color:var(--ink-2);margin:10px 0 0;">
+      协议每三年一调：如物价 / 通胀 / 海南省同类农地价值变动幅度 <strong>超过 20%</strong>，由双方协商调整。2010 协议以来未触发该阈值。
+    </p>
+  </div>
+
+  <div class="note">
+    <strong>说明：</strong>
+    ① 2011—2022 年公司年报中未将土地承包费<strong>单独披露</strong>，合并入"管理费用"或"土地使用权摊销"科目，需逐年翻阅附注才能拆分；
+    ② 2023 起年报开始单独披露，故本图仅展示 4 个真实数据点 + 1 个协议金额；
+    ③ 占收入比测算使用的营业收入数据来自其他财务表（2024 年报披露 496.73 亿元）。
+  </div>
+</div>
+
+<div id="tt"></div>
+
+<script>
+/* ---------- Data ---------- */
+// Land contract fee, in 万元 (10,000 RMB). null = not separately disclosed.
+const FEE = [
+  { y: 2009, v: null,   note: '上市前' },
+  { y: 2010, v: 21470.51, note: '《补充协议》金额 · 351.55 万亩', isProtocol: true },
+  { y: 2011, v: null },
+  { y: 2012, v: null },
+  { y: 2013, v: null },
+  { y: 2014, v: null },
+  { y: 2015, v: null },
+  { y: 2016, v: null },
+  { y: 2017, v: null },
+  { y: 2018, v: null },
+  { y: 2019, v: null },
+  { y: 2020, v: null },
+  { y: 2021, v: null },
+  { y: 2022, v: null },
+  { y: 2023, v: 19745.05, note: '年报披露' },
+  { y: 2024, v: 19745.05, note: '2025 年报披露' },
+  { y: 2025, v: 19716.68, note: '2025 年报披露' }
+];
+
+// Revenue (亿元) and ratio for known fee years
+const REVENUE = { 2010: 63.42, 2023: 376.87, 2024: 496.73, 2025: 422.37 };
+const RATIO   = [2010, 2023, 2024, 2025].map(y => ({
+  y, ratio: (FEE.find(f => f.y === y).v / 10000) / REVENUE[y] * 100
+}));
+
+const KNOWN = FEE.filter(d => d.v != null).map(d => d.y);
+const ALL_YEARS = FEE.map(d => d.y);
+
+/* ---------- Theme toggle ---------- */
+const root = document.documentElement;
+const tt = document.getElementById('tt');
+document.getElementById('themeBtn').addEventListener('click', () => {
+  const isDark = root.getAttribute('data-theme') === 'dark';
+  root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.getElementById('themeBtn').setAttribute('aria-pressed', String(!isDark));
+  document.getElementById('themeBtn').textContent = isDark ? '🌗 深色模式' : '☀️ 浅色模式';
+  drawAll();
+});
+
+/* ---------- SVG helpers ---------- */
+const svgEl = (name, attrs) => {
+  const el = document.createElementNS('http://www.w3.org/2000/svg', name);
+  for (const k in attrs) el.setAttribute(k, attrs[k]);
+  return el;
+};
+const css = (v) => getComputedStyle(root).getPropertyValue(v).trim();
+function showTooltip(html, evt) {
+  tt.innerHTML = html;
+  tt.style.opacity = 1;
+  tt.style.left = evt.clientX + 'px';
+  tt.style.top  = evt.clientY + 'px';
+}
+function hideTooltip() { tt.style.opacity = 0; }
+
+/* ---------- Draw fee chart (bars) ---------- */
+function drawFee() {
+  const svg = document.getElementById('chartFee');
+  svg.innerHTML = '';
+  const W = 820, H = 360;
+  const ml = 60, mr = 16, mt = 18, mb = 40;
+  const pw = W - ml - mr, ph = H - mt - mb;
+
+  const yMax = 25000;
+  const yOf = (v) => mt + ph - (v / yMax) * ph;
+
+  // Grid + Y axis
+  for (let i = 0; i <= 5; i++) {
+    const v = yMax * i / 5;
+    const y = yOf(v);
+    svg.appendChild(svgEl('line', {
+      x1: ml, x2: W - mr, y1: y, y2: y,
+      stroke: css('--grid'), 'stroke-width': 1
+    }));
+    svg.appendChild(svgEl('text', {
+      x: ml - 8, y: y + 3, 'text-anchor': 'end'
+    })).textContent = (v / 10000).toFixed(2) + ' 亿';
+  }
+  svg.appendChild(svgEl('line', {
+    x1: ml, x2: W - mr, y1: mt + ph, y2: mt + ph,
+    stroke: css('--baseline'), 'stroke-width': 1
+  }));
+
+  // Bars
+  const n = ALL_YEARS.length;
+  const slotW = pw / n;
+  const barW = slotW * 0.62;
+  ALL_YEARS.forEach((year, i) => {
+    const d = FEE[i];
+    const cx = ml + slotW * (i + 0.5);
+    const x = cx - barW / 2;
+    const baseY = mt + ph;
+
+    if (d.v == null) {
+      // Gap placeholder: dashed outline, light fill
+      const gy = yOf(yMax * 0.92);
+      const gh = baseY - gy;
+      svg.appendChild(svgEl('rect', {
+        x, y: gy, width: barW, height: gh, rx: 2,
+        fill: css('--gap-bg'),
+        stroke: css('--gap-color'),
+        'stroke-dasharray': '3 3', 'stroke-width': 1
+      }));
+      // Year label only (no value label)
+      svg.appendChild(svgEl('text', {
+        x: cx, y: H - 16, 'text-anchor': 'middle', fill: css('--ink-3')
+      })).textContent = String(year);
+      return;
+    }
+
+    const yTop = yOf(d.v);
+    const h = baseY - yTop;
+    svg.appendChild(svgEl('rect', {
+      x, y: yTop, width: barW, height: h, rx: 3,
+      fill: d.isProtocol ? css('--series-1-soft') : css('--series-1'),
+      stroke: css('--series-1'), 'stroke-width': d.isProtocol ? 2 : 0,
+      'stroke-dasharray': d.isProtocol ? '4 3' : null
+    }));
+
+    // Value label on top
+    const lbl = svgEl('text', {
+      x: cx, y: yTop - 8, 'text-anchor': 'middle',
+      fill: css('--ink-1'), 'font-weight': '600', 'font-size': 11
+    });
+    lbl.textContent = (d.v / 10000).toFixed(2) + ' 亿';
+    svg.appendChild(lbl);
+
+    // Hover hit
+    const hit = svgEl('rect', {
+      x, y: yTop, width: barW, height: h,
+      fill: 'transparent', style: 'cursor:pointer'
+    });
+    hit.addEventListener('mousemove', (e) => {
+      const lines = [
+        `<div class="t-title">${year} 年</div>`,
+        `<div class="t-row"><span><i style="background:${css('--series-1')};"></i>土地承包费</span><strong>${d.v.toFixed(2)} 万元</strong></div>`
+      ];
+      if (REVENUE[year]) {
+        const r = (d.v / 10000) / REVENUE[year] * 100;
+        lines.push(`<div class="t-row"><span>占收入比</span><span>${r.toFixed(2)}%</span></div>`);
+        lines.push(`<div class="t-row"><span>营业收入</span><span>${REVENUE[year].toFixed(2)} 亿元</span></div>`);
+      }
+      if (d.note) lines.push(`<div class="gap-note">${d.note}</div>`);
+      showTooltip(lines.join(''), e);
+    });
+    hit.addEventListener('mouseleave', hideTooltip);
+    svg.appendChild(hit);
+
+    // Year label
+    svg.appendChild(svgEl('text', {
+      x: cx, y: H - 16, 'text-anchor': 'middle', fill: css('--ink-1'),
+      'font-weight': d.isProtocol ? '600' : '400'
+    })).textContent = String(year);
+  });
+
+  // Annotations for protocol
+  const proto = FEE.find(d => d.isProtocol);
+  const protoIdx = ALL_YEARS.indexOf(proto.y);
+  const px = ml + slotW * (protoIdx + 0.5);
+  const py = yOf(proto.v) - 30;
+  svg.appendChild(svgEl('text', {
+    x: px, y: py, 'text-anchor': 'middle', fill: css('--series-1'),
+    'font-weight': '600', 'font-size': 11
+  })).textContent = '《补充协议》';
+  // arrow
+  svg.appendChild(svgEl('line', {
+    x1: px, y1: py + 4, x2: px, y2: yOf(proto.v) - 12,
+    stroke: css('--series-1'), 'stroke-width': 1, 'stroke-dasharray': '2 2'
+  }));
+
+  // Y axis title
+  const yt = svgEl('text', {
+    x: 14, y: mt + ph / 2,
+    transform: `rotate(-90 14 ${mt + ph / 2})`,
+    'text-anchor': 'middle', fill: css('--ink-2'), 'font-size': 11
+  });
+  yt.textContent = '土地承包费（亿元）';
+  svg.appendChild(yt);
+}
+
+/* ---------- Draw ratio chart ---------- */
+function drawRatio() {
+  const svg = document.getElementById('chartRatio');
+  svg.innerHTML = '';
+  const W = 460, H = 360;
+  const ml = 56, mr = 16, mt = 18, mb = 40;
+  const pw = W - ml - mr, ph = H - mt - mb;
+  const data = RATIO;
+  const yMax = 4;
+
+  const yOf = (v) => mt + ph - (v / yMax) * ph;
+
+  // Grid
+  for (let i = 0; i <= 4; i++) {
+    const v = yMax * i / 4;
+    const y = yOf(v);
+    svg.appendChild(svgEl('line', {
+      x1: ml, x2: W - mr, y1: y, y2: y,
+      stroke: css('--grid'), 'stroke-width': 1
+    }));
+    svg.appendChild(svgEl('text', {
+      x: ml - 8, y: y + 3, 'text-anchor': 'end'
+    })).textContent = v.toFixed(1) + '%';
+  }
+  svg.appendChild(svgEl('line', {
+    x1: ml, x2: W - mr, y1: mt + ph, y2: mt + ph,
+    stroke: css('--baseline'), 'stroke-width': 1
+  }));
+
+  // Line + markers
+  const n = data.length;
+  const slotW = pw / (n - 1);
+  data.forEach((d, i) => {
+    const x = ml + slotW * i;
+    const y = yOf(d.ratio);
+
+    if (i > 0) {
+      const x0 = ml + slotW * (i - 1);
+      const y0 = yOf(data[i - 1].ratio);
+      svg.appendChild(svgEl('line', {
+        x1: x0, y1: y0, x2: x, y2: y,
+        stroke: css('--series-1'), 'stroke-width': 2.5,
+        'stroke-linecap': 'round'
+      }));
+    }
+    const c = svgEl('circle', {
+      cx: x, cy: y, r: 5,
+      fill: css('--surface-1'),
+      stroke: css('--series-1'), 'stroke-width': 2.5
+    });
+    const hit = svgEl('circle', {
+      cx: x, cy: y, r: 14, fill: 'transparent', style: 'cursor:pointer'
+    });
+    hit.addEventListener('mousemove', (e) => {
+      showTooltip(
+        `<div class="t-title">${d.y} 年</div>` +
+        `<div class="t-row"><span>土地承包费 / 收入</span><strong>${d.ratio.toFixed(2)}%</strong></div>`,
+        e
+      );
+    });
+    hit.addEventListener('mouseleave', hideTooltip);
+
+    // Value label
+    svg.appendChild(svgEl('text', {
+      x, y: y - 12, 'text-anchor': 'middle',
+      fill: css('--ink-1'), 'font-weight': '600'
+    })).textContent = d.ratio.toFixed(2) + '%';
+    // Year label
+    svg.appendChild(svgEl('text', {
+      x, y: H - 16, 'text-anchor': 'middle'
+    })).textContent = String(d.y);
+
+    svg.appendChild(c);
+    svg.appendChild(hit);
+  });
+
+  // Y axis title
+  const yt = svgEl('text', {
+    x: 14, y: mt + ph / 2,
+    transform: `rotate(-90 14 ${mt + ph / 2})`,
+    'text-anchor': 'middle', fill: css('--ink-2'), 'font-size': 11
+  });
+  yt.textContent = '占收入比 (%)';
+  svg.appendChild(yt);
+}
+
+/* ---------- Render ---------- */
+function drawAll() { drawFee(); drawRatio(); }
+drawAll();
+</script>
+</body>
+</html>

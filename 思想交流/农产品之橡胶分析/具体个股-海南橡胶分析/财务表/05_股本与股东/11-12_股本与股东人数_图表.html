@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>海南橡胶(601118) 股本数量 & 股东人数（2009—2025）</title>
+<style>
+  :root {
+    --plane:        #f9f9f7;
+    --surface-1:    #fcfcfb;
+    --text-primary: #0b0b0b;
+    --text-secondary:#52514e;
+    --muted:        #898781;
+    --grid:         #e1e0d9;
+    --baseline:     #c3c2b7;
+    --series-cap:   #2a78d6;  /* blue  — 股本数量 */
+    --series-cap-soft:#cde2fb;
+    --series-hold:  #eb6834;  /* orange — 股东人数 */
+    --series-hold-soft:#fbdccb;
+    --border:       rgba(11,11,11,0.10);
+    --good:         #006300;
+    --crit:         #d03b3b;
+  }
+  :root[data-theme="dark"] {
+    --plane:        #0d0d0d;
+    --surface-1:    #1a1a19;
+    --text-primary: #ffffff;
+    --text-secondary:#c3c2b7;
+    --muted:        #898781;
+    --grid:         #2c2c2a;
+    --baseline:     #383835;
+    --series-cap:   #3987e5;
+    --series-cap-soft:#184f95;
+    --series-hold:  #d95926;
+    --series-hold-soft:#5a2a13;
+    --border:       rgba(255,255,255,0.10);
+    --good:         #0ca30c;
+    --crit:         #e34948;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 28px 20px 56px;
+    background: var(--plane);
+    color: var(--text-primary);
+    font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 900px; margin: 0 auto; }
+  header.page { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 22px; }
+  h1 { font-size: 21px; margin: 0 0 4px; letter-spacing: .2px; }
+  .sub { color: var(--text-secondary); font-size: 13px; margin: 0; line-height: 1.5; }
+  .controls { display: flex; gap: 8px; flex-shrink: 0; }
+  button {
+    font: inherit; font-size: 12.5px; cursor: pointer;
+    background: var(--surface-1); color: var(--text-secondary);
+    border: 1px solid var(--border); border-radius: 8px; padding: 6px 11px;
+    transition: background .15s, color .15s;
+  }
+  button:hover { color: var(--text-primary); }
+  button[aria-pressed="true"] { color: var(--text-primary); border-color: var(--muted); }
+
+  .card {
+    background: var(--surface-1); border: 1px solid var(--border);
+    border-radius: 14px; padding: 18px 18px 8px; margin-bottom: 20px;
+  }
+  .card h2 { font-size: 15.5px; margin: 0 0 2px; }
+  .card .ctx { color: var(--text-secondary); font-size: 12.5px; margin: 0 0 6px; }
+  .keyfacts { display: flex; flex-wrap: wrap; gap: 10px 26px; margin: 2px 0 10px; }
+  .kf { display: flex; flex-direction: column; }
+  .kf .v { font-size: 20px; font-weight: 600; letter-spacing: .3px; }
+  .kf .l { font-size: 11.5px; color: var(--muted); }
+  svg { width: 100%; height: auto; display: block; overflow: visible; }
+  .grid line { stroke: var(--grid); stroke-width: 1; }
+  .axis line { stroke: var(--baseline); stroke-width: 1; }
+  .tick { fill: var(--muted); font-size: 11px; }
+  .tick.tnum { font-variant-numeric: tabular-nums; }
+  .axis-title { fill: var(--text-secondary); font-size: 11.5px; }
+  .datalabel { fill: var(--text-primary); font-size: 11px; font-variant-numeric: tabular-nums; font-weight: 600; }
+  .anno { fill: var(--text-secondary); font-size: 10.5px; }
+  .anno-line { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 3; }
+
+  .legendrow { display:flex; gap:18px; align-items:center; padding: 2px 2px 10px; flex-wrap: wrap; }
+  .lg { display:flex; align-items:center; gap:7px; font-size:12px; color: var(--text-secondary); }
+  .lg .sw { width:22px; height:4px; border-radius:2px; }
+  .lg .dot { width:9px; height:9px; border-radius:50%; }
+
+  /* tooltip */
+  .tt {
+    position: fixed; pointer-events: none; z-index: 20; opacity: 0;
+    transition: opacity .1s; background: var(--surface-1);
+    border: 1px solid var(--border); border-radius: 9px; padding: 8px 10px;
+    box-shadow: 0 6px 20px rgba(0,0,0,.14); font-size: 12px; min-width: 120px;
+  }
+  .tt .t-date { color: var(--muted); font-size: 11px; margin-bottom: 3px; }
+  .tt .t-val { font-weight: 600; font-size: 14px; }
+  .tt .t-sub { color: var(--text-secondary); font-size: 11px; margin-top: 2px; }
+  .hit { fill: transparent; cursor: pointer; }
+
+  /* table */
+  .tablewrap { margin-top: 6px; }
+  table { border-collapse: collapse; width: 100%; font-size: 12.5px; }
+  caption { text-align:left; color: var(--text-secondary); font-size:12px; padding: 8px 2px; }
+  th, td { padding: 6px 10px; text-align: right; border-bottom: 1px solid var(--grid); font-variant-numeric: tabular-nums; }
+  th:first-child, td:first-child { text-align: left; font-variant-numeric: normal; }
+  th { color: var(--muted); font-weight: 600; }
+  [hidden] { display: none !important; }
+  .foot { color: var(--muted); font-size: 11.5px; line-height: 1.6; margin-top: 6px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="page">
+    <div>
+      <h1>海南橡胶（601118）· 股本数量 &amp; 股东人数</h1>
+      <p class="sub">海南天然橡胶产业集团股份有限公司 · 2009—2025 &nbsp;|&nbsp; 上市日 2011-01-07（2009—2010 为上市前）</p>
+    </div>
+    <div class="controls">
+      <button id="btnView" aria-pressed="false">表格</button>
+      <button id="btnTheme" aria-pressed="false">深色</button>
+    </div>
+  </header>
+
+  <!-- ============ CHART VIEW ============ -->
+  <div id="chartView">
+
+    <!-- Chart 1: 股本数量 -->
+    <section class="card">
+      <h2>1 · 股本数量（总股本，亿股）</h2>
+      <p class="ctx">两次扩股：2011 年 IPO 与 2018 年定增；其余年份保持不变。</p>
+      <div class="keyfacts">
+        <div class="kf"><span class="v">31.45</span><span class="l">上市前（亿股）</span></div>
+        <div class="kf"><span class="v" style="color:var(--series-cap)">42.79</span><span class="l">2025（亿股）</span></div>
+        <div class="kf"><span class="v">+36%</span><span class="l">累计增长</span></div>
+      </div>
+      <svg id="svgCap" viewBox="0 0 860 360" role="img" aria-label="股本数量年度柱状图"></svg>
+    </section>
+
+    <!-- Chart 2: 股东人数 -->
+    <section class="card">
+      <h2>2 · 股东人数（股东户数，万户）</h2>
+      <p class="ctx">上市初期（2011—2017）公开数据分散，本图自 2018 年起按披露报告期绘制。</p>
+      <div class="keyfacts">
+        <div class="kf"><span class="v" style="color:var(--series-hold)">10.77</span><span class="l">2021 峰值（万户）</span></div>
+        <div class="kf"><span class="v">8.10</span><span class="l">2024-09 低点（万户）</span></div>
+        <div class="kf"><span class="v">8.30</span><span class="l">2025-07（万户）</span></div>
+      </div>
+      <svg id="svgHold" viewBox="0 0 860 360" role="img" aria-label="股东户数时间序列折线图"></svg>
+      <p class="foot">虚线段（2018→2021）代表期间缺少可核对的公开数据点，非真实连续走势。</p>
+    </section>
+  </div>
+
+  <!-- ============ TABLE VIEW ============ -->
+  <div id="tableView" hidden>
+    <section class="card">
+      <div class="tablewrap">
+        <table>
+          <caption>表 1 · 股本数量（总股本）</caption>
+          <thead><tr><th>时间节点</th><th>总股本（亿股）</th><th>变动</th></tr></thead>
+          <tbody id="tbCap"></tbody>
+        </table>
+      </div>
+    </section>
+    <section class="card">
+      <div class="tablewrap">
+        <table>
+          <caption>表 2 · 股东户数</caption>
+          <thead><tr><th>报告期</th><th>股东户数（万户）</th><th>户数（户）</th></tr></thead>
+          <tbody id="tbHold"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <p class="foot">
+    数据来源：证券之星、东方财富 F10、同花顺、中财网、和讯网等公开财经平台汇总。<br>
+    个别节点为区间估计；正式引用请以公司定期报告（巨潮资讯网 / 上交所）"股东情况"章节为准。
+  </p>
+</div>
+
+<div class="tt" id="tt"></div>
+
+<script>
+/* ---------------- DATA ---------------- */
+// 股本数量（亿股）—— 年度快照
+const CAP = [
+  {y:2009, v:31.45, note:"上市前"},
+  {y:2010, v:31.45, note:"上市前"},
+  {y:2011, v:39.31, note:"IPO 发行", flag:"IPO"},
+  {y:2012, v:39.31},
+  {y:2013, v:39.31},
+  {y:2014, v:39.31},
+  {y:2015, v:39.31},
+  {y:2016, v:39.31},
+  {y:2017, v:39.31},
+  {y:2018, v:42.79, note:"定向增发", flag:"定增"},
+  {y:2019, v:42.79},
+  {y:2020, v:42.79},
+  {y:2021, v:42.79},
+  {y:2022, v:42.79},
+  {y:2023, v:42.79},
+  {y:2024, v:42.79},
+  {y:2025, v:42.79},
+];
+
+// 股东户数：t = 十进制年份, v = 万户, hu = 户, gap=true 表示与上一点之间为缺口
+const HOLD = [
+  {t:2018.75, label:"2018-09", v:9.17, hu:"约 91,700"},
+  {t:2021.75, label:"2021-09", v:10.41, hu:"104,104", gap:true},
+  {t:2021.95, label:"2021 末", v:10.77, hu:"约 107,718"},
+  {t:2022.20, label:"2022-Q1", v:10.39, hu:"103,871"},
+  {t:2022.45, label:"2022-06", v:10.20, hu:"101,950"},
+  {t:2022.70, label:"2022-09", v:9.76, hu:"97,554"},
+  {t:2023.20, label:"2023-03", v:9.68, hu:"约 96,800"},
+  {t:2023.45, label:"2023-06", v:9.93, hu:"约 99,300"},
+  {t:2023.70, label:"2023-09", v:9.57, hu:"约 95,676"},
+  {t:2023.95, label:"2023-12", v:9.48, hu:"约 94,815"},
+  {t:2024.20, label:"2024-03", v:9.23, hu:"约 92,326"},
+  {t:2024.45, label:"2024-06", v:8.86, hu:"约 88,570"},
+  {t:2024.70, label:"2024-09", v:8.10, hu:"80,959"},
+  {t:2025.20, label:"2025-03", v:8.24, hu:"约 82,400"},
+  {t:2025.53, label:"2025-07", v:8.30, hu:"约 83,000"},
+];
+
+const NS = "http://www.w3.org/2000/svg";
+const el = (n,a={}) => { const e=document.createElementNS(NS,n); for(const k in a) e.setAttribute(k,a[k]); return e; };
+const tt = document.getElementById('tt');
+function showTip(evt, html){ tt.innerHTML=html; tt.style.opacity=1; moveTip(evt); }
+function moveTip(evt){
+  const pad=14; let x=evt.clientX+pad, y=evt.clientY+pad;
+  const r=tt.getBoundingClientRect();
+  if(x+r.width>innerWidth) x=evt.clientX-r.width-pad;
+  if(y+r.height>innerHeight) y=evt.clientY-r.height-pad;
+  tt.style.left=x+'px'; tt.style.top=y+'px';
+}
+function hideTip(){ tt.style.opacity=0; }
+
+/* ---------------- CHART 1: bars ---------------- */
+function drawCap(){
+  const svg=document.getElementById('svgCap'); svg.innerHTML='';
+  const W=860,H=360, m={t:34,r:20,b:40,l:46};
+  const iw=W-m.l-m.r, ih=H-m.t-m.b;
+  const yMax=45, yMin=0;
+  const yOf=v=> m.t + ih*(1-(v-yMin)/(yMax-yMin));
+  const n=CAP.length, gap=8;
+  const bw=(iw-gap*(n-1))/n;
+  const xOf=i=> m.l + i*(bw+gap);
+
+  // gridlines + y ticks
+  const g=el('g',{class:'grid'});
+  [0,10,20,30,40].forEach(v=>{
+    const y=yOf(v); g.appendChild(el('line',{x1:m.l,y1:y,x2:W-m.r,y2:y}));
+    const tx=el('text',{x:m.l-8,y:y+4,'text-anchor':'end',class:'tick tnum'}); tx.textContent=v; svg.appendChild(tx);
+  });
+  svg.appendChild(g);
+  const at=el('text',{x:m.l-8,y:m.t-14,'text-anchor':'start',class:'axis-title'}); at.textContent='亿股'; svg.appendChild(at);
+
+  // bars
+  CAP.forEach((d,i)=>{
+    const x=xOf(i), y=yOf(d.v), h=yOf(0)-y;
+    const soft = d.y<2011;
+    const fill = soft ? 'var(--series-cap-soft)' : 'var(--series-cap)';
+    svg.appendChild(el('rect',{x:x,y:y,width:bw,height:h,rx:4,ry:4,fill:fill}));
+    // step-change labels
+    if(d.flag){
+      const lb=el('text',{x:x+bw/2,y:y-8,'text-anchor':'middle',class:'datalabel'});
+      lb.textContent=d.v.toFixed(2); svg.appendChild(lb);
+      const fl=el('text',{x:x+bw/2,y:y-21,'text-anchor':'middle',class:'anno'});
+      fl.textContent=d.flag; fl.setAttribute('fill','var(--crit)'); svg.appendChild(fl);
+    }
+    // x tick (every 2 yrs + endpoints)
+    if(d.y%2===1 || i===0 || i===n-1){
+      const xt=el('text',{x:x+bw/2,y:H-m.b+18,'text-anchor':'middle',class:'tick tnum'});
+      xt.textContent="'"+String(d.y).slice(2); svg.appendChild(xt);
+    }
+    // hover hit
+    const hit=el('rect',{x:x,y:m.t,width:bw,height:ih,class:'hit'});
+    hit.addEventListener('mousemove',e=>showTip(e,
+      `<div class="t-date">${d.y} 年</div><div class="t-val" style="color:var(--series-cap)">${d.v.toFixed(2)} 亿股</div>`+
+      (d.note?`<div class="t-sub">${d.note}</div>`:'')));
+    hit.addEventListener('mouseleave',hideTip);
+    svg.appendChild(hit);
+  });
+  // baseline
+  svg.appendChild(el('line',{x1:m.l,y1:yOf(0),x2:W-m.r,y2:yOf(0),class:'axis',stroke:'var(--baseline)'}));
+}
+
+/* ---------------- CHART 2: line ---------------- */
+function drawHold(){
+  const svg=document.getElementById('svgHold'); svg.innerHTML='';
+  const W=860,H=360, m={t:34,r:24,b:40,l:46};
+  const iw=W-m.l-m.r, ih=H-m.t-m.b;
+  const xMin=2018.5, xMax=2025.7;
+  const yMin=7.5, yMax=11.0;
+  const xOf=t=> m.l + iw*(t-xMin)/(xMax-xMin);
+  const yOf=v=> m.t + ih*(1-(v-yMin)/(yMax-yMin));
+
+  // grid + y ticks
+  const g=el('g',{class:'grid'});
+  [8,9,10,11].forEach(v=>{
+    const y=yOf(v); g.appendChild(el('line',{x1:m.l,y1:y,x2:W-m.r,y2:y}));
+    const tx=el('text',{x:m.l-8,y:y+4,'text-anchor':'end',class:'tick tnum'}); tx.textContent=v; svg.appendChild(tx);
+  });
+  svg.appendChild(g);
+  const at=el('text',{x:m.l-8,y:m.t-14,'text-anchor':'start',class:'axis-title'}); at.textContent='万户'; svg.appendChild(at);
+
+  // x year ticks
+  for(let yr=2019;yr<=2025;yr++){
+    const x=xOf(yr);
+    const xt=el('text',{x:x,y:H-m.b+18,'text-anchor':'middle',class:'tick tnum'});
+    xt.textContent=yr; svg.appendChild(xt);
+  }
+
+  // path segments (dash the gap)
+  for(let i=1;i<HOLD.length;i++){
+    const a=HOLD[i-1], b=HOLD[i];
+    const seg=el('line',{x1:xOf(a.t),y1:yOf(a.v),x2:xOf(b.t),y2:yOf(b.v),
+      stroke:'var(--series-hold)','stroke-width':2,'stroke-linecap':'round'});
+    if(b.gap) seg.setAttribute('stroke-dasharray','4 5');
+    svg.appendChild(seg);
+  }
+  // markers + labels for peak/low
+  HOLD.forEach(d=>{
+    const cx=xOf(d.t), cy=yOf(d.v);
+    // ring
+    svg.appendChild(el('circle',{cx,cy,r:5,fill:'var(--series-hold)',stroke:'var(--surface-1)','stroke-width':2}));
+    if(d.v===10.77 || d.v===8.10){
+      const up = d.v===10.77;
+      const lb=el('text',{x:cx,y:up?cy-12:cy+20,'text-anchor':'middle',class:'datalabel'});
+      lb.textContent=d.v.toFixed(2); svg.appendChild(lb);
+    }
+    // hover hit
+    const hit=el('circle',{cx,cy,r:14,class:'hit'});
+    hit.addEventListener('mousemove',e=>showTip(e,
+      `<div class="t-date">${d.label}</div><div class="t-val" style="color:var(--series-hold)">${d.v.toFixed(2)} 万户</div>`+
+      `<div class="t-sub">${d.hu} 户</div>`));
+    hit.addEventListener('mouseleave',hideTip);
+    svg.appendChild(hit);
+  });
+  svg.appendChild(el('line',{x1:m.l,y1:yOf(yMin),x2:W-m.r,y2:yOf(yMin),class:'axis',stroke:'var(--baseline)'}));
+}
+
+/* ---------------- TABLES ---------------- */
+function fillTables(){
+  const tbCap=document.getElementById('tbCap'); tbCap.innerHTML='';
+  let prev=null;
+  CAP.forEach(d=>{
+    const chg = prev===null ? '—' : (d.v>prev ? `+${(d.v-prev).toFixed(2)} ▲` : '不变');
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${d.y}${d.flag?' · '+d.flag:''}</td><td>${d.v.toFixed(2)}</td>`+
+      `<td style="${d.v>prev&&prev!==null?'color:var(--good)':''}">${chg}</td>`;
+    tbCap.appendChild(tr); prev=d.v;
+  });
+  const tbHold=document.getElementById('tbHold'); tbHold.innerHTML='';
+  HOLD.forEach(d=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${d.label}</td><td>${d.v.toFixed(2)}</td><td>${d.hu}</td>`;
+    tbHold.appendChild(tr);
+  });
+}
+
+/* ---------------- CONTROLS ---------------- */
+const btnView=document.getElementById('btnView');
+const btnTheme=document.getElementById('btnTheme');
+const chartView=document.getElementById('chartView');
+const tableView=document.getElementById('tableView');
+btnView.addEventListener('click',()=>{
+  const showTable = chartView.hasAttribute('data-on') ? false : true; // toggle
+  const isTable = !tableView.hidden;
+  tableView.hidden=isTable; chartView.hidden=!isTable;
+  btnView.setAttribute('aria-pressed', String(!isTable));
+  btnView.textContent = isTable ? '表格' : '图表';
+});
+btnTheme.addEventListener('click',()=>{
+  const dark = document.documentElement.getAttribute('data-theme')==='dark';
+  document.documentElement.setAttribute('data-theme', dark?'light':'dark');
+  btnTheme.setAttribute('aria-pressed', String(!dark));
+  btnTheme.textContent = dark ? '深色' : '浅色';
+  drawCap(); drawHold();
+});
+
+drawCap(); drawHold(); fillTables();
+</script>
+</body>
+</html>

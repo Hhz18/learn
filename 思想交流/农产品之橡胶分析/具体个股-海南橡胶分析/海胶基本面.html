@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>海南橡胶 · 基本面分析</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf6f1;
+    --surface: #fffbf7;
+    --border: #ece3d8;
+    --text: #2c241b;
+    --text-secondary: #7a6b5d;
+    --accent: #c8642a;
+    --accent-light: #f0dac8;
+    --accent-glow: #e3b48e;
+    --tag-bg: #f2e6da;
+    --card-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.02);
+    --max-width: 820px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Noto Serif SC', 'Source Han Serif SC', serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.85;
+    font-size: 15.5px;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ─── noise texture overlay ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px 256px;
+  }
+
+  /* ─── header hero ─── */
+  .hero {
+    position: relative;
+    padding: 100px 24px 60px;
+    text-align: center;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -40%;
+    left: 50%;
+    translate: -50% 0;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 50%, rgba(200,100,42,.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    letter-spacing: .04em;
+    color: var(--text);
+    position: relative;
+    animation: fadeUp .8s ease both;
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero .subtitle {
+    margin-top: 10px;
+    font-size: .95rem;
+    color: var(--text-secondary);
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    letter-spacing: .02em;
+    position: relative;
+    animation: fadeUp .8s .15s ease both;
+  }
+  .hero .stock-id {
+    display: inline-block;
+    margin-top: 18px;
+    padding: 5px 18px;
+    border: 1px solid var(--accent-light);
+    border-radius: 100px;
+    font-size: .82rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: .06em;
+    position: relative;
+    animation: fadeUp .8s .3s ease both;
+  }
+
+  /* ─── key stats bar ─── */
+  .stats-bar {
+    max-width: var(--max-width);
+    margin: 0 auto 20px;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 8px;
+    animation: fadeUp .8s .4s ease both;
+  }
+  .stats-bar .stat {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 14px;
+    text-align: center;
+    transition: box-shadow .25s, translate .25s;
+  }
+  .stats-bar .stat:hover {
+    box-shadow: 0 4px 20px rgba(200,100,42,.08);
+    translate: 0 -2px;
+  }
+  .stats-bar .stat .num {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--accent);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.3;
+  }
+  .stats-bar .stat .label {
+    font-size: .72rem;
+    color: var(--text-secondary);
+    margin-top: 4px;
+    letter-spacing: .03em;
+  }
+
+  /* ─── main content ─── */
+  .container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 24px 100px;
+  }
+
+  /* section card */
+  .section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 36px 38px;
+    margin-bottom: 20px;
+    box-shadow: var(--card-shadow);
+    transition: box-shadow .3s;
+    opacity: 0;
+    translate: 0 20px;
+    animation: fadeUp .6s ease forwards;
+  }
+  .section:hover { box-shadow: 0 4px 28px rgba(200,100,42,.07); }
+
+  .section h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--accent-light);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section h2 .num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: var(--accent-light);
+    font-size: .75rem;
+    font-weight: 700;
+    color: var(--accent);
+    font-family: 'Inter', sans-serif;
+    flex-shrink: 0;
+  }
+  .section h3 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 22px 0 8px;
+    color: var(--text);
+  }
+  .section p {
+    margin-bottom: 12px;
+    text-align: justify;
+  }
+  .section p:last-child { margin-bottom: 0; }
+
+  /* highlight box */
+  .highlight {
+    background: var(--tag-bg);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-size: .93rem;
+    color: var(--text);
+  }
+  .highlight strong { color: var(--accent); }
+
+  /* data chip */
+  .data-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 12px 0;
+  }
+  .data-chip {
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: 100px;
+    background: var(--tag-bg);
+    font-size: .82rem;
+    font-family: 'Inter', sans-serif;
+    color: var(--text-secondary);
+    letter-spacing: .01em;
+    border: 1px solid transparent;
+    transition: border-color .2s, background .2s;
+  }
+  .data-chip:hover {
+    border-color: var(--accent-light);
+    background: #fff;
+  }
+  .data-chip.strong {
+    background: var(--accent-light);
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* year tag */
+  .year-tag {
+    display: inline-block;
+    padding: 2px 12px;
+    border-radius: 6px;
+    background: var(--accent);
+    color: #fff;
+    font-size: .78rem;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: .03em;
+    margin-right: 6px;
+  }
+
+  /* list */
+  .section ul {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 14px;
+  }
+  .section ul li {
+    padding: 6px 0 6px 20px;
+    position: relative;
+  }
+  .section ul li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 14px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-light);
+  }
+  .section ul li strong { color: var(--accent); }
+
+  /* business pillars */
+  .pillars {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+    margin: 14px 0;
+  }
+  .pillar {
+    background: var(--tag-bg);
+    border-radius: 10px;
+    padding: 12px 14px;
+    text-align: center;
+    font-size: .88rem;
+    font-weight: 600;
+    color: var(--text);
+    border: 1px solid transparent;
+    transition: border-color .2s, background .2s;
+  }
+  .pillar:hover {
+    border-color: var(--accent-light);
+    background: #fff;
+  }
+  .pillar small {
+    display: block;
+    font-weight: 400;
+    font-size: .75rem;
+    color: var(--text-secondary);
+    margin-top: 3px;
+  }
+
+  /* quote / analyst text */
+  .quote-block {
+    position: relative;
+    padding: 16px 20px 16px 24px;
+    margin: 16px 0;
+    background: var(--tag-bg);
+    border-radius: 0 12px 12px 0;
+    font-size: .9rem;
+    color: var(--text);
+  }
+  .quote-block::before {
+    content: '"';
+    position: absolute;
+    left: 6px;
+    top: 2px;
+    font-size: 2.2rem;
+    line-height: 1;
+    color: var(--accent);
+    opacity: .3;
+    font-family: serif;
+  }
+
+  /* horizontal line */
+  hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 24px 0;
+  }
+
+  /* tag */
+  .tag-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 10px 0;
+  }
+  .tag {
+    display: inline-block;
+    padding: 2px 12px;
+    border-radius: 100px;
+    font-size: .75rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    background: var(--accent-light);
+    color: var(--accent);
+  }
+
+  /* footer */
+  .footer {
+    text-align: center;
+    padding: 30px 24px 40px;
+    color: var(--text-secondary);
+    font-size: .78rem;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: .03em;
+    opacity: .7;
+  }
+  .footer a { color: var(--accent); text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+
+  /* stagger */
+  .section:nth-child(1) { animation-delay: .1s; }
+  .section:nth-child(2) { animation-delay: .2s; }
+  .section:nth-child(3) { animation-delay: .3s; }
+  .section:nth-child(4) { animation-delay: .4s; }
+  .section:nth-child(5) { animation-delay: .5s; }
+  .section:nth-child(6) { animation-delay: .6s; }
+  .section:nth-child(7) { animation-delay: .7s; }
+  .section:nth-child(8) { animation-delay: .8s; }
+
+  @keyframes fadeUp {
+    to { opacity: 1; translate: 0 0; }
+  }
+
+  /* responsive */
+  @media (max-width: 600px) {
+    .section { padding: 24px 18px; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+    .pillars { grid-template-columns: repeat(2, 1fr); }
+    .hero { padding: 70px 18px 40px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <h1>海南橡胶 <span>·</span> 基本面分析</h1>
+  <div class="subtitle">海南天然橡胶产业集团股份有限公司</div>
+  <div class="stock-id">601118.SH · 上海证券交易所</div>
+</div>
+
+<!-- Key Stats -->
+<div class="stats-bar">
+  <div class="stat"><div class="num">490万亩</div><div class="label">全球土地规模</div></div>
+  <div class="stat"><div class="num">30家</div><div class="label">天然橡胶种植基地</div></div>
+  <div class="stat"><div class="num">61家</div><div class="label">橡胶初加工厂</div></div>
+  <div class="stat"><div class="num">337万吨</div><div class="label">年销售贸易量</div></div>
+  <div class="stat"><div class="num">2.5万人</div><div class="label">全球员工</div></div>
+  <div class="stat"><div class="num">15国</div><div class="label">产业覆盖国家</div></div>
+</div>
+
+<div class="container">
+
+  <!-- 1. 公司概况 -->
+  <div class="section">
+    <h2><span class="num">1</span>公司概况</h2>
+    <p>海南天然橡胶产业集团股份有限公司成立于2005年3月，2011年1月7日在上交所挂牌上市（601118）。公司是中国资本市场唯一的天然橡胶全产业链上市公司，也是全球最大的集天然橡胶科研、种植、加工、贸易一体化的跨国企业集团。</p>
+    <p>公司立足国内庞大的市场需求，充分利用国内国际两个市场、两种资源，积极构建全球化的种植、加工和贸易格局。产业版图覆盖除中国以外的美国、英国、日本、泰国等15个国家，贸易网络遍布全球。</p>
+
+    <div class="highlight">
+      <strong>关键定位：</strong>中国资本市场唯一的天然橡胶全产业链上市公司 · 全球最大的天然橡胶跨国企业集团
+    </div>
+
+    <div class="data-row">
+      <span class="data-chip strong">11年上市</span>
+      <span class="data-chip">天然橡胶科研 · 种植 · 加工 · 贸易一体化</span>
+      <span class="data-chip">全球员工约2.5万人</span>
+    </div>
+  </div>
+
+  <!-- 2. 核心数据 -->
+  <div class="section">
+    <h2><span class="num">2</span>核心经营数据</h2>
+
+    <div class="data-row">
+      <span class="data-chip strong">全球土地：490万亩</span>
+      <span class="data-chip strong">橡胶园：380万亩</span>
+      <span class="data-chip strong">年加工能力：235万吨</span>
+      <span class="data-chip strong">年销售贸易量：337万吨</span>
+    </div>
+
+    <p>海南橡胶目前拥有高效农业种植面积约<strong>11万亩</strong>。正分阶段推进<strong>180万亩</strong>省级标准化胶园建设。</p>
+
+    <div class="highlight">
+      <strong>战略节奏：</strong>以控制资源为核心——"大收购"、"大加工"、"大贸易"获取话语权。2017年总收入100亿，至2022年稳定在150亿规模。
+    </div>
+
+    <p><strong>战略目标：</strong>成为在国际天然橡胶行业拥有话语权和影响力的优秀企业，做天然橡胶产业链的价值提升者。</p>
+  </div>
+
+  <!-- 3. 七大主营业务 -->
+  <div class="section">
+    <h2><span class="num">3</span>七大主营业务</h2>
+
+    <div class="pillars">
+      <div class="pillar">橡胶种植 <small>种苗培育 · 胶园管理</small></div>
+      <div class="pillar">橡胶初加工 <small>全乳胶 · 标胶 · 烟片胶</small></div>
+      <div class="pillar">橡胶深加工 <small>乳胶制品 · 乳胶丝</small></div>
+      <div class="pillar">橡胶木加工 <small>FSC认证 · 木结构</small></div>
+      <div class="pillar">橡胶贸易 <small>全球网络 · 年销414万吨</small></div>
+      <div class="pillar">科技研发 <small>智能割胶 · 新材料</small></div>
+      <div class="pillar">热带特色农业 <small>非胶作物 · 林下经济</small></div>
+    </div>
+
+    <h3>种植端</h3>
+    <p>拥有中国最大的天然橡胶种苗生产基地（4000亩），年产能约400万株，种苗良种率达100%。在管天然橡胶种植园面积接近400万亩（其中海南333万亩），年干胶产能超过20万吨。拥有几十年的种植经验和完善的"种植－管理－养护－采割"技术体系。</p>
+
+    <h3>初加工</h3>
+    <p>境内外在产初加工厂59家，分布在中国、印尼、马来西亚、泰国、科特迪瓦等多个国家，全球年初加工产能约245万吨。产品涵盖全乳胶、浓缩乳胶、TSR 10/20、SCR 10/20、烟片胶、印尼标胶等。其中"美联"品牌是目前被中国乳胶制品行业广泛认可的第一品牌。共有35个工厂取得全球前十大轮胎厂商认证。</p>
+
+    <h3>深加工</h3>
+    <p>子公司江苏爱德福——亚太地区最大的乳胶发泡制品供应商之一，乳胶床垫产能1,800万平方米，枕头产能270万只。合作伙伴包括慕思、宜家、雅兰、丝涟等国际知名品牌。子公司海南经纬——国内最大乳胶丝生产厂家，年产能2万吨，自主品牌"海佑""HNRT"。</p>
+
+    <h3>橡胶木</h3>
+    <p>子公司宝橡林产是海南唯一集橡胶木研发、加工、销售、贸易为一体的综合性企业。年加工产能4万立方米以上，FSC"零添加"产品已进入宜家等全球家具巨头供应链。</p>
+
+    <h3>贸易</h3>
+    <p>销售贸易端平台包括新加坡R1国际、上海龙橡、合盛农业旗下HeveaGlobal等，年销售贸易量414万吨，主要客户覆盖全球前十大轮胎厂商。</p>
+
+    <h3>科技研发</h3>
+    <p>持续推进智能割胶装置研发（4.0版本已完成），开发橡胶智慧收购平台，自主开发纳米黏土胶、高弹减震胶、无氨胶乳等特殊性能产品。计划扩大智能割胶机中试规模至20万台以上。</p>
+
+    <h3>热带特色高效农业</h3>
+    <p>高效农业种植面积约11万亩。利用海南自贸港政策红利，推动非胶产业种植管理、产品加工、品牌赋能、多元化销售一体化。2024年其他业务收入10.96亿元，同比+164.97%，毛利率18.59%，明显高于橡胶产品。</p>
+  </div>
+
+  <!-- 4. 历年财务与经营演变 -->
+  <div class="section">
+    <h2><span class="num">4</span>历年经营演变</h2>
+
+    <div class="quote-block">
+      <strong>核心逻辑：</strong>天然橡胶价格周期是公司利润波动的决定性因素。胶价上行期业绩弹性极大，胶价低迷期依赖非经常性损益维持盈利。
+    </div>
+
+    <p><span class="year-tag">2011</span>上市元年。营收105亿，净利润7.61亿元，PE估值40-50倍。天然橡胶销售均价约24,685元/吨。这是上一轮橡胶大牛市的顶峰。</p>
+
+    <p><span class="year-tag">2013</span>拥有土地353万亩，受益于"土地流转"主题。母公司海南农垦拥有土地资源1,127万亩。计划推进"产业化农垦小镇"建设。</p>
+
+    <p><span class="year-tag">2015</span>胶价跌破成本线（市均价11,350元/吨，成本约12,000元/吨）。营收84亿元（-25%），归母净利润-9.9亿元。农垦改革加速预期升温。</p>
+
+    <p><span class="year-tag">2016</span>胶价持续低迷（均价10,114元/吨），仍低于成本线。启动非胶农业转型，规划将40万亩低产胶园用于热带非胶农业和观光旅游。</p>
+
+    <p><span class="year-tag">2017</span>收购R1国际71.58%股权（合计持86.58%），整合全球橡胶贸易业务。明确"大收购、大加工、大贸易"战略方针。</p>
+
+    <p><span class="year-tag">2018</span>归母净利润2.0-3.0亿元（预盈），但扣非后亏损9.0-13.5亿元。利润来自：解除低产胶园补偿收益8.15亿元 + 金融工具公允价值变动1.69亿元 + 政府补助2.45亿元。</p>
+
+    <p><span class="year-tag">2024</span>营收496.73亿元（+31.80%），归母净利润1.03亿元（-65.20%）。扣非后-5.81亿元（同比减亏40%）。受"摩羯"台风影响，自有胶园产量12.15万吨（-13.05%）。非胶业务收入同比+165%，成为新亮点。</p>
+
+    <p><span class="year-tag">2025Q3</span>前三季度营收339.6亿元（+3.23%），归母净利润-2.75亿元（+40.24%）。期间费用率5.2%创近10年同期新低。但海南地区接连遭受台风"剑鱼""麦德姆"影响，合计减产约4.4%。</p>
+  </div>
+
+  <!-- 5. 土地资源禀赋 -->
+  <div class="section">
+    <h2><span class="num">5</span>土地资源禀赋</h2>
+
+    <p>海南橡胶拥有极为稀缺的土地资源，这是其最核心的资产壁垒：</p>
+
+    <div class="data-row">
+      <span class="data-chip strong">上市公司：353万亩（海南）</span>
+      <span class="data-chip strong">母公司海南农垦：1,127万亩</span>
+      <span class="data-chip strong">全球在管：约400万亩</span>
+    </div>
+
+    <div class="highlight">
+      <strong>土地价值重估逻辑：</strong>海南自贸港建设加速，岛内土地价值持续提升。母公司海南农垦拥有1,127万亩土地资源，海南橡胶作为农垦唯一上市平台，存在资产注入预期。橡胶林木每年自然更替约7-10万亩（200-300万株），具备极大的后续开发价值。
+    </div>
+
+    <p>实际控制人变迁：国家农业部 → 海南省政府。母公司海南农垦是中国第三大垦区，拥有海南岛独特、丰富的旅游资源，有1,000余亩土地经过调研适应休闲旅游资源开发。</p>
+  </div>
+
+  <!-- 6. 行业研判 -->
+  <div class="section">
+    <h2><span class="num">6</span>行业周期研判</h2>
+
+    <div class="quote-block">
+      <strong>长期判断（2025年研报）：</strong>天然橡胶价格中枢有望在供需差不断扩大过程中逐年抬升。考虑到通胀因素以及替代产业机会成本支撑，本轮橡胶周期的价格高点可能会比上一轮周期（2009-2011）更高。
+    </div>
+
+    <div class="tag-group">
+      <span class="tag">供给收缩</span>
+      <span class="tag">需求韧性</span>
+      <span class="tag">产区减产</span>
+      <span class="tag">去库趋势</span>
+      <span class="tag">景气上行</span>
+    </div>
+
+    <h3>供给端</h3>
+    <p>ANRPC数据显示，2024年1-5月成员国天然橡胶合计产量同比-3.87%。全球产量基本见顶，主产区胶园老龄化问题突出。长期供给调减趋势明确。</p>
+
+    <h3>需求端</h3>
+    <p>同期合计消费量同比+8.41%。汽车、轮胎行业需求保持韧性增长。在需求向好背景下，全球天然橡胶库存持续去化。截至2024年7月，青岛天然橡胶库存降至49.30万吨，较峰值累计调减47%。</p>
+
+    <h3>公司弹性</h3>
+    <p>公司在管胶园面积接近400万亩，年干胶产能超过20万吨。自产胶是公司主要的盈利弹性来源。当前单吨干胶完全成本偏高（受并表HAC及非洲胶园产能爬坡影响），但未来依靠割胶管理优化以及智能割胶机推广，成本下降潜力较大。</p>
+
+    <div class="highlight">
+      <strong>盈利弹性测算：</strong>产量见顶叠加需求向好，后续去库走势或延续。国信证券预计2024-2026年归母净利润分别为1.2/2.0/4.4亿元，对应EPS为0.03/0.05/0.10元。天风证券更为乐观，预计2024-2026年归母净利润分别为3.21/5.65/10.19亿元。
+    </div>
+  </div>
+
+  <!-- 7. 政策与催化剂 -->
+  <div class="section">
+    <h2><span class="num">7</span>政策与催化剂</h2>
+
+    <ul>
+      <li><strong>自贸港封关：</strong>2025年12月18日海南全岛执行封关政策，利好海南本地企业。</li>
+      <li><strong>农业强国规划：</strong>2025年4月中央印发《加快建设农业强国规划（2024-2035年）》，提出推进天然橡胶老旧胶园更新改造，加快建设特种胶园。</li>
+      <li><strong>标准化胶园：</strong>海南省明确"建设30万亩标准化胶园，更新8.38万亩老龄低产受灾胶园"目标，公司正分阶段推进180万亩省级标准化胶园建设。</li>
+      <li><strong>同业竞争解决：</strong>海垦控股集团承诺在2025年12月31日前解决KM公司、ART公司的潜在同业竞争问题。</li>
+      <li><strong>期货交割仓：</strong>洋浦国际智慧供应链中心建成全国首个天然橡胶集散站，获批天然橡胶期货交割仓资质。</li>
+      <li><strong>智能割胶：</strong>计划扩大智能割胶机中试规模至20万台以上，降低对劳动力的高依赖，降低生产成本。</li>
+      <li><strong>军用航空轮胎国产化：</strong>借助中国先进橡胶产业联盟平台，开发专用胶、特种胶等高附加值产品。</li>
+    </ul>
+  </div>
+
+  <!-- 8. 风险提示 -->
+  <div class="section">
+    <h2><span class="num">8</span>风险提示</h2>
+
+    <ul>
+      <li><strong>极端天气风险：</strong>2024年"摩羯"台风导致干减产13%，2025年台风"剑鱼""麦德姆"合计减产约4.4%。海南地处台风频发区，极端天气是产量最大的不确定因素。</li>
+      <li><strong>胶价波动风险：</strong>天然橡胶价格受全球经济、原油价格、汇率等多重因素影响，波动剧烈。2011年至今胶价长期低迷，公司多数年份扣非亏损。</li>
+      <li><strong>财务费用压力：</strong>合盛农业并表后财务成本较高，海外融资环境变化对公司利润形成拖累。</li>
+      <li><strong>期货套保风险：</strong>公司历史上存在期货套保操作或判断不当造成大幅亏损的风险。</li>
+      <li><strong>汇率波动风险：</strong>公司业务覆盖15个国家，汇率波动导致财务费用增幅明显。</li>
+      <li><strong>非经常性损益依赖：</strong>公司历年盈利中非经常性损益（政府补助、资产处置、保险赔偿）占比较高，主业盈利能力有待提升。</li>
+    </ul>
+
+    <div class="highlight">
+      <strong>总结：</strong>海南橡胶是中国唯一天然橡胶全产业链上市平台，拥有极为稀缺的土地资源和全球最大的橡胶加工贸易网络。公司盈利弹性极大，天然橡胶价格上行期业绩爆发力强。但需关注极端天气、胶价波动、高财务费用等风险。当前行业供给收缩+需求韧性，景气周期有望持续上行。
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  数据来源：公司年报、券商研报、ANRPC · 仅供参考，不构成投资建议<br>
+  整理于 2026年8月
+</div>
+
+</body>
+</html>

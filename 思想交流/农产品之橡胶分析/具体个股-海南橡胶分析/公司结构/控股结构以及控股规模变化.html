@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>海南橡胶（601118）· 控股结构以及控股规模变化</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf6f1;
+    --surface: #fffbf7;
+    --border: #ece3d8;
+    --text: #2c241b;
+    --text-secondary: #7a6b5d;
+    --accent: #c8642a;
+    --accent-light: #f0dac8;
+    --tag-bg: #f2e6da;
+    --card-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.02);
+    --max-width: 820px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Noto Serif SC', 'Source Han Serif SC', serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.85;
+    font-size: 15.5px;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px 256px;
+  }
+
+  .hero {
+    position: relative;
+    padding: 100px 24px 40px;
+    text-align: center;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -40%;
+    left: 50%;
+    translate: -50% 0;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 50%, rgba(200,100,42,.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero h1 {
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 700;
+    letter-spacing: .04em;
+    color: var(--text);
+    position: relative;
+    animation: fadeUp .8s ease both;
+    line-height: 1.4;
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero .subtitle {
+    margin-top: 8px;
+    font-size: .9rem;
+    color: var(--text-secondary);
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    animation: fadeUp .8s .15s ease both;
+  }
+  .hero .stock-id {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 5px 18px;
+    border: 1px solid var(--accent-light);
+    border-radius: 100px;
+    font-size: .78rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: .06em;
+    animation: fadeUp .8s .3s ease both;
+  }
+
+  .container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 24px 100px;
+  }
+
+  .section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 36px 38px;
+    margin-bottom: 20px;
+    box-shadow: var(--card-shadow);
+    opacity: 0;
+    translate: 0 20px;
+    animation: fadeUp .6s ease forwards;
+  }
+  .section:hover { box-shadow: 0 4px 28px rgba(200,100,42,.07); }
+
+  .section h2 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--accent-light);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section h2 .num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: var(--accent-light);
+    font-size: .75rem;
+    font-weight: 700;
+    color: var(--accent);
+    font-family: 'Inter', sans-serif;
+    flex-shrink: 0;
+  }
+  .section h3 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 22px 0 8px;
+    color: var(--text);
+  }
+  .section h4 {
+    font-size: .95rem;
+    font-weight: 600;
+    margin: 16px 0 6px;
+    color: var(--text);
+  }
+  .section p {
+    margin-bottom: 14px;
+    text-align: justify;
+    text-indent: 2em;
+  }
+  .section p:last-child { margin-bottom: 0; }
+
+  .highlight {
+    background: var(--tag-bg);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-size: .93rem;
+    color: var(--text);
+  }
+  .highlight strong { color: var(--accent); }
+
+  .sub-note {
+    font-size: .85rem;
+    color: var(--text-secondary);
+    padding: 8px 14px;
+    background: var(--tag-bg);
+    border-radius: 8px;
+    margin: 10px 0;
+  }
+
+  .section-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: .88rem;
+  }
+  .section-table th {
+    background: var(--tag-bg);
+    font-weight: 600;
+    text-align: left;
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+  }
+  .section-table td {
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .section-table tr:hover td { background: var(--tag-bg); }
+
+  .section-table td:last-child,
+  .section-table th:last-child {
+    text-align: right;
+  }
+  .section-table td:first-child,
+  .section-table th:first-child {
+    text-align: left;
+  }
+
+  /* 股权结构表特殊样式：数字列右对齐 */
+  .num-table td:nth-child(2),
+  .num-table th:nth-child(2),
+  .num-table td:nth-child(3),
+  .num-table th:nth-child(3),
+  .num-table td:nth-child(4),
+  .num-table th:nth-child(4) {
+    text-align: right;
+  }
+
+  .diagram-box {
+    background: var(--tag-bg);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin: 12px 0;
+    font-family: 'Courier New', 'Consolas', monospace;
+    font-size: .78rem;
+    line-height: 1.6;
+    white-space: pre;
+    overflow-x: auto;
+  }
+
+  .key-insight {
+    margin: 14px 0;
+    padding: 14px 18px;
+    background: var(--tag-bg);
+    border-radius: 8px;
+    border-left: 3px solid var(--accent);
+    font-size: .93rem;
+  }
+  .key-insight strong { color: var(--accent); }
+
+  .question-box {
+    margin: 16px 0;
+    padding: 16px 20px;
+    background: var(--accent-light);
+    border-radius: 12px;
+    font-size: .95rem;
+    color: var(--text);
+  }
+  .question-box strong { color: var(--accent); }
+
+  .footer {
+    text-align: center;
+    padding: 30px 24px 40px;
+    color: var(--text-secondary);
+    font-size: .78rem;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: .03em;
+    opacity: .7;
+  }
+  .footer a { color: var(--accent); text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+
+  @keyframes fadeUp {
+    to { opacity: 1; translate: 0 0; }
+  }
+
+  .section:nth-child(1) { animation-delay: .1s; }
+  .section:nth-child(2) { animation-delay: .15s; }
+  .section:nth-child(3) { animation-delay: .2s; }
+  .section:nth-child(4) { animation-delay: .25s; }
+  .section:nth-child(5) { animation-delay: .3s; }
+  .section:nth-child(6) { animation-delay: .35s; }
+  .section:nth-child(7) { animation-delay: .4s; }
+  .section:nth-child(8) { animation-delay: .45s; }
+  .section:nth-child(9) { animation-delay: .5s; }
+  .section:nth-child(10) { animation-delay: .55s; }
+  .section:nth-child(11) { animation-delay: .6s; }
+  .section:nth-child(12) { animation-delay: .65s; }
+  .section:nth-child(13) { animation-delay: .7s; }
+
+  @media (max-width: 600px) {
+    .section { padding: 24px 18px; }
+    .hero { padding: 70px 18px 30px; }
+    .section-table { font-size: .8rem; }
+    .section-table th, .section-table td { padding: 6px 8px; }
+    .section p { text-indent: 1.5em; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>海南橡胶（601118）<br><span>控股结构以及控股规模变化</span></h1>
+  <div class="subtitle">海南天然橡胶产业集团股份有限公司</div>
+  <div class="stock-id">601118.SH · 上海证券交易所主板</div>
+</div>
+
+<div class="container">
+
+  <!-- 前言 -->
+  <div class="section">
+    <div class="highlight">
+      <strong>说明：</strong><br>
+      公司全称：海南天然橡胶产业集团股份有限公司<br>
+      股票代码：601118（上交所主板，2011-01-07 上市）<br>
+      实控人：海南省国有资产监督管理委员会（控股股东：海南省农垦投资控股集团有限公司，海垦控股）<br>
+      数据整理日期：2026-08-25<br>
+      数据口径：以各年年报披露的股本结构与股东信息为基础
+    </div>
+  </div>
+
+  <!-- 一、股本与股东户数变化 -->
+  <div class="section">
+    <h2><span class="num">一</span>股本与股东户数变化（2009—2025）</h2>
+
+    <p>要理解一家公司的股权健康状况，首先要看它的总股本和股东户数变化。股本是否大规模增加，直接关系到现有股东权益是否被稀释——一家连自己股票都不爱惜、随意增发的公司，是不可靠的。下面是从海南橡胶上市前至今的完整数据。</p>
+
+    <table class="section-table num-table">
+      <tr><th>年份</th><th>年末总股本</th><th>总股本（亿股）</th><th>年末股东户数</th><th>备注</th></tr>
+      <tr><td><strong>2009</strong></td><td>31.4517亿股</td><td><strong>31.45</strong></td><td><strong>13家</strong></td><td>未上市，主要为发起人/法人股东</td></tr>
+      <tr><td><strong>2010</strong></td><td>39.3117亿股</td><td><strong>39.31</strong></td><td><strong>210,521户</strong></td><td>IPO后公众股东大量增加</td></tr>
+      <tr><td><strong>2011</strong></td><td>39.3117亿股</td><td><strong>39.31</strong></td><td><strong>161,075户</strong></td><td>—</td></tr>
+      <tr><td><strong>2012</strong></td><td>39.3117亿股</td><td><strong>39.31</strong></td><td><strong>142,617户</strong></td><td>—</td></tr>
+      <tr><td><strong>2013</strong></td><td>39.3117亿股</td><td><strong>39.31</strong></td><td><strong>179,058户</strong></td><td>股东户数明显增加</td></tr>
+      <tr><td><strong>2014</strong></td><td>39.3117亿股</td><td><strong>39.31</strong></td><td><strong>160,073户</strong></td><td>—</td></tr>
+      <tr><td><strong>2015</strong></td><td>39.3117亿股</td><td><strong>39.31</strong></td><td><strong>125,302户</strong></td><td>—</td></tr>
+      <tr><td><strong>2016</strong></td><td>39.3117亿股</td><td><strong>39.31</strong></td><td><strong>118,546户</strong></td><td>—</td></tr>
+      <tr><td><strong>2017</strong></td><td>39.3117亿股</td><td><strong>39.31</strong></td><td><strong>116,215户</strong></td><td>—</td></tr>
+      <tr><td><strong>2018</strong></td><td>42.7943亿股</td><td><strong>42.79</strong></td><td><strong>135,193户</strong></td><td>非公开发行增加3.48亿股</td></tr>
+      <tr><td><strong>2019</strong></td><td>42.7943亿股</td><td><strong>42.79</strong></td><td><strong>105,949户</strong></td><td>—</td></tr>
+      <tr><td><strong>2020</strong></td><td>42.7943亿股</td><td><strong>42.79</strong></td><td><strong>110,767户</strong></td><td>—</td></tr>
+      <tr><td><strong>2021</strong></td><td>42.7943亿股</td><td><strong>42.79</strong></td><td><strong>107,718户</strong></td><td>—</td></tr>
+      <tr><td><strong>2022</strong></td><td>42.7943亿股</td><td><strong>42.79</strong></td><td><strong>95,452户</strong></td><td>—</td></tr>
+      <tr><td><strong>2023</strong></td><td>42.7943亿股</td><td><strong>42.79</strong></td><td><strong>94,815户</strong></td><td>—</td></tr>
+      <tr><td><strong>2024</strong></td><td>42.7943亿股</td><td><strong>42.79</strong></td><td><strong>83,243户</strong></td><td>—</td></tr>
+      <tr><td><strong>2025</strong></td><td>42.7943亿股</td><td><strong>42.79</strong></td><td><strong>99,189户</strong></td><td>年末明显回升</td></tr>
+    </table>
+
+    <p>通过上面的数据可以发现，从2010年上市时总股本为39.3亿股，到2025年的42.79亿股，十多年间股本变化并不大。2018年非公开发行增加的3.48亿股是唯一一次明显的股本扩张，此后便一直稳定在42.79亿股。因此，公司管理层"卖公司"的意图基本可以忽略。</p>
+
+    <p>其次可以观察到，这十多年间股东户数是在持续减少的——从2010年的约21万户逐步下降到2024年的约8.3万户。也就是说，虽然海南橡胶的总股本从2018年以后一直稳定在42.79亿股，但持股账户数量却在持续下降，这意味着平均每个股东持有的股份数量越来越多。</p>
+
+    <div class="key-insight">
+      <strong>核心结论：</strong>散户占比较少，股权更加集中，股价更容易拉升。（反面例子参考铜陵有色、紫金矿业、京东发A）。有了这条保障，该股的资金更容易形成合力，为拉升到其真正价值提供了保障——否则资金形成不了合力，再好的风口股价也很难涨到它应有的位置。
+    </div>
+  </div>
+
+  <!-- 二、控股结构 -->
+  <div class="section">
+    <h2><span class="num">二</span>控股结构</h2>
+
+    <p>海南橡胶的控股结构清晰，属于典型的国资控股体系。海南省人民政府通过海南省国资委，再经由海南省农垦投资控股集团有限公司（海垦控股）实现对海南橡胶的绝对控制。</p>
+
+    <div class="diagram-box">海南省人民政府
+        │
+        ▼
+海南省国有资产监督管理委员会
+        │
+        │ 国资监管
+        ▼
+海南省农垦投资控股集团有限公司
+        │
+        │ 64.35%
+        ▼
+海南天然橡胶产业集团股份有限公司（601118）
+        │
+        ├── 海南橡胶国内橡胶种植
+        ├── 合盛农业 Halcyon Agri
+        ├── R1 International
+        ├── 上海龙橡
+        ├── 金橡公司
+        ├── 云南海胶
+        ├── 经纬乳胶
+        └── 其他子公司</div>
+
+    <p>下面这张简化的结构图能更清晰地展示控股链条：</p>
+
+    <div class="diagram-box">                海南省国资委
+                      │
+                      ▼
+            ┌─────────────────┐
+            │   海垦控股集团   │
+            │   海南农垦核心平台 │
+            └────────┬────────┘
+                     │
+          ┌──────────┼──────────┐
+          │          │          │
+          ▼          ▼          ▼
+       海南橡胶    其他农业    其他产业
+        64.35%
+          │
+          ├──────────────┐
+          ▼              ▼
+     国内橡胶产业       海外橡胶产业
+                        │
+                        ▼
+                  Halcyon Agri
+                  合盛农业
+                        │
+                        ▼
+                  R1 International</div>
+
+    <p>通过上述结构图可以发现，海南农垦是海南橡胶的主要控股人，而海南农垦背后的控股人其实是海南省国资委。那么，他们之间是否有更深层次的关系呢？作为橡胶的种植和贸易商，就避免不了涉及土地和资金这两大要素，因此我们需要探究：海南橡胶的土地来自谁？它的债务主要是借的谁的？</p>
+  </div>
+
+  <!-- 三、土地来源 -->
+  <div class="section">
+    <h2><span class="num">三</span>土地来源</h2>
+
+    <p>海南橡胶的土地是从母公司——海南农垦集团（海垦控股集团）承包租赁的。海南橡胶本身并不拥有土地所有权，其使用的土地全部是国有土地，通过长期租赁的方式从母公司获得。</p>
+
+    <table class="section-table">
+      <tr><th>项目</th><th>内容</th></tr>
+      <tr><td>土地所有权</td><td>国有（土地归国家所有）</td></tr>
+      <tr><td>出租方</td><td>海南农垦集团（控股母公司）</td></tr>
+      <tr><td>租赁性质</td><td>长期租赁（非自有土地）</td></tr>
+      <tr><td>母公司土地资源</td><td>海南农垦共拥有 <strong>1,127万亩</strong> 土地资源</td></tr>
+      <tr><td>承包给上市公司</td><td>其中约 <strong>353万亩</strong> 承包给海南橡胶</td></tr>
+      <tr><td>承包费</td><td>约 <strong>2.15亿元/年</strong>（2017-2018年标准）</td></tr>
+      <tr><td>法律依据</td><td>2011年上市时签订《土地使用权承包协议》</td></tr>
+    </table>
+
+    <div class="key-insight">
+      <strong>结论：</strong>海南橡胶不拥有土地所有权，土地是国有的，它从母公司海南农垦集团长期租赁。征地补偿款归海垦集团，海南橡胶只能获得地上青苗补偿和作物补偿。
+    </div>
+  </div>
+
+  <!-- 四、债务结构 -->
+  <div class="section">
+    <h2><span class="num">四</span>债务结构</h2>
+
+    <p>海南橡胶的核心债权人——海南农垦集团财务有限公司，这是其关联方内部借贷的主要渠道。详情如下：</p>
+
+    <table class="section-table">
+      <tr><th>项目</th><th>数据</th></tr>
+      <tr><td>关联方</td><td>海南农垦集团财务有限公司（海垦控股80% + 海南橡胶20%）</td></tr>
+      <tr><td>2024年授信额度</td><td><strong>60亿元</strong></td></tr>
+      <tr><td>2025年末贷款余额</td><td>约 <strong>4.56亿元</strong></td></tr>
+      <tr><td>贷款利率</td><td><strong>2.3% — 2.9%</strong>（低于商业银行3.0%—4.5%）</td></tr>
+      <tr><td>存款沉淀</td><td>近 <strong>30亿元</strong> 货币资金几乎全部存在海垦财务公司</td></tr>
+    </table>
+
+    <h3>整体负债情况</h3>
+
+    <table class="section-table">
+      <tr><th>年度</th><th>总负债</th><th>资产负债率</th></tr>
+      <tr><td>2023</td><td>约220.74亿元</td><td>65.73%</td></tr>
+      <tr><td>2024</td><td>261.55亿元</td><td>69.93%</td></tr>
+    </table>
+
+    <h3>外部债务来源</h3>
+
+    <p>从其他资料看，外部负债主要来自：</p>
+
+    <ul style="margin: 8px 0 14px 1.5em; font-size: .93rem; line-height: 2;">
+      <li>商业银行贷款——海外子公司合盛农业等融资成本较高，2024H1亏损2.66亿</li>
+      <li>可交换公司债——2025年11月海垦控股拟发行不超过21亿元可交换债（以海南橡胶股票为标的）</li>
+    </ul>
+
+    <div class="key-insight">
+      <strong>结论：</strong>海南橡胶的债务结构高度集中——内部主要依赖海垦财务公司（集团内部银行），外部则在商业银行有贷款。近30亿货币资金几乎全部存放在单一关联方海垦财务公司，资金链与控股集团深度绑定。
+    </div>
+  </div>
+
+  <!-- 五、深度分析 -->
+  <div class="section">
+    <h2><span class="num">五</span>深度分析：海南农垦与海南橡胶的关系</h2>
+
+    <p>根据上面土地与债务这两个维度的分析，可以发现海南橡胶与海南农垦集团是深度绑定的。海南橡胶在需要资金的时候，可以通过可交换公司债以及其他方式向海南农垦获取资金支持，而且在海南橡胶需要资金的时候，海南农垦并没有乘人之危。在土地方面，海南农垦更是给海南橡胶长期租赁土地，最近十几年在土地租赁费上并没有坐地起价，十多年来租金没有怎么变化过。</p>
+
+    <p>我们可以发现，海南农垦一直在拖着海南橡胶，即使是在橡胶熊市周期中，海南橡胶仍然没有被打倒。这是为什么？因为橡胶是战略性物资，这种东西一定是要做到自给的，而海南橡胶作为国内最大的天然橡胶企业，自然是有着举足轻重的地位。这种地位不仅仅是国家战略上的，更是在随着时代发展，在对外的贸易发展上也有一定的需求。</p>
+
+    <p>既然我们知道有海南农垦给它托底，而海南农垦背后是海南省国资委，说明这个公司是地方国资委布局的。而从上市以来到现在，海南橡胶的市值从50多亿增长到现在的250多亿，让我们来预测一下，未来在地方国资委的战略下，这种企业将走向何方。</p>
+  </div>
+
+  <!-- 六、战略展望 -->
+  <div class="section">
+    <h2><span class="num">六</span>战略展望：从土地财政到股权财政</h2>
+
+    <p>在这里，我们有必要思考一下当前宏观上地方的财政模式。曾经在大基建时代，地方的财政模式是土地财政模式，也就是通过土地出让金来获取资金。而2018年随着楼市的衰落，土地财政模式在当前版本已经玩不下去了——土地财政来源从2021年的8.7万亿下降到2026年的约1.2万亿。</p>
+
+    <p>资金收入下降如此明显，地方上绝对是有很大压力的。加上之前因为一些原因地方有很多隐性债务，虽然这部分高息的隐性债务最近几年陆续被置换成低息的显性债务，但是这并不代表地方没有压力，压力仍然存在（这些隐性债务置换完成的时间分别是：2024-2026年6万亿，2024-2028年4万亿，2027年6月之前城投债转型/退出）。因此我们按照这个压力时间线，可以确定的是2027年6月之前上证指数大规模拉升走牛是比较困难的，这次长牛的第二阶段大概是在2027年下半年开始，届时债务置换差不多完成。</p>
+
+    <p>再加上每年地方需要很多刚性支出，以及地方性的建设，这些都需要钱。在这种情况下地方财政吃紧，我们在过去两年可以看到的是进行"节流"，即尽可能减少不必要的支出。但是只有"节流"肯定是不行的，地方要想发展得好，就必须需要更多的财政收入。鉴于之前的土地财政已经不太可能，更有希望的是<strong>股权财政</strong>。</p>
+
+    <div class="question-box">
+      <strong>什么是股权财政？</strong> 参考湖北省"三资三化"模式——地方政府通过持有上市公司股份，将上市公司股价拉升到一定高度后，这些企业产生赚钱效应，每年进行分红，分红的资金就变成地方的财政收入。另一种方法是将原本控股的公司打包上市，这样地方就有实质性的对应资产了。即：<strong>土地财政向股权财政转变</strong>。
+    </div>
+
+    <p>我们可以看到的成功案例是：安徽省国资委控股的长鑫存储上市，它未来大概率也会变成高分红的企业，给安徽省增加财政收入。之后是长江存储背后的湖北国资体系。</p>
+
+    <p>而海南省的海南橡胶，这里可以看出是海南省国资委站台。那么，这个股的命运就很明显了——就是将它打造成一个赚钱机器。养了它这么多年，怎么可能就让它这点市值呢。每年吃高额分红（毕竟它的持股比例将近64%，每年分红就是一笔不错的收益）。</p>
+  </div>
+
+  <!-- 七、海垦体系持股比例变化 -->
+  <div class="section">
+    <h2><span class="num">七</span>海垦体系持股比例变化（2011—2025）</h2>
+
+    <p>下面这张表记录了海南橡胶上市以来，海垦体系持股比例的完整演变过程。从2011年上市之初的72.98%到2018年以后的64.35%，整体控制权一直牢牢掌握在国资手中。</p>
+
+    <table class="section-table">
+      <tr><th>年份</th><th>直接/名义持股主体</th><th>持股数量</th><th>持股比例</th><th>海垦体系实际控制比例</th></tr>
+      <tr><td><strong>2011</strong></td><td>海南省农垦集团有限公司</td><td>28.6901亿股</td><td><strong>72.98%</strong></td><td><strong>72.98%</strong></td></tr>
+      <tr><td><strong>2012</strong></td><td>海南省农垦集团有限公司</td><td>28.6901亿股</td><td><strong>72.98%</strong></td><td><strong>72.98%</strong></td></tr>
+      <tr><td><strong>2013</strong></td><td>海南省农垦集团有限公司</td><td>28.6901亿股</td><td><strong>72.98%</strong></td><td><strong>72.98%</strong></td></tr>
+      <tr><td><strong>2014</strong></td><td>海南省农垦集团有限公司</td><td>28.6901亿股</td><td><strong>72.98%</strong></td><td><strong>72.98%</strong></td></tr>
+      <tr><td><strong>2015</strong></td><td>海南省农垦集团有限公司 → 海垦控股体系</td><td>28.6901亿股</td><td><strong>72.98%</strong></td><td><strong>72.98%</strong></td></tr>
+      <tr><td><strong>2016</strong></td><td>海南省农垦集团有限公司</td><td>27.1501亿股</td><td><strong>69.06%</strong></td><td><strong>69.06%</strong></td></tr>
+      <tr><td><strong>2017</strong></td><td>海南省农垦集团有限公司（代持登记）/海垦控股</td><td>27.1501亿股</td><td><strong>69.06%</strong></td><td><strong>69.06%</strong></td></tr>
+      <tr><td><strong>2018</strong></td><td>海南农垦集团 + 海垦控股</td><td>27.5401亿股合计</td><td>—</td><td><strong>64.35%</strong></td></tr>
+      <tr><td><strong>2019</strong></td><td>海垦控股</td><td>27.5401亿股</td><td><strong>64.35%</strong></td><td><strong>64.35%</strong></td></tr>
+      <tr><td><strong>2020</strong></td><td>海垦控股</td><td>27.5401亿股</td><td><strong>64.35%</strong></td><td><strong>64.35%</strong></td></tr>
+      <tr><td><strong>2021</strong></td><td>海垦控股 + 可交换债质押专户</td><td>27.5401亿股合计</td><td>61.27% + 3.08%</td><td><strong>64.35%</strong></td></tr>
+      <tr><td><strong>2022</strong></td><td>海垦控股 + 可交换债质押专户</td><td>27.5401亿股合计</td><td>61.27% + 3.08%</td><td><strong>64.35%</strong></td></tr>
+      <tr><td><strong>2023</strong></td><td>海垦控股 + 可交换债质押专户</td><td>27.5401亿股合计</td><td>61.27% + 3.08%</td><td><strong>64.35%</strong></td></tr>
+      <tr><td><strong>2024</strong></td><td>海垦控股 + 可交换债质押专户</td><td>27.5401亿股合计</td><td>61.27% + 3.08%</td><td><strong>64.35%</strong></td></tr>
+      <tr><td><strong>2025</strong></td><td>海垦控股体系</td><td>约27.5401亿股</td><td><strong>约64.35%</strong></td><td><strong>约64.35%</strong></td></tr>
+    </table>
+
+    <p>从持股比例变化可以清晰地看到：海垦体系对海南橡胶的控制权始终保持在绝对控股水平（64%以上），2018年之后更是稳定在64.35%。这种稳定的控制结构，加上前文所述的股权集中趋势，为海南橡胶在国资体系下的战略定位提供了坚实保障。</p>
+
+    <div class="key-insight">
+      <strong>总结：</strong>海南橡胶从上市之初的72.98%绝对控股，到2018年非公开发行后稳定在64.35%，控股比例虽有下降，但始终保持着绝对控制权。这意味着海南橡胶的每一步战略决策，都牢牢把握在海南省国资委的手中。在"土地财政→股权财政"的大转型背景下，海南橡胶作为海南省国资委手中最重要的上市平台之一，其战略价值不言而喻。
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  数据来源：公司年报、公开公告 · 仅供研究参考，不构成投资建议<br>
+  整理于 2026 年 8 月
+</div>
+
+</body>
+</html>

@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>海南橡胶（601118）负面消息全录</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf6f1;
+    --surface: #fffbf7;
+    --border: #ece3d8;
+    --text: #2c241b;
+    --text-secondary: #7a6b5d;
+    --accent: #c8642a;
+    --accent-dark: #a34e1d;
+    --accent-light: #f0dac8;
+    --tag-bg: #f2e6da;
+    --max-width: 780px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Noto Serif SC', 'Source Han Serif SC', serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.95;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px 256px;
+  }
+
+  /* 阅读进度条 */
+  .progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    width: 0;
+    background: linear-gradient(90deg, var(--accent), #e29a6b);
+    z-index: 100;
+    transition: width .12s linear;
+  }
+
+  /* ===== 报头 ===== */
+  .masthead {
+    position: relative;
+    padding: 96px 24px 34px;
+    text-align: center;
+  }
+  .masthead::after {
+    content: '';
+    position: absolute;
+    top: -40%;
+    left: 50%;
+    translate: -50% 0;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 50%, rgba(200,100,42,.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .kicker {
+    font-family: 'Inter', sans-serif;
+    font-size: .7rem;
+    font-weight: 500;
+    letter-spacing: .38em;
+    color: var(--accent);
+    text-transform: uppercase;
+    animation: fadeUp .8s ease both;
+  }
+  .masthead h1 {
+    font-size: clamp(1.9rem, 4.5vw, 2.9rem);
+    font-weight: 700;
+    letter-spacing: .05em;
+    margin: 20px 0 14px;
+    line-height: 1.45;
+    animation: fadeUp .8s .1s ease both;
+  }
+  .title-rule {
+    width: 64px;
+    height: 2px;
+    background: var(--accent);
+    border: none;
+    margin: 0 auto 16px;
+    position: relative;
+    animation: fadeUp .8s .18s ease both;
+  }
+  .title-rule::before, .title-rule::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    width: 6px; height: 6px;
+    background: var(--accent);
+    transform: rotate(45deg);
+  }
+  .title-rule::before { left: -16px; }
+  .title-rule::after { right: -16px; }
+  .masthead .subtitle {
+    font-size: .95rem;
+    color: var(--text-secondary);
+    animation: fadeUp .8s .24s ease both;
+  }
+  .masthead .meta {
+    margin-top: 14px;
+    font-family: 'Inter', sans-serif;
+    font-size: .72rem;
+    color: var(--text-secondary);
+    letter-spacing: .05em;
+    animation: fadeUp .8s .3s ease both;
+  }
+
+  /* ===== 目录 ===== */
+  .toc {
+    max-width: var(--max-width);
+    margin: 10px auto 0;
+    padding: 30px 36px 26px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .toc-title {
+    font-family: 'Inter', sans-serif;
+    font-size: .68rem;
+    font-weight: 600;
+    letter-spacing: .3em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    text-align: center;
+  }
+  .toc-part {
+    font-family: 'Inter', sans-serif;
+    font-size: .74rem;
+    font-weight: 600;
+    letter-spacing: .12em;
+    color: var(--accent-dark);
+    margin: 14px 0 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px dashed var(--border);
+  }
+  .toc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3px 28px;
+  }
+  .toc-grid a {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    font-size: .86rem;
+    color: var(--text);
+    text-decoration: none;
+    padding: 3px 0;
+    transition: color .2s ease;
+  }
+  .toc-grid a:hover { color: var(--accent); }
+  .toc-grid a .no {
+    font-family: 'Inter', sans-serif;
+    font-size: .72rem;
+    color: var(--text-secondary);
+    flex-shrink: 0;
+    width: 2em;
+    text-align: right;
+  }
+
+  /* ===== 正文 ===== */
+  .article {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 28px 40px;
+  }
+
+  /* 部分标题 */
+  .part-head {
+    position: relative;
+    text-align: center;
+    margin: 76px 0 34px;
+    overflow: hidden;
+  }
+  .part-head .watermark {
+    position: absolute;
+    top: 50%; left: 50%;
+    translate: -50% -58%;
+    font-size: 11rem;
+    font-weight: 700;
+    color: var(--accent);
+    opacity: .05;
+    pointer-events: none;
+    line-height: 1;
+    user-select: none;
+  }
+  .part-label {
+    position: relative;
+    font-family: 'Inter', sans-serif;
+    font-size: .68rem;
+    font-weight: 600;
+    letter-spacing: .32em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .part-head h2 {
+    position: relative;
+    font-size: 1.65rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    margin-top: 12px;
+  }
+  .part-head .part-sub {
+    position: relative;
+    margin-top: 8px;
+    font-size: .82rem;
+    color: var(--text-secondary);
+  }
+
+  /* 数据来源条 */
+  .dateline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 26px;
+    padding: 16px 22px;
+    margin: 0 0 30px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: .8rem;
+    color: var(--text-secondary);
+  }
+  .dateline b { color: var(--text); font-weight: 600; }
+
+  /* 三级标题 */
+  h3 {
+    font-size: 1.14rem;
+    font-weight: 700;
+    margin: 48px 0 16px;
+    padding: 6px 0 6px 14px;
+    border-left: 4px solid var(--accent);
+    line-height: 1.5;
+  }
+  h3:first-child { margin-top: 0; }
+
+  /* 四级标题 */
+  h4 {
+    font-size: 1.02rem;
+    font-weight: 700;
+    margin: 30px 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  h4::before {
+    content: '';
+    width: 8px; height: 8px;
+    background: var(--accent);
+    flex-shrink: 0;
+    transform: rotate(45deg);
+  }
+
+  /* 正文段落：文章式排版，首行缩进 */
+  .article p {
+    text-indent: 2em;
+    text-align: justify;
+    margin-bottom: 14px;
+  }
+  .article p.no-indent { text-indent: 0; }
+
+  strong { font-weight: 700; }
+
+  .lead {
+    font-size: 1.02rem;
+  }
+
+  /* 链接 */
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* 表格 */
+  .section-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 18px 0;
+    font-size: .88rem;
+    background: var(--surface);
+  }
+  .section-table th {
+    background: var(--tag-bg);
+    font-weight: 600;
+    text-align: left;
+    padding: 9px 12px;
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+  .section-table td {
+    padding: 9px 12px;
+    border: 1px solid var(--border);
+    vertical-align: top;
+    color: var(--text);
+  }
+  .section-table tr:hover td { background: var(--tag-bg); }
+  .section-table .c { text-align: center; }
+  .section-table.center-all th, .section-table.center-all td { text-align: center; }
+  .table-caption {
+    margin: -8px 0 4px;
+    font-size: .78rem;
+    color: var(--text-secondary);
+    text-indent: 0 !important;
+  }
+
+  /* 注释框 */
+  .note {
+    background: var(--tag-bg);
+    border: 1px dashed var(--accent-light);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-size: .87rem;
+    line-height: 1.9;
+    color: var(--text);
+  }
+  .note p { text-indent: 0 !important; margin-bottom: 6px; }
+  .note p:last-child { margin-bottom: 0; }
+  .note strong { color: var(--accent); }
+  .note .calc {
+    font-family: 'Inter', sans-serif;
+    font-size: .8rem;
+    color: var(--text-secondary);
+    padding-left: 1em;
+  }
+
+  /* 引文 */
+  blockquote {
+    position: relative;
+    margin: 20px 0;
+    padding: 18px 22px 18px 26px;
+    background: var(--surface);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 10px 10px 0;
+    font-size: .93rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+  }
+  blockquote p { text-indent: 0 !important; margin: 0; }
+  blockquote .q-mark {
+    position: absolute;
+    top: 2px; left: 8px;
+    font-size: 2.2rem;
+    line-height: 1;
+    color: var(--accent-light);
+    font-family: Georgia, serif;
+    pointer-events: none;
+  }
+  blockquote .src {
+    display: block;
+    margin-top: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: .74rem;
+    color: var(--text-secondary);
+  }
+  blockquote .src a { color: var(--accent); }
+
+  /* 结论框 */
+  .verdict {
+    background: var(--surface);
+    border: 1px solid var(--accent-light);
+    border-radius: 12px;
+    padding: 22px 26px;
+    margin: 18px 0;
+  }
+  .verdict p { text-indent: 0 !important; margin-bottom: 10px; }
+  .verdict p:last-child { margin-bottom: 0; }
+  .verdict .item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+  .verdict .item .ico { flex-shrink: 0; line-height: 1.95; }
+  .verdict .fix-badge {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 1px 10px;
+    border: 1px solid var(--accent);
+    border-radius: 100px;
+    font-family: 'Inter', sans-serif;
+    font-size: .72rem;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: .06em;
+  }
+
+  /* 风险结构列表 */
+  .risk-list { counter-reset: rk; margin: 16px 0; }
+  .risk-item {
+    position: relative;
+    margin: 12px 0;
+    padding: 14px 16px 14px 20px;
+    background: var(--tag-bg);
+    border-radius: 8px;
+    font-size: .92rem;
+  }
+  .risk-item::before {
+    counter-increment: rk;
+    content: counter(rk);
+    position: absolute;
+    left: -11px; top: 50%;
+    translate: 0 -50%;
+    width: 26px; height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    font-family: 'Inter', sans-serif;
+    font-size: .75rem;
+    font-weight: 600;
+  }
+  .risk-item .t { font-weight: 700; color: var(--accent); }
+
+  /* 关注事项列表 */
+  .watch-list { counter-reset: wl; margin: 16px 0; }
+  .watch-item {
+    counter-increment: wl;
+    position: relative;
+    padding: 10px 0 10px 36px;
+    font-size: .94rem;
+  }
+  .watch-item::before {
+    content: counter(wl, decimal-leading-zero);
+    position: absolute;
+    left: 0; top: 14px;
+    font-family: 'Inter', sans-serif;
+    font-size: .78rem;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .watch-item b { color: var(--text); }
+  .watch-item .why {
+    display: block;
+    font-size: .82rem;
+    color: var(--text-secondary);
+    padding-left: 1em;
+  }
+
+  /* 参考来源 */
+  .ref-group { margin: 22px 0; }
+  .ref-group h4 { margin: 26px 0 8px; }
+  .ref-list {
+    font-size: .8rem;
+    line-height: 2.2;
+    color: var(--text-secondary);
+    list-style: none;
+  }
+  .ref-list li { position: relative; padding-left: 1.4em; }
+  .ref-list li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--accent-light);
+    font-weight: 600;
+  }
+  .ref-list a { color: var(--accent); }
+
+  /* 分隔线 */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 44px 0;
+    position: relative;
+    text-align: center;
+  }
+  .divider::after {
+    content: '✦';
+    position: absolute;
+    top: -12px; left: 50%;
+    translate: -50% 0;
+    background: var(--bg);
+    padding: 0 14px;
+    color: var(--accent-light);
+    font-size: .8rem;
+  }
+
+  /* 页脚 */
+  .footer {
+    text-align: center;
+    padding: 34px 24px 44px;
+    color: var(--text-secondary);
+    font-size: .78rem;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: .03em;
+    opacity: .7;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; translate: 0 16px; }
+    to { opacity: 1; translate: 0 0; }
+  }
+
+  @media (max-width: 640px) {
+    body { font-size: 15px; }
+    .masthead { padding: 70px 18px 26px; }
+    .article { padding: 0 18px 30px; }
+    .toc { padding: 22px 20px 18px; }
+    .toc-grid { grid-template-columns: 1fr; }
+    .section-table { font-size: .78rem; }
+    .section-table th, .section-table td { padding: 7px 8px; }
+    .part-head .watermark { font-size: 7rem; }
+    .article p { text-indent: 1.6em; }
+    .dateline { gap: 6px 16px; padding: 12px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<!-- ==================== 报头 ==================== -->
+<header class="masthead">
+  <div class="kicker">Hainan Rubber · 601118 · 研究档案</div>
+  <h1>海南橡胶（601118）<br>负面消息全录</h1>
+  <hr class="title-rule">
+  <div class="subtitle">分红情况核查 · 2016—2026 十年监管处罚与财务风险全记录</div>
+  <div class="meta">数据来源：公司年报公告（2022—2025 年）、东方财富网、证券之星等公开信息 · 核查日期：2026-08-25</div>
+</header>
+
+<!-- ==================== 目录 ==================== -->
+<nav class="toc">
+  <div class="toc-title">目 录</div>
+
+  <div class="toc-part">第一部分 · 分红情况核查</div>
+  <div class="toc-grid">
+    <a href="#f1"><span class="no">一</span>原文件数据 vs 实际数据对比</a>
+    <a href="#f2"><span class="no">二</span>历史分红全记录（上市以来）</a>
+    <a href="#f3"><span class="no">三</span>分红特征分析</a>
+    <a href="#f4"><span class="no">四</span>结论</a>
+  </div>
+
+  <div class="toc-part">第二部分 · 负面消息汇总（2016—2026）</div>
+  <div class="toc-grid">
+    <a href="#n1"><span class="no">一</span>监管处罚与行政监管措施</a>
+    <a href="#n2"><span class="no">二</span>财务造假与会计差错</a>
+    <a href="#n3"><span class="no">三</span>关联交易与控股股东相关事项</a>
+    <a href="#n4"><span class="no">四</span>诉讼与仲裁</a>
+    <a href="#n5"><span class="no">五</span>商誉减值与资产减值</a>
+    <a href="#n6"><span class="no">六</span>政府补贴与"扭亏依赖"</a>
+    <a href="#n7"><span class="no">七</span>重大灾害事件</a>
+    <a href="#n8"><span class="no">八</span>高管变动（被动离职）</a>
+    <a href="#n9"><span class="no">九</span>经营业绩压力</a>
+    <a href="#n10"><span class="no">十</span>媒体质疑与负面舆情</a>
+    <a href="#n11"><span class="no">十一</span>生态环境与采伐限制</a>
+    <a href="#n12"><span class="no">十二</span>关键观察与综合判断</a>
+    <a href="#refs"><span class="no">附</span>参考来源</a>
+    <a href="#gaps"><span class="no">附</span>数据缺口提示</a>
+  </div>
+</nav>
+
+<main class="article">
+
+  <!-- ==================== 第一部分 ==================== -->
+  <div class="part-head">
+    <div class="watermark">壹</div>
+    <div class="part-label">Part 01</div>
+    <h2>海南橡胶分红情况核查</h2>
+    <div class="part-sub">数据来源：公司年报公告（2022—2025 年）、东方财富网、证券之星等公开信息 · 核查日期：2026-08-25</div>
+  </div>
+
+  <section id="f1">
+    <h3>一、原文件数据 vs 实际数据对比</h3>
+    <p class="lead">海南橡胶上市以来盈利状况起伏较大，分红记录时断时续。本部分对照公司年报公告与公开数据，对原文件涉及的分红相关数据逐项核查。原文件列示的六项数据中，四项与公开披露完全一致或仅有尾差，另两项因统计口径问题存在偏差，均已按监管常规口径修正。</p>
+
+    <table class="section-table">
+      <tr><th style="width:26%">项目</th><th style="width:27%">原文件数据</th><th style="width:27%">实际公开数据</th><th class="c" style="width:20%">判断</th></tr>
+      <tr><td>最近三个会计年度累计现金分红金额（含税）</td><td><strong>136,085,801.05 元</strong></td><td><strong>136,085,802.45 元</strong>（注1）</td><td class="c">✅ 基本一致（尾差 1.40 元）</td></tr>
+      <tr><td>最近三个会计年度累计回购并注销金额</td><td>0 元</td><td>0 元</td><td class="c">✅ 一致</td></tr>
+      <tr><td>最近三个会计年度年均净利润金额</td><td><strong>99,160,882.36 元</strong></td><td>约 <strong>158,971,132 元</strong>（注2）</td><td class="c">❌ 不一致，已修正为口径 A</td></tr>
+      <tr><td>最近三个会计年度现金分红比例</td><td><strong>137.24%</strong></td><td>约 <strong>85.60%</strong>（注2）</td><td class="c">❌ 不一致，已修正为口径 A</td></tr>
+      <tr><td>最近一个会计年度（2025 年）净利润</td><td><strong>-103,031,096.01 元</strong></td><td><strong>-103,031,096.01 元</strong></td><td class="c">✅ 完全一致</td></tr>
+      <tr><td>最近一个会计年度母公司报表年末未分配利润</td><td><strong>2,159,879,064.02 元</strong></td><td><strong>2,159,879,064.02 元</strong></td><td class="c">✅ 一致（已核实）</td></tr>
+    </table>
+
+    <div class="note">
+      <p><strong>注1：</strong>差额约 1.40 元，系含税计算尾差，不影响事实判断。<strong>（无需修正）</strong></p>
+      <p><strong>注2：</strong>按监管常规口径"最近三个会计年度"应为 <strong>2022 + 2023 + 2024 年</strong>，不含亏损的 2025 年：</p>
+      <p class="calc">· 2022 年净利润：76,399,653.34 元（未分红）<br>
+        · 2023 年净利润：297,124,723.08 元（分红 8,944 万元）<br>
+        · 2024 年净利润：103,389,020.00 元（分红 4,664 万元）<br>
+        · 三年合计净利润：<strong>476,913,396.42 元</strong><br>
+        · 三年平均净利润：<strong>158,971,132.14 元 ≈ 1.59 亿元</strong><br>
+        · 累计分红：<strong>136,085,802.45 元</strong><br>
+        · 分红比例：<strong>85.60%</strong></p>
+      <p>原文件年均净利润 <strong>9,916 万元</strong>、比例 <strong>137.24%</strong> 系将 2025 年亏损数据纳入计算所致（2023 + 2024 + 2025 口径）。本表已统一修正为<strong>口径 A（2022 + 2023 + 2024 年）</strong>。</p>
+    </div>
+  </section>
+
+  <section id="f2">
+    <h3>二、海南橡胶历史分红全记录（上市以来）</h3>
+    <p>下表为海南橡胶自 2010 年上市以来历年的分红实施记录。可以看出，上市初期的 2010—2012 年度分红较为慷慨，此后派现水平波动明显：2015—2017 年度连续三年未分红，2022 年度再度中断，2025 年度则因亏损继续无红可分。十六个会计年度中，累计五个年度未分红。</p>
+
+    <table class="section-table center-all">
+      <tr><th>分红年度</th><th>每 10 股派现（含税）</th><th>股权登记日</th><th>除权除息日</th></tr>
+      <tr><td>2025 年</td><td>未分红（亏损）</td><td>—</td><td>—</td></tr>
+      <tr><td>2024 年</td><td>0.11 元</td><td>2025-07-14</td><td>2025-07-15</td></tr>
+      <tr><td>2023 年</td><td>0.21 元</td><td>2024-07-16</td><td>2024-07-17</td></tr>
+      <tr><td>2022 年</td><td>未分红</td><td>—</td><td>—</td></tr>
+      <tr><td>2021 年</td><td>0.11 元</td><td>2022-06-27</td><td>2022-06-28</td></tr>
+      <tr><td>2020 年</td><td>0.06 元</td><td>2021-06-08</td><td>2021-06-09</td></tr>
+      <tr><td>2019 年</td><td>0.04 元</td><td>2020-06-23</td><td>2020-06-24</td></tr>
+      <tr><td>2018 年</td><td>0.11 元</td><td>2019-06-25</td><td>2019-06-26</td></tr>
+      <tr><td>2017 年</td><td>未分红</td><td>—</td><td>—</td></tr>
+      <tr><td>2016 年</td><td>未分红</td><td>—</td><td>—</td></tr>
+      <tr><td>2015 年</td><td>未分红</td><td>—</td><td>—</td></tr>
+      <tr><td>2014 年</td><td>0.02 元</td><td>2015-06-11</td><td>2015-06-12</td></tr>
+      <tr><td>2013 年</td><td>0.20 元</td><td>2014-07-16</td><td>2014-07-17</td></tr>
+      <tr><td>2012 年</td><td>0.50 元</td><td>2013-06-18</td><td>2013-06-19</td></tr>
+      <tr><td>2011 年</td><td>0.80 元</td><td>2012-07-10</td><td>2012-07-11</td></tr>
+      <tr><td>2010 年</td><td>0.80 元</td><td>2011-07-08</td><td>2011-07-08</td></tr>
+    </table>
+
+    <blockquote>
+      <span class="q-mark">"</span>
+      <p><strong>说明：</strong>2026 年中期（半年度）利润分配方面，截至 2026-08-25，公司尚未发布 2026 年中期分红预案。根据 2026 年半年度业绩预告（公告编号：2026-036），2026 年上半年归母净利润预计亏损 9,000 万元～13,500 万元，公司仍处于亏损状态，2026 年中期进行利润分配的可能性较低。正式的中期利润分配方案需待 2026 年半年度报告披露后由董事会审议决定。</p>
+    </blockquote>
+  </section>
+
+  <section id="f3">
+    <h3>三、分红特征分析</h3>
+
+    <h4>1. 分红持续性较差</h4>
+    <p>上市以来（2011—2025 年）共有 <strong>5 个年度未分红</strong>，分别是 2015—2017 年、2022 年与 2025 年；若以"上市 16 年"计（含 2010 年），未分红年份仍为上述 5 年，其余年度均有派现。分红与否完全取决于当年盈亏与经营状况，时有时无、缺乏规律，分红持续性较差。</p>
+
+    <h4>2. 分红金额逐年下降</h4>
+    <p>上市初期（2010—2012 年）每 10 股派现 0.50～0.80 元，较为丰厚；近年（2019 年起）每 10 股仅派 0.04～0.21 元，大幅缩水。整体呈现"<strong>高开低走</strong>"的趋势，公司对股东的现金回报能力随主业盈利的弱化而持续衰减。</p>
+
+    <h4>3. 募资 vs 分红</h4>
+    <p>公司<strong>首发募资 47.08 亿元</strong>，上市以来<strong>累计派现约 11.79 亿元</strong>，募资 / 派现比约为 <strong>4 : 1</strong>——即公司从资本市场募集的资金是回馈股东现金分红的 4 倍。从长期股东回报的角度看，公司尚远未"回馈"其从市场获得的资金。</p>
+
+    <h4>4. 2025 年度亏损不分配</h4>
+    <p>2025 年度净利润为 <strong>-1.03 亿元</strong>（亏损），公司 2025 年度利润分配预案为：<strong>不派发现金红利、不送红股、不以公积金转增股本</strong>。该议案已于 2026 年 5 月 19 日年度股东大会上审议通过。</p>
+
+    <h4>5. 2026 年中期分红前景</h4>
+    <p>2026 年上半年预计归母净利润亏损 9,000 万～13,500 万元，扣非净利润亏损 25,500 万～38,000 万元。按照《上市公司监管指引第 3 号——上市公司现金分红》及公司章程，公司<strong>不具备中期分红条件</strong>；截至 2026-08-25，公司未发布任何中期分红预案。</p>
+  </section>
+
+  <section id="f4">
+    <h3>四、结论</h3>
+
+    <div class="verdict">
+      <div class="item"><span class="ico">✅</span><span><strong>原文件核心数据（三年累计现金分红 1.36 亿元、2025 年亏损 1.03 亿元、母公司未分配利润 21.60 亿元）均正确。</strong></span></div>
+      <div class="item"><span class="ico">⚠️</span><span><strong>"近三个会计年度年均净利润"和"现金分红比例"两个数据存在口径问题</strong>——原文件将 2025 年（亏损年份）纳入计算，导致年均净利润仅为 9,916 万元、比例异常偏高至 137.24%。按常规监管口径（2022 + 2023 + 2024 年），应为：</span></div>
+      <p style="padding-left:2.2em"><strong>年均净利润：约 1.59 亿元</strong><br><strong>分红比例：约 85.60%</strong></p>
+      <p>本文件已统一修正为口径 A。<span class="fix-badge">🔧 已修正</span></p>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ==================== 第二部分 ==================== -->
+  <div class="part-head">
+    <div class="watermark">贰</div>
+    <div class="part-label">Part 02</div>
+    <h2>海南橡胶（601118）负面消息汇总</h2>
+    <div class="part-sub">覆盖 2016 年—2026 年 · 最近 10 年</div>
+  </div>
+
+  <div class="dateline">
+    <span><b>公司全称：</b>海南天然橡胶产业集团股份有限公司</span>
+    <span><b>股票代码：</b>601118（上交所主板）</span>
+    <span><b>控股股东：</b>海南省农垦投资控股集团有限公司（持股约 64.35%）</span>
+    <span><b>数据整理日期：</b>2026-08-25</span>
+    <span><b>范围：</b>2016 年—2026 年（覆盖最近 10 年）</span>
+  </div>
+
+  <section id="n1">
+    <h3>一、监管处罚与行政监管措施</h3>
+    <p class="lead">2016 年至 2026 年的十年间，公司先后 6 次受到海南证监局、上海证券交易所的监管处理，类型涵盖责令整改、责令改正、警示函、通报批评，时间线跨越三位董事长的任期。信息披露的真实性问题反复出现，是公司治理层面最突出的风险来源。</p>
+
+    <h4>时间线汇总</h4>
+    <table class="section-table">
+      <tr><th class="c" style="width:12%">时间</th><th style="width:12%">监管机构</th><th style="width:16%">文号 / 决定</th><th style="width:12%">措施类型</th><th>核心问题</th></tr>
+      <tr><td class="c">2016-09</td><td>海南证监局</td><td>责令整改通知</td><td>责令整改</td><td>关联方占用上市公司资金约 1.61 亿元</td></tr>
+      <tr><td class="c">2022-01-18</td><td>海南证监局</td><td>〔2022〕1 号</td><td><strong>责令改正</strong></td><td>子公司上海龙橡 2016—2017 年虚增收入 7.22 亿元</td></tr>
+      <tr><td class="c">2022-06-07</td><td>上交所</td><td>通报批评</td><td><strong>通报批评</strong></td><td>同上事项；5 名责任人被监管警示</td></tr>
+      <tr><td class="c">2024-06-07</td><td>海南证监局</td><td>〔2024〕26 号</td><td><strong>出具警示函</strong></td><td>橡胶产品盘亏导致年报信息披露不准确</td></tr>
+      <tr><td class="c">2024-10-21</td><td>上交所</td><td>〔2024〕190 号</td><td><strong>通报批评</strong></td><td>同上事项；两任董事长、四任总经理、两任财务总监被追责</td></tr>
+      <tr><td class="c">2026-03-27</td><td>海南证监局</td><td>〔2026〕11 号</td><td><strong>责令改正</strong></td><td>部分贸易业务无商业实质，导致 2023 年、2024 年年报营业收入、成本等财务信息披露不准确</td></tr>
+    </table>
+
+    <h4>1.1 上海龙橡虚增收入案（2016—2017）</h4>
+    <p><strong>事实：</strong>全资子公司上海龙橡国际贸易公司于 2016—2017 年发生多笔货权转移业务，相关交易<strong>不具有商业实质</strong>，据此虚增收入、虚减利润，两年合计虚增收入 7.22 亿元。</p>
+
+    <table class="section-table">
+      <tr><th class="c">年度</th><th class="c">虚增收入</th><th class="c">占当期营收</th><th class="c">虚减利润总额</th><th class="c">占当期利润总额</th></tr>
+      <tr><td class="c">2016</td><td class="c"><strong>2.72 亿元</strong></td><td class="c">3.07%</td><td class="c">308.44 万元</td><td class="c">3.50%</td></tr>
+      <tr><td class="c">2017</td><td class="c"><strong>4.50 亿元</strong></td><td class="c">4.16%</td><td class="c">704.64 万元</td><td class="c">2.72%</td></tr>
+      <tr><td class="c"><strong>合计</strong></td><td class="c"><strong>7.22 亿元</strong></td><td class="c">—</td><td class="c"><strong>1,013.08 万元</strong></td><td class="c">—</td></tr>
+    </table>
+
+    <h4>被追责人员</h4>
+    <table class="section-table">
+      <tr><th style="width:20%">姓名</th><th>职务</th><th style="width:42%">处理</th></tr>
+      <tr><td>刘大卫</td><td>时任董事长兼总经理</td><td>上交所监管警示</td></tr>
+      <tr><td>王任飞</td><td>时任董事长</td><td>上交所监管警示</td></tr>
+      <tr><td>李奇胜</td><td>时任总经理</td><td>上交所监管警示</td></tr>
+      <tr><td>许华山</td><td>时任财务总监</td><td>上交所监管警示</td></tr>
+      <tr><td>王劲</td><td>财务事项具体负责人</td><td>上交所监管警示</td></tr>
+      <tr><td>上海龙橡时任总经理 / 财务总监 / 财务部部长</td><td>—</td><td>党纪政纪处分（开除党籍、辞退），涉嫌违法犯罪线索移交司法</td></tr>
+    </table>
+
+    <p><strong>公司回应：</strong>公司层面<strong>未从违规贸易业务中获利</strong>，股票价格和成交量<strong>没有异常波动</strong>；公司认为系上海龙橡时任相关人员利用职务便利的个人违法违纪行为；公司已修订完善管理制度并落实整改。</p>
+
+    <h4>1.2 橡胶产品盘亏案（2017—2022）</h4>
+    <p><strong>事实：</strong>公司在 2022 年度财务报告编制和审计过程中发现部分存货账实不符，核查确认<strong>盘亏 1.76 万吨橡胶产品</strong>，对 <strong>2017—2022 年度</strong>合并财务报表进行<strong>追溯调整</strong>并进行会计差错更正，导致相关年报信息披露不准确。</p>
+
+    <h4>被处分人员</h4>
+    <table class="section-table">
+      <tr><th style="width:30%">姓名</th><th>职务（处罚时披露）</th></tr>
+      <tr><td>王任飞</td><td>时任董事长</td></tr>
+      <tr><td>艾轶伦</td><td>时任董事长</td></tr>
+      <tr><td>李奇胜</td><td>时任总经理</td></tr>
+      <tr><td>李超</td><td>时任总经理</td></tr>
+      <tr><td>姜宏涛</td><td>时任总经理</td></tr>
+      <tr><td>王天明</td><td>时任总经理</td></tr>
+      <tr><td>王劲</td><td>时任财务总监</td></tr>
+      <tr><td>孙卫良</td><td>时任财务总监</td></tr>
+    </table>
+
+    <blockquote>
+      <span class="q-mark">"</span>
+      <p>合计<strong>两任董事长 + 四任总经理 + 两任财务总监</strong>共 <strong>8 名高管</strong>被追责。</p>
+    </blockquote>
+
+    <p><strong>后续整改：</strong>公司按海南证监局要求制定详尽整改报告，经董事会、监事会审议后对外披露；监管要求公司在 1 个月内提交整改报告。</p>
+
+    <h4>1.3 2026 年责令改正及整改完成（最新事项）</h4>
+    <p><strong>2026-03-27 收到海南证监局《关于对海南天然橡胶产业集团股份有限公司采取责令改正措施的决定》（〔2026〕11 号）：</strong>公告编号 2026-012（3 月 28 日披露）。现场检查发现公司开展的部分贸易业务<strong>无商业实质</strong>，导致 2023 年、2024 年年度报告中<strong>营业收入、成本等财务信息披露不准确</strong>，违反了《上市公司信息披露管理办法》第三条第一款的规定。</p>
+
+    <p><strong>整改完成情况：</strong>整改报告公告编号 2026-016（2026 年 4 月 18 日披露），于 2026 年 4 月 17 日经第六届董事会第五十三次会议审议通过。主要整改措施如下：</p>
+
+    <table class="section-table">
+      <tr><th class="c" style="width:8%">序号</th><th>整改措施</th><th class="c" style="width:16%">进度</th></tr>
+      <tr><td class="c">1</td><td>成立专项工作组，统筹分工、明确责任</td><td class="c"><strong>已完成</strong></td></tr>
+      <tr><td class="c">2</td><td>更正会计差错并追溯调整（对 2023 年、2024 年年报及 2025 年前三季度报告进行追溯调整）</td><td class="c"><strong>已完成</strong></td></tr>
+      <tr><td class="c">3</td><td>全面开展自查自纠，强化贸易业务管控</td><td class="c"><strong>已阶段性完成</strong></td></tr>
+      <tr><td class="c">4</td><td>完善内部制度体系建设，提升经营管理水平</td><td class="c"><strong>已阶段性完成</strong></td></tr>
+      <tr><td class="c">5</td><td>加强财务核算规范性和人员培训</td><td class="c"><strong>已阶段性完成</strong></td></tr>
+    </table>
+
+    <p><strong>财务影响：</strong>本次会计差错更正仅影响营业收入、营业成本项目，<strong>不涉及</strong>合并报表其他项目及母公司财务报表调整，<strong>不会导致</strong>已披露的年度财务报告出现盈亏性质变化，<strong>不会对</strong>财务状况、经营成果和现金流量产生重大影响。</p>
+  </section>
+
+  <section id="n2">
+    <h3>二、财务造假与会计差错</h3>
+
+    <h4>2.1 6 年连续年报出错</h4>
+    <p>2017—2022 年度合并财务报表因 1.76 万吨橡胶盘亏被<strong>追溯调整</strong>；2026 年再次因无商业实质贸易业务，对 2023 年、2024 年年报及 2025 年前三季度报告进行追溯调整。上交所通报批评认定公司<strong>多期年度报告财务信息披露不真实</strong>。媒体（市值风云）在 2023-06-19 的报道中直接使用了"<strong>造假</strong>"字样。</p>
+
+    <h4>2.2 媒体指控"公开骗补"</h4>
+    <p>市值风云于 2023 年 6 月 19 日发表深度报道，标题直指公司"打着战略物资安全幌子"实施骗补，该报道在投资者社区引发广泛讨论。</p>
+
+    <blockquote>
+      <span class="q-mark">"</span>
+      <p><strong>市值风云报道（2023-06-19）：《10 年 3 次责令改正、1 次通报批评：打着战略物资安全幌子，海南橡胶公开骗补！》</strong></p>
+      <p style="margin-top:10px">核心指控：公司"打着战略物资安全幌子"实施骗补；投资者在互动易上抱怨：公司年年扣非亏损严重，靠政府补贴、社会保险费、征地补偿等填补窟窿；海南橡胶成立于 2005 年，2011 年 1 月在上交所主板上市，<strong>净募集资金 44.8 亿</strong>。</p>
+      <span class="src">原文链接：<a href="https://finance.sina.com.cn/stock/s/2023-06-19/doc-imyxvpkc2238415.shtml" target="_blank">finance.sina.com.cn/stock/s/2023-06-19</a></span>
+    </blockquote>
+  </section>
+
+  <section id="n3">
+    <h3>三、关联交易与控股股东相关事项</h3>
+
+    <h4>3.1 关联方资金占用（2015—2016）</h4>
+    <p>2015 年末，关联方上海增石资产管理有限公司通过公司两家全资子公司占用上市公司资金约 1.61 亿元，成为公司上市后首次被监管责令整改的事项。</p>
+
+    <table class="section-table">
+      <tr><th>关联方</th><th>关系</th><th class="c" style="width:26%">占用金额（2015-12-31）</th></tr>
+      <tr><td>上海增石资产管理有限公司</td><td>关联方</td><td class="c">—</td></tr>
+      <tr><td>通过子公司东橡投资控股（上海）有限公司</td><td>全资子公司</td><td class="c"><strong>1.01 亿元</strong></td></tr>
+      <tr><td>通过子公司上海龙橡国际贸易有限公司</td><td>全资子公司</td><td class="c"><strong>6,000 万元</strong></td></tr>
+      <tr><td><strong>合计</strong></td><td>—</td><td class="c"><strong>约 1.61 亿元</strong></td></tr>
+    </table>
+
+    <p><strong>事实：</strong>上述占用通过预付货物采购资金形式形成；上海增石未能及时交货，构成关联方占用上市公司资金情形。海南证监局指出公司在防范关联方资金占用制度执行上不严格；后续上海增石交付了相应货物并支付资金占用费。</p>
+
+    <h4>3.2 控股股东资产腾挪（2023-12）</h4>
+    <p>2023 年末，公司通过三笔关联交易向控股股东体系转让资产，媒体称之为"回血"超 17 亿元——公司当年实现扭亏，很大程度上依赖这些向控股股东体系内的资产腾挪。</p>
+
+    <table class="section-table">
+      <tr><th class="c" style="width:16%">时间</th><th>交易内容</th><th class="c" style="width:22%">金额</th></tr>
+      <tr><td class="c">2023-11</td><td>转让北京海垦商贸发展有限公司股权（关联交易）</td><td class="c">—</td></tr>
+      <tr><td class="c">2023-12</td><td>转让王府井海垦 40% 股权给关联方</td><td class="c"><strong>4,415.93 万元</strong></td></tr>
+      <tr><td class="c">2023-12</td><td>转让海垦现代物流 94.49% 股权（关联交易）</td><td class="c">重大资产转让</td></tr>
+    </table>
+
+    <blockquote>
+      <span class="q-mark">"</span>
+      <p>媒体质疑："海南橡胶扭亏全靠控股股东？"——2023 年扭亏主要来源于三笔关联交易向控股股东体系内的资产腾挪。</p>
+      <span class="src">原文链接：<a href="https://finance.sina.com.cn/jjxw/2023-12-07/doc-imzxfekq1286278.shtml" target="_blank">finance.sina.com.cn/jjxw/2023-12-07</a></span>
+    </blockquote>
+
+    <h4>3.3 控股股东持有股权动作（2025）</h4>
+    <p><strong>2025-11：</strong>海垦控股集团拟非公开发行<strong>不超过 21 亿元</strong>可交换公司债券（以其持有的海南橡胶股票为标的）。该动作意味着控股股东以所持上市公司股票进行融资操作，需关注后续换股节奏及对持股比例的影响。</p>
+  </section>
+
+  <section id="n4">
+    <h3>四、诉讼与仲裁</h3>
+
+    <h4>4.1 子公司诉评估机构案（2022-02）</h4>
+    <p><strong>原告：</strong>全资子公司海南瑞橡热带经济投资集团有限公司。<strong>被告：</strong>中威正信（北京）资产评估有限公司海南分公司。案件源于 2015 年瑞橡公司拟增资入股宏丰实业时，评估机构未进行现场充分调查即出具《资产评估报告》，致使公司遭受增资投入损失。</p>
+
+    <table class="section-table">
+      <tr><th style="width:18%">项目</th><th>内容</th></tr>
+      <tr><td><strong>缘由</strong></td><td>2015 年瑞橡公司拟增资入股宏丰实业，评估机构未进行现场充分调查出具《资产评估报告》</td></tr>
+      <tr><td><strong>损失金额</strong></td><td><strong>440.83 万元</strong>（增资投入损失）</td></tr>
+      <tr><td><strong>案号</strong></td><td>—</td></tr>
+    </table>
+
+    <h4>4.2 建设工程施工合同纠纷案（2025-01 披露）</h4>
+    <table class="section-table">
+      <tr><th class="c" style="width:12%">案件</th><th style="width:16%">原告</th><th class="c" style="width:16%">诉讼请求</th><th>一审判决</th><th class="c" style="width:16%">公司后续动作</th></tr>
+      <tr><td class="c">案件一</td><td>许文锋</td><td class="c"><strong>914 万元</strong></td><td>公司承担连带责任（支付工程款 379 万元及利息）</td><td class="c">已提起上诉</td></tr>
+      <tr><td class="c">案件二</td><td>欣瑞公司</td><td class="c"><strong>1,723 万元</strong></td><td>海南橡胶金福分公司支付工程款 237 万元及利息</td><td class="c">已提起上诉</td></tr>
+    </table>
+
+    <blockquote>
+      <span class="q-mark">"</span>
+      <p>两案均处于重审一审判决阶段，公司均<strong>已提起上诉</strong>。</p>
+    </blockquote>
+  </section>
+
+  <section id="n5">
+    <h3>五、商誉减值与资产减值</h3>
+
+    <h4>5.1 商誉规模（2023 末）</h4>
+    <p>2023 上半年公司完成对<strong>合盛农业（Halcyon Agri）</strong>的并购，2023 年末商誉金额大幅增长至 <strong>18.12 亿元</strong>。商誉一旦减值将直接吞噬利润——一旦标的业绩不及预期，公司将面临大额减值压力。</p>
+
+    <h4>5.2 历年减值损失</h4>
+    <table class="section-table">
+      <tr><th class="c" style="width:14%">年度</th><th>计提减值损失</th><th class="c" style="width:20%">数据来源</th></tr>
+      <tr><td class="c">2021</td><td><strong>1.04 亿元</strong>（信用 + 资产）</td><td class="c">2022-04 公告</td></tr>
+      <tr><td class="c">2023</td><td><strong>4,849.44 万元</strong>（信用 + 资产）</td><td class="c">2023 年报</td></tr>
+      <tr><td class="c">2025</td><td><strong>3.98 亿元</strong>（其中商誉减值 <strong>2.78 亿元</strong>）</td><td class="c">2025 年报</td></tr>
+    </table>
+
+    <p class="table-caption">2025 年减值结构（据 2025 年年报）：</p>
+    <table class="section-table">
+      <tr><th>减值项目</th><th class="c" style="width:30%">金额（元）</th></tr>
+      <tr><td>存货跌价损失</td><td class="c">-80,916,325.47</td></tr>
+      <tr><td>生产性生物资产减值损失</td><td class="c">-7,442,287.95</td></tr>
+      <tr><td>固定资产减值损失</td><td class="c">-2,910,061.65</td></tr>
+      <tr><td>在建工程减值损失</td><td class="c">-19,597,925.08</td></tr>
+      <tr><td>长期股权投资减值损失</td><td class="c">-6,402,031.91</td></tr>
+      <tr><td><strong>商誉减值损失</strong></td><td class="c"><strong>-277,589,782.89</strong></td></tr>
+      <tr><td>其他</td><td class="c">-3,099,423.10</td></tr>
+      <tr><td><strong>合计</strong></td><td class="c"><strong>-397,957,838.05</strong></td></tr>
+    </table>
+
+    <blockquote>
+      <span class="q-mark">"</span>
+      <p>商誉减值主要来源于子公司 <strong>合盛农业（Halcyon Agri Corporation Limited）</strong>，公司委托中联资产评估集团有限公司对该资产组可收回金额进行评估，根据可收回金额与资产组账面价值差额计提商誉减值准备 <strong>2.78 亿元</strong>。</p>
+    </blockquote>
+
+    <h4>5.3 2025 年实际业绩与 2026 年最新动态</h4>
+    <p class="table-caption">2025 年实际财务数据（据 2025 年年报）：</p>
+    <table class="section-table">
+      <tr><th style="width:24%">指标</th><th class="c">2025 年实际</th><th class="c">2024 年</th><th class="c">同比变动</th></tr>
+      <tr><td><strong>营业收入</strong></td><td class="c"><strong>422.37 亿元</strong></td><td class="c">420.04 亿元</td><td class="c">+0.55%</td></tr>
+      <tr><td><strong>归母净利润</strong></td><td class="c"><strong>-1.03 亿元</strong></td><td class="c">1.03 亿元</td><td class="c">-199.65%（由盈转亏）</td></tr>
+      <tr><td><strong>扣非净利润</strong></td><td class="c"><strong>-9.75 亿元</strong></td><td class="c">-6.15 亿元</td><td class="c">亏损扩大</td></tr>
+      <tr><td>利润总额</td><td class="c">-1.29 亿元</td><td class="c">1.35 亿元</td><td class="c">-195.33%</td></tr>
+      <tr><td>经营活动现金流净额</td><td class="c">25.05 亿元</td><td class="c">15.55 亿元</td><td class="c">+61.05%</td></tr>
+    </table>
+
+    <p><strong>营收微增：</strong>2025 年营收 422.37 亿元，同比微增 0.55%，基本持平。</p>
+    <p><strong>归母净利润由盈转亏：</strong>从 2024 年盈利 1.03 亿元转为 2025 年亏损 1.03 亿元，同比下降 199.65%。</p>
+    <p><strong>扣非净利润持续亏损且扩大：</strong>-9.75 亿元，较 2024 年的 -6.15 亿元亏损扩大。扣非净利润已连续多年为负（2023 年为 -9.69 亿元），说明公司<strong>主营业务盈利能力极弱</strong>。</p>
+    <p><strong>非经常性收益支撑：</strong>公司 2025 年通过资产处置收益（5.56 亿元）、其他收益（7.89 亿元）、营业外收入（4.44 亿元）等非经常性项目大幅弥补了主营亏损，否则亏损幅度更大。</p>
+    <p><strong>现金流改善：</strong>经营活动现金流净额 25.05 亿元，同比增长 61.05%，主要系商品购销业务现金净流入同比增加。</p>
+
+    <p class="table-caption">2026 年最新动态：</p>
+    <table class="section-table">
+      <tr><th class="c" style="width:16%">时间</th><th style="width:34%">事项</th><th>核心内容</th></tr>
+      <tr><td class="c">2026-03-27</td><td>收到证监局责令改正决定（〔2026〕11 号）</td><td>部分贸易业务无商业实质，导致 2023 年、2024 年年报信息披露不准确</td></tr>
+      <tr><td class="c">2026-04-17</td><td>董事会审议通过整改报告（2026-016）</td><td>已对相关年度财报进行追溯调整，整改措施阶段性完成</td></tr>
+      <tr><td class="c">2026-04-29</td><td>发布 2025 年年报</td><td>归母净利润 -1.03 亿元，扣非净利润 -9.75 亿元，商誉减值 2.78 亿元</td></tr>
+      <tr><td class="c">2026-04-29</td><td>发布 2026 年一季报</td><td>营收 65.39 亿元（同比降 20.75%），归母净利润 -1.33 亿元（亏损扩大）</td></tr>
+      <tr><td class="c">2026-07-14</td><td>发布 2026 年半年度业绩预告</td><td>预计归母净利润亏损 9,000 万元～13,500 万元，扣非净利润亏损 25,500 万元～38,000 万元</td></tr>
+      <tr><td class="c">2026-08-28（预计）</td><td>拟披露 2026 年半年度报告</td><td>—</td></tr>
+    </table>
+  </section>
+
+  <section id="n6">
+    <h3>六、控股股东财务支持与公司"扭亏依赖"</h3>
+
+    <h4>6.1 政府补贴依赖</h4>
+    <p>公司常年以政府补贴、保险赔款等非经常性损益填补主营亏损，近年各项补贴、赔款入账记录如下：</p>
+
+    <table class="section-table">
+      <tr><th class="c" style="width:16%">时间</th><th>补贴类型</th><th class="c" style="width:24%">金额</th></tr>
+      <tr><td class="c">2022-12</td><td>社保补贴统筹资金</td><td class="c"><strong>7,500 万元</strong></td></tr>
+      <tr><td class="c">2023-09</td><td>橡胶收入保险保费补贴（中央财政）</td><td class="c"><strong>449 万元</strong></td></tr>
+      <tr><td class="c">2024-01</td><td>橡胶收入保险赔款（计入其他收益）</td><td class="c"><strong>3,090.93 万元</strong></td></tr>
+      <tr><td class="c">2024-07</td><td>橡胶收入保险赔款（计入其他收益）</td><td class="c"><strong>653.06 万元</strong></td></tr>
+      <tr><td class="c">2024-09</td><td>台风"摩羯"保险预付赔款（橡胶树 + 收入保险）</td><td class="c"><strong>累计约 3.45 亿元</strong></td></tr>
+      <tr><td class="c">2024-11</td><td>橡胶收入保险赔款（累计）</td><td class="c"><strong>累计约 3.75 亿元</strong></td></tr>
+      <tr><td class="c">2025-01</td><td>征地社会保险费补贴</td><td class="c"><strong>2.08 亿元</strong></td></tr>
+      <tr><td class="c">2025 年（全年）</td><td>其他收益（含各类补贴）合计</td><td class="c"><strong>7.89 亿元</strong></td></tr>
+    </table>
+
+    <blockquote>
+      <span class="q-mark">"</span>
+      <p>2025 年年报显示，公司全年其他收益（含各类政府补贴、保险赔款等）合计达 <strong>7.89 亿元</strong>，是弥补主营亏损的重要来源。</p>
+    </blockquote>
+
+    <h4>6.2 行业政策背景</h4>
+    <p>2019 年两会期间，海南省省长沈晓明、儋州市市长朱洪武均强调"天然橡胶是重要战略物资"，产业<strong>每年需财政补助 23.2 亿元</strong>。公司将"战略物资安全"作为获取补贴的核心叙事——这既是公司获得财政支持的产业依据，也是媒体质疑其"公开骗补"的切入点。</p>
+  </section>
+
+  <section id="n7">
+    <h3>七、重大灾害事件</h3>
+
+    <h4>7.1 超强台风"摩羯"（2024-09）</h4>
+    <p>2024 年第 11 号超强台风"摩羯"于海南省文昌市翁田镇沿海登陆，对公司总部及海南省内分子公司造成冲击，橡胶种植园报废面积约 23 万亩。</p>
+
+    <table class="section-table">
+      <tr><th style="width:22%">项目</th><th>数据</th></tr>
+      <tr><td><strong>台风等级</strong></td><td>2024 年第 11 号超强台风</td></tr>
+      <tr><td><strong>登陆地</strong></td><td>海南省文昌市翁田镇沿海</td></tr>
+      <tr><td><strong>影响范围</strong></td><td>公司总部及海南省内分子公司的橡胶等生物资产；办公场所、厂房、设备、道路等固定资产</td></tr>
+      <tr><td><strong>人员伤亡</strong></td><td><strong>无人员伤亡</strong></td></tr>
+      <tr><td><strong>橡胶种植园报废面积</strong></td><td><strong>约 23 万亩</strong>（含开割树和中小苗）</td></tr>
+      <tr><td><strong>预计全年干胶减产</strong></td><td><strong>约 1.8 万吨</strong></td></tr>
+    </table>
+
+    <p class="table-caption">保险理赔：</p>
+    <table class="section-table">
+      <tr><th class="c" style="width:18%">时间</th><th>金额</th></tr>
+      <tr><td class="c">2024-09-12</td><td>橡胶树完全成本保险预付赔款 10,200 万元 + 橡胶收入保险赔款 3,000 万元</td></tr>
+      <tr><td class="c">2024-09-19</td><td>再收到橡胶树保险赔款 212,783,232.32 元，累计<strong>预付保险赔款约 3.45 亿元</strong></td></tr>
+      <tr><td class="c">2024-11</td><td>再次收到橡胶收入保险赔款，<strong>累计预付保险赔款达 3.75 亿元</strong></td></tr>
+    </table>
+
+    <p><strong>重要缓解因素：</strong>海南省内橡胶种植端分公司年度营业收入占公司总收入比例<strong>不足 4%</strong>；公司预计对 2024 年经营业绩有一定程度影响，但<strong>不会对未来可持续发展造成重大不利影响</strong>。</p>
+  </section>
+
+  <section id="n8">
+    <h3>八、高管变动（被动离职）</h3>
+
+    <h4>8.1 董事长林进挺辞职（2016-03）</h4>
+    <p><strong>辞职原因：</strong>工作变动原因。<strong>辞职职务：</strong>董事长、董事职务，同时辞去董事会战略委员会主任委员职务。<strong>辞职后安排：</strong>不在公司担任任何职务。</p>
+
+    <h4>8.2 董事、总经理姜宏涛辞职（2023-02-15）</h4>
+    <p><strong>辞职原因：</strong>工作调动原因。<strong>辞职职务：</strong>董事、总经理及董事会专门委员会委员职务。<strong>辞职后安排：</strong>不在公司及子公司担任其他任何职务。<strong>背景：</strong>2022 年前三季度公司归母净利润 <strong>-1.32 亿元</strong>（上年同期 -6,379 万元），同比亏损增加。</p>
+
+    <blockquote>
+      <span class="q-mark">"</span>
+      <p>两起高管辞职公告中给出的官方原因均为<strong>"工作变动 / 工作调动原因"</strong>，未涉及个人健康、违法违规、公司经营分歧等具体细节。</p>
+    </blockquote>
+  </section>
+
+  <section id="n9">
+    <h3>九、经营业绩压力</h3>
+
+    <h4>9.1 扣非净利润连亏 11 年</h4>
+    <p>媒体报道（2024-07-25）指出，受橡胶产品价格长期低迷等影响，<strong>海南橡胶扣非净利润已连亏 11 年</strong>。2025 年扣非净利润进一步扩大至 <strong>-9.75 亿元</strong>，连亏纪录延续至 <strong>12 年</strong>——扣除政府补贴、资产处置等非经常性损益后，公司主业从未实现真正盈利。</p>
+    <p class="no-indent" style="font-size:.82rem; color:var(--text-secondary)">原文链接：<a href="https://news.sina.com.cn/o/2024-07-25/doc-incfizky2883638.shtml" target="_blank">news.sina.com.cn/o/2024-07-25</a> ｜ <a href="https://www.163.com/dy/article/J4EAH4F90519D4UH.html" target="_blank">163.com/dy/article/J4EAH4F90519D4UH</a></p>
+
+    <h4>9.2 上交所年报问询函</h4>
+    <table class="section-table">
+      <tr><th class="c" style="width:18%">年度</th><th>事项</th></tr>
+      <tr><td class="c">2023 年报</td><td>上交所发出<strong>信息披露监管工作函</strong>（公告编号 2024-056），公司回复公告 2024-07-25</td></tr>
+    </table>
+  </section>
+
+  <section id="n10">
+    <h3>十、媒体质疑与负面舆情</h3>
+
+    <h4>10.1 市值风云系列报道（2023-06-19）</h4>
+    <p><strong>《10 年 3 次责令改正、1 次通报批评：打着战略物资安全幌子，海南橡胶公开骗补！》</strong></p>
+    <p>核心指控："10 年内 3 次被责令改正、1 次通报批评"；投资者抱怨：公司年年扣非亏损严重，靠政府补贴、社会保险费、征地补偿等填补窟窿。</p>
+    <p class="no-indent" style="font-size:.82rem; color:var(--text-secondary)">链接：<a href="https://finance.sina.com.cn/stock/s/2023-06-19/doc-imyxvpkc2238415.shtml" target="_blank">finance.sina.com.cn/stock/s/2023-06-19</a></p>
+
+    <h4>10.2 新浪财经报道（2024-10-28）</h4>
+    <p><strong>《1.76 万吨橡胶只是"纸面富贵"》</strong></p>
+    <p>核心观点：上海证券交易所通报批评；公司部分存货存在账实不符，致多份财报出现会计差错。</p>
+    <p class="no-indent" style="font-size:.82rem; color:var(--text-secondary)">链接：<a href="https://finance.sina.com.cn/wm/2024-10-28/doc-incuayyz8755889.shtml" target="_blank">finance.sina.com.cn/wm/2024-10-28</a></p>
+  </section>
+
+  <section id="n11">
+    <h3>十一、生态环境与采伐限制</h3>
+
+    <h4>11.1 生态公益林划定（2018-03）</h4>
+    <p>根据国家环保督查情况，2018 年 3 月海南省政府加大生态环境整治力度。出于生态环境保护需要，公司多数基地区域的橡胶林被划为<strong>生态公益林</strong>，<strong>约占胶园总面积的 25%</strong>。</p>
+    <p>这部分胶园更新受林业政策限制：只能小面积实施人工作业，<strong>无法规模化更新和种植</strong>；部分基地胶园实行<strong>采伐指标限制</strong>，年度指标超限即停止采伐。上述限制<strong>延缓了公司特种胶更新种植的进度</strong>，对公司长期产能扩张构成约束。</p>
+  </section>
+
+  <section id="n12">
+    <h3>十二、关键观察与综合判断</h3>
+
+    <h4>12.1 处罚密度（近 10 年）</h4>
+    <table class="section-table center-all">
+      <tr><th>年份</th><th>处罚次数</th></tr>
+      <tr><td>2016</td><td>1 次（关联方资金占用责令整改）</td></tr>
+      <tr><td>2022</td><td>2 次（责令改正 + 通报批评）</td></tr>
+      <tr><td>2024</td><td>2 次（警示函 + 通报批评）</td></tr>
+      <tr><td>2026</td><td>1 次（责令改正，已完成整改）</td></tr>
+    </table>
+
+    <h4>12.2 风险结构</h4>
+    <div class="risk-list">
+      <div class="risk-item"><span class="t">监管风险（高）：</span>信息披露真实性问题反复出现（2016—2017 虚增收入、2017—2022 盘亏、2023—2024 无商业实质贸易业务），10 年内 4 次被监管点名。</div>
+      <div class="risk-item"><span class="t">财务风险（高）：</span>扣非净利润连亏 12 年；商誉余额 15.25 亿元；2025 年首亏（归母净利润 -1.03 亿元）；扭亏依赖关联交易和政府补贴；2026 年上半年预计继续亏损。</div>
+      <div class="risk-item"><span class="t">经营风险（中）：</span>主营产品（天然橡胶）价格周期性波动大；台风等自然灾害冲击。</div>
+      <div class="risk-item"><span class="t">治理风险（中）：</span>关联方资金占用历史；控股股东资产腾挪支撑业绩；高管被动离职与追责密集。</div>
+      <div class="risk-item"><span class="t">舆情风险（中）：</span>媒体多次质疑"骗补"；"1.76 万吨纸面富贵"等负面定性传播。</div>
+    </div>
+
+    <h4>12.3 投资者关注事项</h4>
+    <div class="watch-list">
+      <div class="watch-item"><b>2025 年商誉减值后续</b><span class="why">商誉余额仍有 15.25 亿元，合盛农业经营状况是否进一步恶化</span></div>
+      <div class="watch-item"><b>扣非净利润连亏 12 年的终结路径</b><span class="why">主营盈利模式是否成立</span></div>
+      <div class="watch-item"><b>关联交易可持续性</b><span class="why">扭亏对控股股东资产腾挪和财政补贴的依赖</span></div>
+      <div class="watch-item"><b>2026 年全年业绩展望</b><span class="why">上半年持续亏损，下半年能否扭亏</span></div>
+      <div class="watch-item"><b>2026 年 8 月 28 日即将披露的半年度报告</b><span class="why">关注实际财务数据是否与业绩预告一致</span></div>
+    </div>
+  </section>
+
+  <section id="refs">
+    <h3>参考来源</h3>
+
+    <div class="ref-group">
+      <h4>监管处罚类</h4>
+      <ul class="ref-list">
+        <li><a href="https://finance.sina.com.cn/stock/hkstock/ggscyd/2024-06-07/doc-inaxxiyc3757609.shtml" target="_blank">新浪财经 2024-06-07：海南橡胶收到海南证监局警示函</a></li>
+        <li><a href="https://www.nbd.com.cn/articles/2024-10-23/3602137.html" target="_blank">每经网 2024-10-23：上交所对海南橡胶及有关责任人予以通报批评</a></li>
+        <li><a href="http://www.nbd.com.cn/articles/2024-10-28/3614546.html" target="_blank">每经网 2024-10-28：海南橡胶及相关责任人被通报批评</a></li>
+        <li><a href="https://finance.sina.com.cn/stock/stockzmt/2024-11-05/doc-incuyrfi1356425.shtml" target="_blank">新浪财经 2024-11-05：海南橡胶公司及责任人被通报批评</a></li>
+        <li><a href="https://www.sohu.com/a/819551758_122021998" target="_blank">搜狐 2024-10：海南橡胶因财报披露不准确遭通报批评</a></li>
+        <li><a href="https://finance.sina.com.cn/stock/relnews/cn/2022-01-18/doc-ikyakumy1147052.shtml" target="_blank">新浪财经 2022-01-18：海南证监局对海南橡胶采取责令改正措施</a></li>
+        <li><a href="https://finance.jrj.com.cn/2022/06/10103036718373.shtml" target="_blank">金融界 2022-06-10：海南橡胶被批评 5 名责任人被警示</a></li>
+        <li><a href="https://finance.sina.com.cn/roll/2022-06-10/doc-imizirau7605390.shtml" target="_blank">新浪财经 2022-06-10：曾连续两年虚增收入 海南橡胶被通报批评</a></li>
+        <li><a href="http://www.tireworld.com.cn/news/info/rubber/201694/23081.html" target="_blank">轮胎世界网 2016：海南橡胶关联方占资金被责令整改</a></li>
+      </ul>
+    </div>
+
+    <div class="ref-group">
+      <h4>财务与商誉类</h4>
+      <ul class="ref-list">
+        <li><a href="http://stock.hexun.com/2022-04-10/205688435.html" target="_blank">和讯网 2022-04-10：海南橡胶 2021 年度计提信用及资产减值损失共计 1.04 亿元</a></li>
+        <li><a href="http://www.nbd.com.cn/rss/sohu/articles/3371635.html" target="_blank">每经网 2023：海南橡胶 2023 年度计提各类信用及资产减值损失共计 4849.44 万元</a></li>
+        <li><a href="https://stock.hexun.com/2022-02-24/205362053.html" target="_blank">和讯网 2022-02-24：海南橡胶子公司起诉评估机构</a></li>
+      </ul>
+    </div>
+
+    <div class="ref-group">
+      <h4>关联交易与控股股东</h4>
+      <ul class="ref-list">
+        <li><a href="https://finance.sina.com.cn/stock/hkstock/ggscyd/2023-12-25/doc-imzzfuet2868165.shtml" target="_blank">新浪财经 2023-12-25：海南橡胶拟转让海垦现代物流 94.49% 股权</a></li>
+        <li><a href="https://finance.sina.com.cn/jjxw/2023-12-06/doc-imzxavcn5591671.shtml" target="_blank">新浪财经 2023-12-06：海南橡胶拟 4415.93 万元向关联方转让王府井海垦 40% 股权</a></li>
+        <li><a href="https://finance.sina.com.cn/jjxw/2023-12-07/doc-imzxfekq1286278.shtml" target="_blank">新浪财经 2023-12-07：三笔关联交易"回血"超 17 亿元，海南橡胶扭亏全靠控股股东？</a></li>
+        <li><a href="https://stock.stockstar.com/notice/SN2022112500004220.shtml" target="_blank">证券之星 2022-11-25：海南橡胶关于转让北京海垦商贸发展有限公司股权暨关联交易</a></li>
+        <li><a href="https://new.qq.com/rain/a/20251125A07MR700" target="_blank">腾讯新闻 2025-11-25：海南橡胶控股股东拟发行不超 21 亿元可交换公司债</a></li>
+      </ul>
+    </div>
+
+    <div class="ref-group">
+      <h4>高管变动</h4>
+      <ul class="ref-list">
+        <li><a href="http://finance.ce.cn/rolling/201603/04/t20160304_9292932.shtml" target="_blank">中国经济网 2016-03-04：海南橡胶董事长林进挺因工作变动原因辞职</a></li>
+        <li><a href="https://stock.jrj.com.cn/2023/02/15205337339946.shtml" target="_blank">金融界 2023-02-15：海南橡胶董事总经理姜宏涛辞职</a></li>
+        <li><a href="https://finance.sina.com.cn/jjxw/2023-02-16/doc-imyfvspz2210755.shtml" target="_blank">新浪财经 2023-02-16：海南橡胶关于公司董事、总经理因工作调动原因辞职</a></li>
+      </ul>
+    </div>
+
+    <div class="ref-group">
+      <h4>台风灾害</h4>
+      <ul class="ref-list">
+        <li><a href="https://stock.hexun.com/2024-09-13/214528739.html" target="_blank">和讯网 2024-09-13：海南橡胶受台风灾害 种植园报废约 23 万亩</a></li>
+        <li><a href="https://news.qq.com/rain/a/20240913A03ZCY00" target="_blank">腾讯新闻 2024-09-13：台风"摩羯"惹祸！12 家上市公司预损约 4 亿元</a></li>
+        <li><a href="https://insurance.jrj.com.cn/2024/09/29104743619409.shtml" target="_blank">金融界 2024-09-29：海南橡胶已收到橡胶树保险赔付款 4005.6 万元</a></li>
+        <li><a href="https://www.sohu.com/a/808465370_120988576" target="_blank">搜狐 2024-09：海南橡胶受超强台风"摩羯"影响共计收到预付保险赔款 3.45 亿元</a></li>
+      </ul>
+    </div>
+
+    <div class="ref-group">
+      <h4>媒体质疑与年报问询</h4>
+      <ul class="ref-list">
+        <li><a href="https://finance.sina.com.cn/stock/s/2023-06-19/doc-imyxvpkc2238415.shtml" target="_blank">新浪财经 2023-06-19：造假还有理了？10 年 3 次责令改正、1 次通报批评</a></li>
+        <li><a href="https://finance.sina.com.cn/wm/2024-10-28/doc-incuayyz8755889.shtml" target="_blank">新浪财经 2024-10-28：1.76 万吨橡胶只是"纸面富贵"</a></li>
+        <li><a href="https://news.sina.com.cn/o/2024-07-25/doc-incfizky2883638.shtml" target="_blank">新浪新闻 2024-07-25：海南橡胶扣非净利润已连亏 11 年</a></li>
+        <li><a href="https://www.163.com/dy/article/J4EAH4F90519D4UH.html" target="_blank">网易订阅 2024：年报信息披露不准确收警示函，海南橡胶扣非净利已连续亏损 11 年</a></li>
+        <li><a href="https://stock.stockstar.com/AN2024072400048006.shtml" target="_blank">证券之星 2024-07-24：海南橡胶关于上交所对公司 2023 年年度报告信息披露监管工作函的回复公告</a></li>
+        <li><a href="https://paper.cnstock.com/html/2024-07/25/content_1947343.htm" target="_blank">上海证券报 2024-07-25：海南橡胶关于上交所对公司 2023 年年度报告信息披露监管工作函的回复公告</a></li>
+      </ul>
+    </div>
+
+    <div class="ref-group">
+      <h4>行业政策与补贴</h4>
+      <ul class="ref-list">
+        <li><a href="https://news.sina.com.cn/c/2019-03-15/doc-ihrfqzkc3981362.shtml" target="_blank">新浪新闻 2019-03-15：朱洪武代表：橡胶产业发展需财政每年补助 23.2 亿元</a></li>
+        <li><a href="https://www.zhitongcaijing.com/content/detail/855359.html" target="_blank">智通财经：海南橡胶收到社保补贴统筹资金 7500 万元</a></li>
+        <li><a href="https://finance.sina.com.cn/stock/hkstock/ggscyd/2023-09-11/doc-imzmiuyy2164326.shtml" target="_blank">新浪财经 2023-09-11：海南橡胶收到橡胶收入保险保费补贴 449 万元</a></li>
+        <li><a href="https://www.163.com/dy/article/JLIJBKQR05568V7Z.html" target="_blank">网易订阅 2025：海南橡胶收 2.08 亿元征地社会保险费补贴</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="gaps">
+    <h3>数据缺口提示</h3>
+    <table class="section-table">
+      <tr><th style="width:30%">字段</th><th style="width:34%">缺口</th><th>建议补全渠道</th></tr>
+      <tr><td>2026 年半年度报告正式数据（截至 2026-08-25 尚未披露）</td><td>正式报告预计 2026-08-28 披露</td><td>巨潮资讯网、上交所</td></tr>
+      <tr><td>历年累计政府补贴明细</td><td>2018—2024 期间补贴项目</td><td>公司公告 / 年报"营业外收入 / 其他收益"附注</td></tr>
+      <tr><td>合盛农业（Halcyon Agri）整合后历年经营数据</td><td>公开口径有限</td><td>2023—2025 年报附注 / 重大资产重组专项说明</td></tr>
+    </table>
+  </section>
+
+</main>
+
+<div class="footer">
+  数据来源：公司年报、公开公告 · 仅供研究参考，不构成投资建议<br>
+  整理于 2026 年 8 月
+</div>
+
+<script>
+  // 阅读进度条
+  (function () {
+    var bar = document.getElementById('progress');
+    function update() {
+      var h = document.documentElement;
+      var p = h.scrollTop / Math.max(1, h.scrollHeight - h.clientHeight);
+      bar.style.width = (p * 100).toFixed(2) + '%';
+    }
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update, { passive: true });
+    update();
+  })();
+</script>
+
+</body>
+</html>

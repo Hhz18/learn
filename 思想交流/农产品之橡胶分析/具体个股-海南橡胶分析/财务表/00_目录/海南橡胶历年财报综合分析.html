@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>海南橡胶历年财报综合分析</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf6f1;
+    --surface: #fffbf7;
+    --border: #ece3d8;
+    --text: #2c241b;
+    --text-secondary: #7a6b5d;
+    --accent: #c8642a;
+    --accent-light: #f0dac8;
+    --tag-bg: #f2e6da;
+    --max-width: 760px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Noto Serif SC', 'Source Han Serif SC', serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.95;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* 纸面噪点质感 */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.02;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px 256px;
+  }
+
+  /* ── 文章头部 ── */
+  .article-header {
+    position: relative;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 96px 24px 12px;
+    text-align: center;
+  }
+  .article-header::after {
+    content: '';
+    position: absolute;
+    top: -18%;
+    left: 50%;
+    translate: -50% 0;
+    width: 560px;
+    height: 560px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 50%, rgba(200,100,42,.06) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: -1;
+  }
+  .article-header .kicker {
+    display: inline-block;
+    margin-bottom: 18px;
+    padding: 5px 16px;
+    border: 1px solid var(--accent-light);
+    border-radius: 100px;
+    font-size: .76rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: .1em;
+  }
+  .article-header h1 {
+    font-size: clamp(1.7rem, 4vw, 2.4rem);
+    font-weight: 700;
+    letter-spacing: .03em;
+    line-height: 1.5;
+    color: var(--text);
+  }
+  .article-header .subtitle {
+    margin-top: 12px;
+    font-size: .9rem;
+    color: var(--text-secondary);
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    letter-spacing: .04em;
+  }
+  .article-header .meta {
+    margin-top: 26px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    flex-wrap: wrap;
+    font-family: 'Inter', sans-serif;
+    font-size: .78rem;
+    color: var(--text-secondary);
+  }
+  .article-header .meta span { display: inline-flex; align-items: center; gap: 6px; }
+  .article-header .meta b { color: var(--text); font-weight: 600; }
+
+  /* ── 正文容器 ── */
+  .article {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 24px 40px;
+  }
+
+  /* ── 段落 ── */
+  .article p {
+    margin: 0 0 18px;
+    text-align: justify;
+    text-justify: inter-ideograph;
+  }
+  .article p:last-child { margin-bottom: 0; }
+  .lead {
+    font-size: 1.08rem;
+    color: var(--text);
+    line-height: 2.05;
+  }
+
+  /* ── 章节标题 ── */
+  .section {
+    margin-top: 56px;
+    padding-top: 36px;
+    border-top: 1px solid var(--border);
+  }
+  .section:first-of-type { margin-top: 24px; }
+
+  .section h2 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 22px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    letter-spacing: .02em;
+  }
+  .section h2 .num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 32px;
+    padding: 0 8px;
+    border-radius: 9px;
+    background: var(--accent-light);
+    font-size: .95rem;
+    font-weight: 700;
+    color: var(--accent);
+    font-family: 'Inter', sans-serif;
+    flex-shrink: 0;
+  }
+  .section h3 {
+    font-size: 1.08rem;
+    font-weight: 600;
+    margin: 30px 0 12px;
+    color: var(--text);
+    padding-left: 12px;
+    border-left: 3px solid var(--accent);
+    line-height: 1.5;
+  }
+
+  /* ── 图片 ── */
+  figure {
+    margin: 26px 0;
+  }
+  figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,.04);
+  }
+  figcaption {
+    margin-top: 10px;
+    text-align: center;
+    font-size: .8rem;
+    color: var(--text-secondary);
+    font-family: 'Inter', sans-serif;
+    letter-spacing: .02em;
+  }
+  figure + figure { margin-top: -8px; }
+
+  /* 图组（多图并列时收紧间距） */
+  .figure-group { margin: 26px 0; }
+  .figure-group figure { margin: 0 0 20px; }
+  .figure-group figure:last-child { margin-bottom: 0; }
+
+  /* ── 表格 ── */
+  .table-wrap {
+    margin: 22px 0;
+    overflow-x: auto;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .88rem;
+    font-family: 'Inter', 'Noto Serif SC', sans-serif;
+    background: var(--surface);
+  }
+  table th {
+    background: var(--tag-bg);
+    font-weight: 600;
+    text-align: left;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    color: var(--text);
+    white-space: nowrap;
+  }
+  table td {
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    vertical-align: top;
+    color: var(--text);
+  }
+  table tr:hover td { background: var(--tag-bg); }
+  .table-title {
+    margin: 8px 0 12px;
+    font-size: .85rem;
+    color: var(--text-secondary);
+    font-family: 'Inter', sans-serif;
+    text-align: center;
+  }
+
+  /* ── 强调 / 引述块 ── */
+  .callout {
+    background: var(--tag-bg);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 10px 10px 0;
+    padding: 18px 22px;
+    margin: 24px 0;
+    font-size: .97rem;
+    line-height: 1.9;
+  }
+  .callout .label {
+    display: block;
+    font-family: 'Inter', sans-serif;
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .12em;
+    color: var(--accent);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+  .callout strong { color: var(--accent); }
+
+  /* ── 编号列表 ── */
+  ol.num-list, ul.dot-list {
+    margin: 0 0 18px;
+    padding-left: 4px;
+    list-style: none;
+    counter-reset: item;
+  }
+  ol.num-list li {
+    position: relative;
+    padding: 6px 0 6px 34px;
+    margin-bottom: 4px;
+  }
+  ol.num-list li::before {
+    counter-increment: item;
+    content: counter(item);
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    background: var(--accent-light);
+    color: var(--accent);
+    font-family: 'Inter', sans-serif;
+    font-size: .72rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  ul.dot-list li {
+    position: relative;
+    padding: 6px 0 6px 22px;
+  }
+  ul.dot-list li::before {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 17px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  /* ── 小注 ── */
+  .note {
+    font-size: .85rem;
+    color: var(--text-secondary);
+    padding: 12px 16px;
+    background: var(--tag-bg);
+    border-radius: 8px;
+    margin: 18px 0;
+    line-height: 1.8;
+  }
+
+  .divider {
+    margin: 48px 0 0;
+    text-align: center;
+    color: var(--accent);
+    letter-spacing: .5em;
+    opacity: .5;
+    font-size: .8rem;
+  }
+
+  /* ── 页脚 ── */
+  .footer {
+    text-align: center;
+    padding: 40px 24px 48px;
+    color: var(--text-secondary);
+    font-size: .78rem;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: .03em;
+    line-height: 2;
+    opacity: .75;
+  }
+
+  @media (max-width: 600px) {
+    .article-header { padding-top: 64px; }
+    .article-header .meta { gap: 14px; }
+    .section { margin-top: 44px; padding-top: 30px; }
+    table { font-size: .8rem; }
+    table th, table td { padding: 8px 10px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="article-header">
+  <span class="kicker">海南橡胶 · 601118</span>
+  <h1>海南橡胶历年财报综合分析</h1>
+  <div class="subtitle">2009 — 2025 年财务数据全景解读</div>
+  <div class="meta">
+    <span>数据整理 <b>2026-08-26</b></span>
+    <span>标的 <b>上海证券交易所主板</b></span>
+    <span>口径 <b>三大报表 + 专题</b></span>
+  </div>
+</header>
+
+<div class="article">
+
+  <p class="lead">接下来这一章，我们主要把海南橡胶 2009 年到 2025 年的财报数据进行整理，然后做一次综合分析，看这家公司到底赚不赚钱、经营质量如何，以及它在过去十六年周期中的历史表现。</p>
+
+  <!-- 阅读框架 -->
+  <div class="section">
+    <h2><span class="num">读前</span>先建立三个判断框架</h2>
+
+    <h3>财报看什么——重点关注这五组数据</h3>
+    <ol class="num-list">
+      <li><strong>净利润</strong></li>
+      <li><strong>归母净利润</strong></li>
+      <li><strong>经营现金流净额</strong></li>
+      <li><strong>资产负债</strong></li>
+      <li><strong>扣非净利润</strong></li>
+    </ol>
+
+    <h3>分析财报时的思路</h3>
+    <ol class="num-list">
+      <li>看<strong>扣非净利润</strong>——主营业务赚钱能力有没有变强？</li>
+      <li>看<strong>归母净利润</strong>——股东最终赚了多少钱？</li>
+      <li>比较两者差距——利润中有多少来自非经常性损益？</li>
+      <li>阅读业绩变动原因——增长是来自主营业务，还是投资、公允价值变动、政府补助等？</li>
+    </ol>
+
+    <h3>一个简单的判断标准</h3>
+    <ul class="dot-list">
+      <li><strong>归母净利润 ≈ 扣非净利润</strong>：利润质量较高，盈利主要来自主营业务。</li>
+      <li><strong>归母净利润远高于扣非净利润</strong>：需要进一步分析差额来源，判断这些收益是否具有可持续性。</li>
+      <li><strong>扣非净利润增长，而归母净利润增长更多</strong>：通常说明主营业务改善，同时还有一次性收益加持。</li>
+    </ul>
+  </div>
+
+  <!-- 一、利润表 -->
+  <div class="section">
+    <h2><span class="num">一</span>利润表：收入、成本与利润</h2>
+
+    <p>这部分用来分析海南橡胶的收入、成本、利润相关数据，并尝试从中找到它们之间的关联性。</p>
+
+    <h3>1.1 营业总收入与营业总成本（2009—2025）</h3>
+    <p>海南橡胶 2009—2025 年营业总收入和总成本数据如下：</p>
+
+    <figure>
+      <img src="01_利润表/01_营业总收入_营业总成本.png" alt="海南橡胶 2009—2025 年营业总收入与营业总成本">
+      <figcaption>图 1 · 海南橡胶 2009—2025 年营业总收入与营业总成本</figcaption>
+    </figure>
+
+    <p>可以发现，营业总收入和总成本从 2009 年到现在基本都是上升的。这说明企业的业务规模在过去十几年里增大了很多倍——从 2009 年的约 50 亿元，增长到现在的 400 亿元，整体规模扩大了 8 倍。也就是说，即便这些年橡胶价格低迷、行业赚钱效应差，企业却是实打实地长大了 8 倍，而不是原地踏步。（企业规模扩大了这么多倍，股价却一直低迷，这一点很有意思。）</p>
+
+    <p>再来看这两条线的关系：之前基本是相等的，也就是营业总收入和总成本几乎重合；而在 2024、2025 年，两者的差值开始扩大。之前的相等其实是合理的——在行业不景气的时候，很多企业都是入不敷出，收入和成本差不多，正好说明它此前确实不怎么赚钱。而 2025 年开始差值扩大，也从侧面说明橡胶在 2024、2025 年出现过较高的价格。</p>
+
+    <h3>1.2 从价差倒推橡胶价格（2024—2025）</h3>
+    <p>这里重点看 2024、2025 年差值变大背后倒推出来的逻辑，去看这两年的橡胶期货价格数据。</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>指标</th><th>2024 年价格</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>年内最低</td><td><strong>约 13,120 元/吨</strong></td></tr>
+          <tr><td>年内最高</td><td><strong>约 19,850 元/吨</strong></td></tr>
+          <tr><td>主力合约全年均价</td><td><strong>约 15,053 元/吨</strong></td></tr>
+          <tr><td>年初主力结算价</td><td><strong>约 14,340 元/吨</strong></td></tr>
+          <tr><td>年末主力结算价</td><td><strong>约 17,810 元/吨</strong></td></tr>
+          <tr><td>年末较年初涨幅</td><td><strong>约 24.2%</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>时间</th><th>大致价格水平（元/吨）</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>2025 年初</td><td><strong>约 17,000～18,000</strong></td></tr>
+          <tr><td>2025 年一季度</td><td><strong>约 16,500～18,500</strong></td></tr>
+          <tr><td>2025 年二季度</td><td><strong>约 14,500～17,500</strong></td></tr>
+          <tr><td>2025 年三季度</td><td><strong>约 14,500～16,500</strong></td></tr>
+          <tr><td>2025 年四季度</td><td><strong>约 15,000～18,500</strong></td></tr>
+          <tr><td>2025 年最低区域</td><td><strong>约 14,000～14,500</strong></td></tr>
+          <tr><td>2025 年最高区域</td><td><strong>约 18,500～19,000</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>可以发现，2025 年橡胶期货价格有过剧烈波动，而且这一年价格一度涨到 18,000 以上。这对应验证了：橡胶在这个价位时企业是赚到了钱的，进而导致 2025 年营业总收入和营业总成本产生了较大的价差。</p>
+
+    <div class="callout">
+      <span class="label">大胆假设</span>
+      通过这个发现，我们可以大胆假设：<strong>橡胶价格到达大约 18,000 以上时，是这家企业开始真正赚钱的时候，也就是这个价格点位是它业绩开始反转的点位。</strong>（对于这个观点，后续文章再做验证。）
+    </div>
+
+    <h3>1.3 净利润 / 扣非净利润 / 归母净利润</h3>
+    <p>接下来看利润表的核心三项。</p>
+
+    <div class="figure-group">
+      <figure>
+        <img src="01_利润表/02_净利润.png" alt="海南橡胶 2009—2025 年净利润">
+        <figcaption>图 2 · 净利润（2009—2025）</figcaption>
+      </figure>
+      <figure>
+        <img src="01_利润表/03_扣非净利润.png" alt="海南橡胶 2009—2025 年扣非净利润">
+        <figcaption>图 3 · 扣非净利润（2009—2025）</figcaption>
+      </figure>
+      <figure>
+        <img src="01_利润表/04_归母净利润.png" alt="海南橡胶 2009—2025 年归母净利润">
+        <figcaption>图 4 · 归母净利润（2009—2025）</figcaption>
+      </figure>
+      <figure>
+        <img src="01_利润表/05_净利润_扣非_归母_三线对比.png" alt="海南橡胶净利润、扣非、归母三线对比">
+        <figcaption>图 5 · 净利润 / 扣非 / 归母三线对比（2009—2025）</figcaption>
+      </figure>
+    </div>
+
+    <p>我们可以看到，净利润、扣非净利润、归母净利润这三项数据与橡胶周期有强关联——2011 年都在高点，之后开始下探，期间伴随橡胶期货价格走势出现一些反弹。而我们最需要关注的，是最近三年的走势。</p>
+
+    <p>2025 年这三项数据下降，是因为台风导致约 30 万亩橡胶林减产。如果排除 2025 年的灾害影响，在自然情况下这三项数据很可能继续上升。</p>
+
+    <p>这里先解释一下三者的含义：</p>
+    <ol class="num-list">
+      <li><strong>净利润</strong>：看整个海南橡胶集团最终赚了多少钱。包括主营业务、投资收益、公允价值变动、资产处置、政府补助/其他收益、营业外收支、所得税、少数股东损益，是整个集团最终的会计利润。</li>
+      <li><strong>归母净利润</strong>：看最终真正属于海南橡胶上市公司股东的钱。因为海南橡胶下面有很多子公司，而部分子公司并不是 100% 持股。</li>
+      <li><strong>扣非后归母净利润</strong>：扣除非经常性损益后的归属于母公司股东的净利润。也就是说，把那些一次性的、偶发性的、非主营经营产生的利润全部剔除后，海南橡胶正常经营一年到底能给上市公司股东赚多少钱。它主要展现的是<strong>主营业务的真实盈利能力</strong>。</li>
+    </ol>
+
+    <p>看它到底赚不赚钱，可以分三部分去看：</p>
+    <ol class="num-list">
+      <li><strong>扣非归母净利润</strong>——橡胶产业本身到底赚钱不赚钱？</li>
+      <li><strong>归母净利润</strong>——最终上市公司股东到底拿到了多少利润？</li>
+      <li><strong>净利润</strong>——整个海南橡胶集团最终的会计利润是多少？</li>
+    </ol>
+
+    <p>2011 年橡胶牛市（价格冲到 4 万以上时），它 50 多亿元的规模却能做出 7—8 亿元的利润，这是较为可观的，后续可以拿这个作为参考。</p>
+
+    <p>上面的三大项数据在熊市周期尾部还比较难看，这部分数据尚未反转。不过不着急，让我们接着往下分析经营现金流。</p>
+  </div>
+
+  <!-- 二、经营现金流 -->
+  <div class="section">
+    <h2><span class="num">二</span>经营现金流：主业真正的"现金赚钱能力"</h2>
+
+    <figure>
+      <img src="01_利润表/06_经营现金流净额.png" alt="海南橡胶 2009—2025 年经营现金流净额">
+      <figcaption>图 6 · 经营活动产生的现金流量净额（2009—2025）</figcaption>
+    </figure>
+
+    <div class="callout">
+      <span class="label">概念</span>
+      "经营活动产生的现金流量净额"，就是公司靠正常经营（卖产品、付成本）最终真正赚到的现金。它反映的是<strong>企业主业的真实"现金赚钱能力"，比净利润更"硬"——也就是实打实能赚到的钱。</strong>
+    </div>
+
+    <p>海南橡胶 2025 年净利润为 -1.03 亿元（亏损），经营现金流却是 +25.0 亿元（大幅为正）。这说明公司账面亏损，但主业仍然持续产生大量现金，经营质量并不差。亏损可能来自资产减值、汇率影响、公允价值变动、非经常性损益、商誉减值等非现金项目等次要因素，这些都不会影响现金流。</p>
+
+    <p><strong>现金流量净额越来越大，代表公司主业"越来越能真金白银赚钱"。</strong>现在再来看这个图表：让人高兴的是，从 2023 年开始，公司的现金流量净额开始快速上升，2025 年甚至达到了 25 亿元，说明它是真的能赚钱（这里的主要原因，我认为还是收购合盛农业带来的）。只是现在橡胶价格还没开始到达 1.8 万以上，导致它利润比较薄，因而上面三大指标看上去有点惨不忍睹。</p>
+
+    <p>到这里，我们能够确定的是：<strong>它确实能够真金白银赚钱。</strong>到这里算是比较舒一口气了。接下来看负债问题（由于这部分之前已单独整理分析过，本章只列数据、不做推论和说明）。</p>
+  </div>
+
+  <!-- 三、资产负债表 -->
+  <div class="section">
+    <h2><span class="num">三</span>资产负债表：资产、负债与股东权益</h2>
+
+    <div class="note">说明：本部分此前已单独整理分析，此处仅列数据，不展开推论与说明。</div>
+
+    <div class="figure-group">
+      <figure>
+        <img src="03_资产负债表/07_资产总额_负债总额.png" alt="海南橡胶资产总额与负债总额">
+        <figcaption>图 7 · 资产总额 / 负债总额</figcaption>
+      </figure>
+      <figure>
+        <img src="03_资产负债表/08_股东权益.png" alt="海南橡胶股东权益">
+        <figcaption>图 8 · 股东权益</figcaption>
+      </figure>
+      <figure>
+        <img src="03_资产负债表/09_资产负债率.png" alt="海南橡胶资产负债率">
+        <figcaption>图 9 · 资产负债率</figcaption>
+      </figure>
+      <figure>
+        <img src="03_资产负债表/10a_流动负债_非流动负债.png" alt="海南橡胶流动负债与非流动负债">
+        <figcaption>图 10 · 流动负债 / 非流动负债</figcaption>
+      </figure>
+      <figure>
+        <img src="03_资产负债表/10b_负债结构_三线同轴.png" alt="海南橡胶负债结构三线同轴">
+        <figcaption>图 11 · 负债结构（三线同轴）</figcaption>
+      </figure>
+      <figure>
+        <img src="03_资产负债表/10c_负债结构_三联图.png" alt="海南橡胶负债结构三联图">
+        <figcaption>图 12 · 负债结构（三联图）</figcaption>
+      </figure>
+      <figure>
+        <img src="03_资产负债表/11_流动资产_非流动资产.png" alt="海南橡胶流动资产与非流动资产">
+        <figcaption>图 13 · 流动资产 / 非流动资产</figcaption>
+      </figure>
+      <figure>
+        <img src="03_资产负债表/12_流动资产合计_固定资产合计.png" alt="海南橡胶流动资产合计与固定资产合计">
+        <figcaption>图 14 · 流动资产合计 / 固定资产合计</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <!-- 四、土地与资源 -->
+  <div class="section">
+    <h2><span class="num">四</span>土地与资源：资源股的"地基"</h2>
+
+    <p>这部分先浅看一下它的土地和相关的资源数据（详细的深度分析放到后面）。</p>
+
+    <figure>
+      <img src="04_土地与资源/土地承包费_2009-2025.png" alt="海南橡胶土地承包费 2009—2025">
+      <figcaption>图 15 · 土地承包费（2009—2025）</figcaption>
+    </figure>
+
+    <p>土地承包费是这样子的：海南农垦集团（背后是海南省国资委）和海南橡胶签订了合同，海南橡胶租用它的土地，每次合同时间很长，到期后继续续上，下次到期时间大约是 2030 年之后（所以目前不用分析这个租赁问题）。</p>
+
+    <p>根据这里的数据可以发现，十多年前的租赁费用和现在的租赁费用差别不大，说明海南农垦没有坐地起价、乘人之危。能够维持十年的东西，接下来注定还能维持下一个十年。而且这部分租金对于海南橡胶来说压力较小（在下面的土地承包费用占比中体现）。</p>
+
+    <figure>
+      <img src="04_土地与资源/土地承包费占收入比.png" alt="海南橡胶土地承包费占收入比">
+      <figcaption>图 16 · 土地承包费占收入比</figcaption>
+    </figure>
+
+    <figure>
+      <img src="04_土地与资源/橡胶种植面积_2009-2025.png" alt="海南橡胶橡胶种植面积 2009—2025">
+      <figcaption>图 17 · 橡胶种植面积（2009—2025）</figcaption>
+    </figure>
+
+    <p>这里的种植面积在 2023 年一下子扩大了 100 万亩。解释一下：这是因为收购了合盛农业——在此之前海南橡胶拥有的土地只有境内，境内橡胶种植面积约 300 万亩；收购合盛后，合盛的那部分境外种植面积并入了集团。</p>
+
+    <figure>
+      <img src="04_土地与资源/总土地面积_2009-2025.png" alt="海南橡胶总土地面积 2009—2025">
+      <figcaption>图 18 · 总土地面积（2009—2025）</figcaption>
+    </figure>
+
+    <p>根据这些数据，可以说明海南橡胶国内总土地资源大约 350 万亩，其中 300 万亩种植橡胶；境外总共约 160 万亩土地资源，大约 100 万亩种植橡胶，另有约 60 万亩闲置土地。综合看下来，它拥有的土地资源还是很丰厚的，至于里面具体的细节，单独列出一期再讲。</p>
+  </div>
+
+  <!-- 五、股东与股本 -->
+  <div class="section">
+    <h2><span class="num">五</span>股东与股本</h2>
+
+    <p>这部分之前也分析过，这里不多做赘述，只列数据。</p>
+
+    <figure>
+      <img src="05_股本与股东/股本数量_2009-2025.png" alt="海南橡胶股本数量 2009—2025">
+      <figcaption>图 19 · 股本数量（2009—2025）</figcaption>
+    </figure>
+
+    <figure>
+      <img src="05_股本与股东/股东人数_2018-2025.png" alt="海南橡胶股东人数 2018—2025">
+      <figcaption>图 20 · 股东人数（2018—2025）</figcaption>
+    </figure>
+  </div>
+
+  <!-- 六、人力与薪酬 -->
+  <div class="section">
+    <h2><span class="num">六</span>人力与薪酬</h2>
+
+    <p>最后说明一下人力资源相关的内容，看一下它的员工规模以及高层数据。</p>
+
+    <figure>
+      <img src="06_人力与薪酬/人力与薪酬.png" alt="海南橡胶人力与薪酬">
+      <figcaption>图 21 · 人力与薪酬</figcaption>
+    </figure>
+
+    <p>员工薪资的主要支出大头是割胶工，国内割胶工的成本支出较高。</p>
+  </div>
+
+  <div class="divider">· · ·</div>
+
+</div>
+
+<div class="footer">
+  数据来源：海南橡胶历年财务报告与公开资料整理<br>
+  仅供研究参考，不构成投资建议 · 整理于 2026 年 8 月
+</div>
+
+</body>
+</html>

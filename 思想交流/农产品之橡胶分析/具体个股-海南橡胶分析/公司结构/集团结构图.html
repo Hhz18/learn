@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>海南橡胶（601118）集团结构与子公司营收分布图</title>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<style>
+  :root {
+    --c-holding:   #F59E0B;
+    --c-planting:  #10B981;
+    --c-processing:#3B82F6;
+    --c-deep:      #8B5CF6;
+    --c-trade:     #F97316;
+    --c-overseas:  #06B6D4;
+    --c-misc:      #EC4899;
+
+    --bg-page: #0F172A;
+    --bg-card: #1E293B;
+    --bg-elevated: #334155;
+    --text-primary: #F1F5F9;
+    --text-secondary: #94A3B8;
+    --text-muted: #64748B;
+    --border: #334155;
+    --accent: #38BDF8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+                 "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background: var(--bg-page);
+    color: var(--text-primary);
+    min-height: 100vh;
+    line-height: 1.5;
+  }
+
+  header {
+    padding: 16px 28px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-card);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  header h1 {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  header h1 .stock-code {
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 500;
+    margin-left: 8px;
+    background: rgba(56, 189, 248, 0.1);
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+
+  header .meta {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 3px;
+  }
+
+  .stats-bar { display: flex; gap: 20px; flex-wrap: wrap; }
+
+  .stat { text-align: right; }
+
+  .stat-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .stat-value {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-top: 2px;
+  }
+
+  .stat-value .unit {
+    font-size: 11px;
+    color: var(--text-secondary);
+    font-weight: 400;
+    margin-left: 2px;
+  }
+
+  main {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    height: calc(100vh - 88px);
+  }
+
+  aside.sidebar {
+    background: var(--bg-card);
+    border-right: 1px solid var(--border);
+    padding: 18px;
+    overflow-y: auto;
+  }
+
+  .section-title {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .filter-list { list-style: none; margin-bottom: 20px; }
+
+  .filter-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.15s;
+    user-select: none;
+  }
+
+  .filter-item:hover { background: var(--bg-elevated); }
+  .filter-item.disabled { opacity: 0.35; }
+
+  .filter-item input { display: none; }
+
+  .filter-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .filter-label { flex: 1; font-size: 13px; }
+
+  .filter-count {
+    font-size: 10px;
+    color: var(--text-muted);
+    background: var(--bg-elevated);
+    padding: 2px 6px;
+    border-radius: 8px;
+  }
+
+  .detail-card {
+    background: var(--bg-elevated);
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 16px;
+  }
+
+  .detail-card h3 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .detail-card .badge {
+    font-size: 10px;
+    font-weight: 500;
+    padding: 1px 6px;
+    border-radius: 4px;
+    background: var(--bg-card);
+    color: var(--text-secondary);
+  }
+
+  .detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 3px 0;
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+
+  .detail-row strong {
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  .detail-row .pct-bar {
+    height: 4px;
+    background: var(--bg-card);
+    border-radius: 2px;
+    margin-top: 4px;
+    overflow: hidden;
+  }
+
+  .detail-row .pct-fill {
+    height: 100%;
+    border-radius: 2px;
+  }
+
+  .hint-text {
+    font-size: 11px;
+    color: var(--text-muted);
+    padding: 8px;
+    text-align: center;
+    background: var(--bg-card);
+    border-radius: 6px;
+    border: 1px dashed var(--border);
+  }
+
+  section.visualization {
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(circle at center, #1E293B 0%, #0F172A 100%);
+  }
+
+  svg#graph { width: 100%; height: 100%; display: block; cursor: grab; }
+  svg#graph:active { cursor: grabbing; }
+
+  /* 节点样式 */
+  .node-circle {
+    cursor: pointer;
+    transition: stroke-width 0.15s;
+  }
+
+  .node-label {
+    font-size: 11px;
+    fill: var(--text-primary);
+    pointer-events: none;
+    font-weight: 500;
+    paint-order: stroke;
+    stroke: var(--bg-page);
+    stroke-width: 3px;
+    stroke-linejoin: round;
+  }
+
+  .node-revenue {
+    font-size: 9px;
+    fill: var(--text-secondary);
+    pointer-events: none;
+    paint-order: stroke;
+    stroke: var(--bg-page);
+    stroke-width: 2px;
+  }
+
+  .ring-guide {
+    fill: none;
+    stroke: var(--border);
+    stroke-width: 1;
+    stroke-dasharray: 2, 4;
+    opacity: 0.4;
+  }
+
+  .link {
+    fill: none;
+    stroke-opacity: 0.5;
+    transition: stroke-opacity 0.2s;
+  }
+
+  .link.faded { stroke-opacity: 0.08; }
+
+  .tooltip {
+    position: absolute;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    pointer-events: none;
+    font-size: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    transition: opacity 0.15s;
+    z-index: 100;
+    max-width: 280px;
+  }
+
+  .tooltip.visible { opacity: 1; }
+
+  .tooltip h4 {
+    font-size: 14px;
+    margin-bottom: 6px;
+    color: var(--text-primary);
+  }
+
+  .tooltip .cat-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+
+  .tooltip .desc {
+    color: var(--text-secondary);
+    margin: 6px 0;
+    line-height: 1.5;
+  }
+
+  .tooltip .tt-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 4px 0;
+    color: var(--text-secondary);
+  }
+
+  .tooltip .tt-row strong { color: var(--text-primary); font-weight: 500; }
+
+  .legend-controls {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px;
+    display: flex;
+    gap: 4px;
+  }
+
+  .legend-controls button {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    padding: 5px 9px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 11px;
+    transition: all 0.15s;
+  }
+
+  .legend-controls button:hover {
+    background: var(--bg-elevated);
+    color: var(--text-primary);
+  }
+
+  .summary-bar {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 11px;
+    color: var(--text-secondary);
+    display: flex;
+    gap: 12px;
+  }
+
+  .summary-bar strong { color: var(--text-primary); font-weight: 600; }
+
+  aside::-webkit-scrollbar { width: 6px; }
+  aside::-webkit-scrollbar-track { background: transparent; }
+  aside::-webkit-scrollbar-thumb {
+    background: var(--bg-elevated);
+    border-radius: 3px;
+  }
+
+  @media (max-width: 900px) {
+    main { grid-template-columns: 1fr; }
+    aside.sidebar { max-height: 240px; border-right: none; border-bottom: 1px solid var(--border); }
+    section.visualization { min-height: 500px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>海南橡胶 · 集团结构与子公司营收分布
+      <span class="stock-code">601118.SH</span>
+    </h1>
+    <div class="meta">数据基准：2024 年报　|　整理日期：2026-07-24　|　单位：亿元</div>
+  </div>
+  <div class="stats-bar">
+    <div class="stat">
+      <div class="stat-label">2024 营业总收入</div>
+      <div class="stat-value">496.73<span class="unit">亿</span></div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">控股子公司</div>
+      <div class="stat-value">27+<span class="unit">家</span></div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">橡胶产品占比</div>
+      <div class="stat-value">97.31<span class="unit">%</span></div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">海外营收占比</div>
+      <div class="stat-value">~50<span class="unit">%</span></div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <aside class="sidebar">
+    <div class="section-title">业务分类筛选</div>
+    <ul class="filter-list" id="filter-list"></ul>
+
+    <div class="section-title">公司详情</div>
+    <div id="detail-container">
+      <div class="hint-text">点击图谱中的节点查看公司详情<br>鼠标悬停可预览基本信息</div>
+    </div>
+
+    <div class="section-title">关键观察</div>
+    <div style="font-size: 12px; color: var(--text-secondary); line-height: 1.7;">
+      <p style="margin-bottom: 6px;">• <strong style="color:var(--c-overseas)">海外业务</strong>约占集团一半收入（合盛农业 209.92 亿）</p>
+      <p style="margin-bottom: 6px;">• <strong style="color:var(--c-trade)">贸易端</strong>由 R1 + 上海龙橡 + 合盛上海三足鼎立</p>
+      <p style="margin-bottom: 6px;">• <strong style="color:var(--c-processing)">金橡公司</strong>12 家加工厂是初加工核心</p>
+      <p style="margin-bottom: 6px;">• <strong style="color:var(--c-deep)">深加工</strong>占比小但毛利率最高</p>
+      <p>• 节点大小代表 <strong>营业收入占比</strong></p>
+    </div>
+  </aside>
+
+  <section class="visualization">
+    <svg id="graph"></svg>
+    <div class="summary-bar">
+      <span>节点大小 ∝ 营收占比</span>
+      <span>·</span>
+      <span>滚轮缩放 / 拖拽平移</span>
+    </div>
+    <div class="legend-controls">
+      <button onclick="resetView()">↻ 重置</button>
+    </div>
+  </section>
+</main>
+
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+/* =====================================================
+   数据（2024 年报口径）
+   ===================================================== */
+
+const TOTAL_REVENUE = 496.73;
+
+const data = {
+  name: "海南橡胶 (601118)",
+  cat: "holding",
+  desc: "海南天然橡胶产业集团股份有限公司，全球最大的天然橡胶种植、加工、贸易一体化跨国企业",
+  revenue: 496.73,
+  pct: 100,
+  children: [
+    {
+      name: "种植端",
+      cat: "planting",
+      desc: "橡胶种植、种苗繁育",
+      isCategory: true,
+      children: [
+        { name: "海南岛基地分公司", cat: "planting", revenue: 14.2, pct: 2.86,
+          desc: "上市公司本部直接经营；25 家基地分公司 + 1 家种苗分公司；分布于海南各市县" },
+        { name: "云南海胶", cat: "planting", revenue: 10.85, pct: 2.18,
+          desc: "全资子公司，5.05 亿注册资本；云南 9 家 + 老挝 2 家分公司；8 家加工厂；'一带一路'关键布局" },
+        { name: "合盛海外种植园", cat: "planting", revenue: null, pct: null,
+          desc: "通过合盛农业持有；4 处种植园（喀麦隆 Hevecam/Sudcam、科特迪瓦、马来西亚）约 109,600 公顷" }
+      ]
+    },
+    {
+      name: "初加工",
+      cat: "processing",
+      desc: "标胶、浓乳、子午线轮胎胶等初加工",
+      isCategory: true,
+      children: [
+        { name: "金橡公司", cat: "processing", revenue: 85.0, pct: 17.11, isGroup: true,
+          desc: "海南橡胶初加工核心；12 家加工分公司（金林/金晨/金福/金星/金隆/金竹/金兴/金水/金山/金才等）" },
+        { name: "云南海胶加工厂", cat: "processing", revenue: null, pct: null,
+          desc: "云南海胶下属 8 家橡胶加工厂；年加工产能 10 万吨" },
+        { name: "合盛海外加工厂", cat: "processing", revenue: null, pct: null,
+          desc: "37 家加工厂（印尼 19、泰国、中国、马来西亚 2）；年加工产能 142.9 万吨" }
+      ]
+    },
+    {
+      name: "深加工",
+      cat: "deep",
+      desc: "乳胶丝、乳胶手套、橡胶木等下游产品",
+      isCategory: true,
+      children: [
+        { name: "海南中橡科技", cat: "deep", revenue: 3.39, pct: 0.68,
+          desc: "全资子公司；橡胶原材料及其制品" },
+        { name: "海南经纬乳胶丝", cat: "deep", revenue: 1.8, pct: 0.36,
+          desc: "全资子公司；国内最大乳胶丝厂，年产能 2 万吨；客户：慕思、宜家、雅兰、丝涟" },
+        { name: "江苏爱德福", cat: "deep", revenue: 1.15, pct: 0.23,
+          desc: "80% 控股；乳胶床垫、枕头等下游消费品；2024 年新并入" },
+        { name: "海南知知乳胶", cat: "deep", revenue: 0.5, pct: 0.10,
+          desc: "子公司；乳胶手套等防护手套" },
+        { name: "宝橡林产集团", cat: "deep", revenue: 0.8, pct: 0.16,
+          desc: "控股子公司；橡胶木板材、家具原料加工" },
+        { name: "海南安顺达", cat: "deep", revenue: null, pct: null,
+          desc: "子公司；橡胶制品业务" }
+      ]
+    },
+    {
+      name: "贸易端",
+      cat: "trade",
+      desc: "国内外橡胶贸易、电子商务",
+      isCategory: true,
+      children: [
+        { name: "上海龙橡", cat: "trade", revenue: 45.0, pct: 9.06, isGroup: true,
+          desc: "全资子公司，2009 年成立；国内贸易核心；2024 年获 4.4 亿增资，注册资本升至 6.4 亿" },
+        { name: "合盛上海", cat: "trade", revenue: null, pct: null,
+          desc: "合盛农业全资子公司；在华贸易平台；下设上海玺美" },
+        { name: "R1 International", cat: "trade", revenue: 95.0, pct: 19.12, isGroup: true,
+          desc: "海南橡胶 93.66% 控股；国际最大橡胶贸易公司之一" },
+        { name: "雅吉国际", cat: "trade", revenue: null, pct: null,
+          desc: "93.66% 控股；商业贸易" }
+      ]
+    },
+    {
+      name: "海外业务",
+      cat: "overseas",
+      desc: "合盛农业为核心载体；覆盖 4 国",
+      isCategory: true,
+      children: [
+        { name: "合盛农业", cat: "overseas", revenue: 209.92, pct: 42.26, isGroup: true,
+          desc: "68.10% 间接控股；3.42 亿美元收购；4 处种植园 + 37 家加工厂；年加工 142.9 万吨" },
+        { name: "KM 公司", cat: "overseas", revenue: null, pct: null,
+          desc: "受托管理（控股股东海垦控股下属 HSF(S) 持有）；印尼最大上市橡胶加工企业；2028 年底前注入承诺" },
+        { name: "ART 公司", cat: "overseas", revenue: null, pct: null,
+          desc: "受托管理；KM 子公司；印尼橡胶加工" },
+        { name: "海胶新加坡", cat: "overseas", revenue: null, pct: null,
+          desc: "全资子公司；东南亚投资发展平台" },
+        { name: "中国橡胶科技集团", cat: "overseas", revenue: null, pct: null,
+          desc: "全资子公司（香港）；投资控股平台" }
+      ]
+    },
+    {
+      name: "多元化配套",
+      cat: "misc",
+      desc: "健康文旅、免税、物流、金融服务等非橡胶主业",
+      isCategory: true,
+      children: [
+        { name: "海垦财务公司", cat: "misc", revenue: null, pct: null,
+          desc: "参股 20%；非银金融机构；上市公司 30 亿级存款沉淀于此" },
+        { name: "海垦王府井免税", cat: "misc", revenue: null, pct: null,
+          desc: "与王府井集团合资；海南离岛免税业务" },
+        { name: "海橡国际健康文旅", cat: "misc", revenue: null, pct: null,
+          desc: "健康产业 + 文旅 + 免税（暂未正式开展）" },
+        { name: "现代物流集团", cat: "misc", revenue: null, pct: null,
+          desc: "橡胶物流、仓储、配送" },
+        { name: "东橡投资控股", cat: "misc", revenue: null, pct: null,
+          desc: "全资子公司（上海）；投资控股平台" },
+        { name: "云南飞橡物流", cat: "misc", revenue: null, pct: null,
+          desc: "多式联运和运输代理业" }
+      ]
+    }
+  ]
+};
+
+/* =====================================================
+   色板
+   ===================================================== */
+
+const colorMap = {
+  holding:   "#F59E0B",
+  planting:  "#10B981",
+  processing:"#3B82F6",
+  deep:      "#8B5CF6",
+  trade:     "#F97316",
+  overseas:  "#06B6D4",
+  misc:      "#EC4899"
+};
+
+const categoryNames = {
+  holding:   "集团总部",
+  planting:  "种植端",
+  processing:"初加工",
+  deep:      "深加工",
+  trade:     "贸易端",
+  overseas:  "海外业务",
+  misc:      "多元化配套"
+};
+
+let activeCategories = new Set(Object.keys(colorMap));
+let selectedNode = null;
+
+/* =====================================================
+   工具函数
+   ===================================================== */
+
+function getCategoryColor(cat) {
+  return colorMap[cat] || "#94A3B8";
+}
+
+function nodeRadius(node) {
+  if (!node.data) return 6;
+  const d = node.data;
+  if (d.depth === 0) return 38;
+  if (d.isCategory) return 18;
+  if (d.pct && d.pct > 10) return 22;
+  if (d.pct && d.pct > 1) return 14;
+  if (d.pct && d.pct > 0.1) return 10;
+  return 7;
+}
+
+// 计算每个板块的合计营收（汇总所有有披露营收的子公司）
+function computeCategoryRevenue() {
+  root.each(node => {
+    if (node.depth === 1) {
+      let total = 0;
+      if (node.children) {
+        node.children.forEach(child => {
+          if (child.data.revenue !== null && child.data.revenue !== undefined) {
+            total += child.data.revenue;
+          }
+        });
+      }
+      node.data.categoryRevenue = total;
+      node.data.categoryPct = (total / TOTAL_REVENUE) * 100;
+    }
+  });
+}
+
+/* =====================================================
+   布局：径向树（radial dendrogram）
+   ===================================================== */
+
+const svg = d3.select("#graph");
+const tooltip = d3.select("#tooltip");
+
+const width = svg.node().clientWidth;
+const height = svg.node().clientHeight;
+
+const radius = Math.min(width, height) / 2 - 80;
+
+const gMain = svg.append("g")
+  .attr("transform", `translate(${width / 2},${height / 2})`);
+
+// 缩放
+const zoom = d3.zoom()
+  .scaleExtent([0.5, 3])
+  .on("zoom", (e) => gMain.attr("transform", `translate(${width / 2},${height / 2}) ${e.transform.toString()}`));
+svg.call(zoom);
+
+function resetView() {
+  svg.transition().duration(500).call(zoom.transform, d3.zoomIdentity.translate(width / 2, height / 2));
+}
+window.resetView = resetView;
+
+// 用 d3.hierarchy + d3.tree 生成径向布局
+const root = d3.hierarchy(data);
+
+const treeLayout = d3.tree()
+  .size([2 * Math.PI, radius])
+  .separation((a, b) => {
+    if (a.depth === 0 || b.depth === 0) return 2;
+    // 同板块子公司排得更近
+    if (a.parent === b.parent) return 1;
+    return 2.2;
+  });
+
+treeLayout(root);
+
+// 计算板块级营收合计
+computeCategoryRevenue();
+
+// 极坐标 → 笛卡尔
+const point = (angle, r) => [r * Math.cos(angle - Math.PI / 2), r * Math.sin(angle - Math.PI / 2)];
+
+root.each(d => {
+  const [x, y] = point(d.x, d.y);
+  d.px = x;
+  d.py = y;
+});
+
+/* 辅助环 */
+gMain.append("circle").attr("class", "ring-guide").attr("r", radius * 0.4);
+gMain.append("circle").attr("class", "ring-guide").attr("r", radius * 0.7);
+
+/* 链接：曲线连接 */
+const link = gMain.append("g")
+  .attr("class", "links-group")
+  .selectAll("path")
+  .data(root.links().filter(d => d.source.depth > 0))
+  .join("path")
+  .attr("class", "link")
+  .attr("stroke", d => {
+    const sc = d.source.data.cat;
+    const tc = d.target.data.cat;
+    return getCategoryColor(sc || tc);
+  })
+  .attr("stroke-width", d => {
+    if (d.source.depth === 0) return 2;
+    return 1;
+  })
+  .attr("d", d => {
+    const [sx, sy] = [d.source.px, d.source.py];
+    const [tx, ty] = [d.target.px, d.target.py];
+    // 二次贝塞尔曲线，中点是起点和终点的中点
+    const mx = (sx + tx) / 2;
+    const my = (sy + ty) / 2;
+    return `M${sx},${sy}Q${mx},${my} ${tx},${ty}`;
+  });
+
+/* 节点组 */
+const nodeG = gMain.append("g")
+  .attr("class", "nodes-group")
+  .selectAll("g")
+  .data(root.descendants())
+  .join("g")
+  .attr("class", "node")
+  .attr("transform", d => `translate(${d.px},${d.py})`)
+  .on("click", handleClick)
+  .on("mouseover", handleMouseOver)
+  .on("mouseout", handleMouseOut);
+
+// 圆圈
+nodeG.append("circle")
+  .attr("class", "node-circle")
+  .attr("r", d => nodeRadius(d))
+  .attr("fill", d => getCategoryColor(d.data.cat))
+  .attr("stroke", "#0F172A")
+  .attr("stroke-width", 2)
+  .attr("opacity", d => activeCategories.has(d.data.cat) ? 1 : 0.15);
+
+// 标签：沿径向放置在每个节点的外侧
+nodeG.append("text")
+  .attr("class", "node-label")
+  .attr("text-anchor", d => {
+    if (d.depth === 0) return "middle";
+    const cos = Math.cos(d.x - Math.PI / 2);
+    if (cos > 0.1) return "start";
+    if (cos < -0.1) return "end";
+    return "middle";
+  })
+  .attr("dy", d => {
+    if (d.depth === 0) return 6;
+    return 4;
+  })
+  .attr("transform", d => {
+    if (d.depth === 0) return null;
+    // 沿节点自己的径向方向外推标签
+    const nodeAngle = Math.atan2(d.py, d.px);
+    const labelOffset = nodeRadius(d) + 8;
+    const lx = labelOffset * Math.cos(nodeAngle);
+    const ly = labelOffset * Math.sin(nodeAngle);
+    return `translate(${lx},${ly})`;
+  })
+  .style("font-size", d => {
+    if (d.depth === 0) return "15px";
+    if (d.depth === 1) return "13px";
+    return "10px";
+  })
+  .style("font-weight", d => {
+    if (d.depth === 0) return "700";
+    if (d.depth === 1) return "600";
+    return "500";
+  })
+  .text(d => {
+    if (d.depth === 0) return "海南橡胶 (601118)";
+    return d.data.name;
+  })
+  .attr("opacity", d => {
+    if (!activeCategories.has(d.data.cat)) return 0.05;
+    return 1; // 所有节点（包括子公司）默认都显示标签
+  });
+
+// 营收标注：放在标签下方
+nodeG.append("text")
+  .attr("class", "node-revenue")
+  .attr("text-anchor", d => {
+    if (d.depth === 0) return "middle";
+    const cos = Math.cos(d.x - Math.PI / 2);
+    if (cos > 0.1) return "start";
+    if (cos < -0.1) return "end";
+    return "middle";
+  })
+  .attr("dy", d => d.depth === 0 ? 22 : 14)
+  .attr("transform", d => {
+    if (d.depth === 0) return null;
+    const nodeAngle = Math.atan2(d.py, d.px);
+    const labelOffset = nodeRadius(d) + 8;
+    const lx = labelOffset * Math.cos(nodeAngle);
+    const ly = labelOffset * Math.sin(nodeAngle);
+    return `translate(${lx},${ly + 12})`;
+  })
+  .style("font-size", d => {
+    if (d.depth === 0) return "11px";
+    if (d.depth === 1) return "10px";
+    return "9px";
+  })
+  .text(d => {
+    const data = d.data;
+    // 中心：集团总营收
+    if (data.pct === 100) return `${data.revenue.toFixed(0)} 亿 · 100%`;
+    // 板块：显示该板块汇总营收
+    if (d.depth === 1) {
+      if (data.categoryRevenue && data.categoryRevenue > 0) {
+        return `${data.categoryRevenue.toFixed(1)} 亿 · ${data.categoryPct.toFixed(1)}%`;
+      }
+      return "合计未单独披露";
+    }
+    // 子公司：显示子公司单独营收
+    if (data.revenue !== null && data.revenue !== undefined && data.pct !== null) {
+      return `${data.revenue.toFixed(1)} 亿 · ${data.pct.toFixed(1)}%`;
+    }
+    return "未披露";
+  })
+  .attr("opacity", d => {
+    if (!activeCategories.has(d.data.cat)) return 0.05;
+    return d.depth === 0 ? 1 : 0.85;
+  });
+
+/* =====================================================
+   交互
+   ===================================================== */
+
+function handleClick(event, d) {
+  selectedNode = d;
+  updateDetailPanel(d);
+  highlightPath(d);
+}
+
+function highlightPath(d) {
+  const path = new Set();
+  let curr = d;
+  while (curr) {
+    path.add(curr);
+    curr = curr.parent;
+  }
+  function addDescendants(n) {
+    path.add(n);
+    if (n.children) n.children.forEach(addDescendants);
+  }
+  addDescendants(d);
+
+  nodeG.select("circle")
+    .attr("opacity", n => (path.has(n) && activeCategories.has(n.data.cat)) ? 1 : 0.08);
+  nodeG.selectAll(".node-label")
+    .attr("opacity", n => {
+      if (!activeCategories.has(n.data.cat)) return 0.05;
+      return path.has(n) ? 1 : 0.15;
+    });
+  nodeG.selectAll(".node-revenue")
+    .attr("opacity", n => {
+      if (!activeCategories.has(n.data.cat)) return 0.05;
+      if (!path.has(n)) return 0.15;
+      return n.depth === 0 ? 1 : 0.85;
+    });
+
+  link.attr("class", l => {
+    const inPath = path.has(l.source) && path.has(l.target);
+    return inPath ? "link" : "link faded";
+  });
+}
+
+function handleMouseOver(event, d) {
+  if (selectedNode) return;
+  const data = d.data;
+  tooltip.classed("visible", true)
+    .html(`
+      <h4><span class="cat-dot" style="background:${getCategoryColor(data.cat)}"></span>${data.name}</h4>
+      <div class="tt-row"><span>分类</span><strong>${categoryNames[data.cat] || data.cat}</strong></div>
+      ${data.revenue !== null ? `
+        <div class="tt-row"><span>营业收入</span><strong>${data.revenue.toFixed(2)} 亿元</strong></div>
+        <div class="tt-row"><span>占总营收</span><strong>${data.pct.toFixed(2)}%</strong></div>
+      ` : `
+        <div class="tt-row"><span>营收披露</span><strong style="color:#94A3B8">${data.isCategory ? '板块聚合' : '未单独披露'}</strong></div>
+      `}
+      <div class="desc">${data.desc}</div>
+    `);
+  positionTooltip(event);
+}
+
+function handleMouseOut() {
+  if (!selectedNode) tooltip.classed("visible", false);
+}
+
+function positionTooltip(event) {
+  const rect = svg.node().getBoundingClientRect();
+  const tw = tooltip.node().offsetWidth;
+  const th = tooltip.node().offsetHeight;
+  let x = event.clientX - rect.left + 16;
+  let y = event.clientY - rect.top + 16;
+  if (x + tw > rect.width) x = event.clientX - rect.left - tw - 16;
+  if (y + th > rect.height) y = event.clientY - rect.top - th - 16;
+  tooltip.style("left", x + "px").style("top", y + "px");
+}
+
+function updateDetailPanel(d) {
+  const data = d.data;
+  const container = document.getElementById("detail-container");
+  container.innerHTML = `
+    <div class="detail-card">
+      <h3>
+        <span style="color:${getCategoryColor(data.cat)}">●</span>
+        ${data.name}
+        ${data.isCategory ? '<span class="badge">板块</span>' : ''}
+        ${data.isGroup ? '<span class="badge">核心</span>' : ''}
+      </h3>
+      <div class="detail-row">
+        <span>业务分类</span>
+        <strong>${categoryNames[data.cat] || data.cat}</strong>
+      </div>
+      ${data.revenue !== null ? `
+        <div class="detail-row">
+          <span>2024 营业收入</span>
+          <strong style="color:${getCategoryColor(data.cat)}">${data.revenue.toFixed(2)} 亿元</strong>
+        </div>
+        <div class="detail-row">
+          <span>占集团总营收</span>
+          <strong>${data.pct.toFixed(2)}%</strong>
+        </div>
+        <div class="pct-bar">
+          <div class="pct-fill" style="width:${Math.min(data.pct * 4, 100)}%;background:${getCategoryColor(data.cat)}"></div>
+        </div>
+      ` : `
+        <div class="detail-row">
+          <span>营收披露</span>
+          <strong>${data.isCategory ? '板块聚合（非独立披露）' : '并入合并报表'}</strong>
+        </div>
+      `}
+      <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); font-size: 12px; color: var(--text-secondary); line-height: 1.6;">
+        ${data.desc}
+      </div>
+    </div>
+    <div style="font-size: 11px; color: var(--text-muted); text-align: center; padding: 6px;">
+      点击空白处或切换分类可取消高亮
+    </div>
+  `;
+}
+
+svg.on("click", (e) => {
+  if (e.target === svg.node()) {
+    selectedNode = null;
+    document.getElementById("detail-container").innerHTML =
+      `<div class="hint-text">点击图谱中的节点查看公司详情<br>鼠标悬停可预览基本信息</div>`;
+    applyFilter(); // 重置成默认筛选状态（depth≤1 显示，depth≥2 隐藏）
+    tooltip.classed("visible", false);
+  }
+});
+
+/* =====================================================
+   分类筛选
+   ===================================================== */
+
+function buildFilter() {
+  const list = document.getElementById("filter-list");
+  const counts = {};
+  root.descendants().forEach(n => {
+    if (!counts[n.data.cat]) counts[n.data.cat] = 0;
+    counts[n.data.cat]++;
+  });
+
+  list.innerHTML = "";
+  Object.entries(categoryNames).forEach(([cat, label]) => {
+    const li = document.createElement("li");
+    li.className = "filter-item";
+    li.dataset.cat = cat;
+    li.innerHTML = `
+      <input type="checkbox" ${activeCategories.has(cat) ? 'checked' : ''}>
+      <span class="filter-dot" style="background:${getCategoryColor(cat)}"></span>
+      <span class="filter-label">${label}</span>
+      <span class="filter-count">${counts[cat] || 0}</span>
+    `;
+    li.addEventListener("click", () => {
+      if (activeCategories.has(cat)) {
+        activeCategories.delete(cat);
+        li.classList.add("disabled");
+        li.querySelector("input").checked = false;
+      } else {
+        activeCategories.add(cat);
+        li.classList.remove("disabled");
+        li.querySelector("input").checked = true;
+      }
+      applyFilter();
+    });
+    list.appendChild(li);
+  });
+}
+
+function applyFilter() {
+  nodeG.select("circle").attr("opacity", n => activeCategories.has(n.data.cat) ? 1 : 0.08);
+  // 所有节点（包括子公司）默认显示标签，受分类筛选控制
+  nodeG.selectAll(".node-label").attr("opacity", n => {
+    if (!activeCategories.has(n.data.cat)) return 0.05;
+    return 1;
+  });
+  nodeG.selectAll(".node-revenue").attr("opacity", n => {
+    if (!activeCategories.has(n.data.cat)) return 0.05;
+    return n.depth === 0 ? 1 : 0.85;
+  });
+  link.attr("opacity", l => {
+    const sc = l.source.data.cat;
+    const tc = l.target.data.cat;
+    return activeCategories.has(sc) && activeCategories.has(tc) ? 0.5 : 0.05;
+  });
+}
+
+buildFilter();
+</script>
+
+</body>
+</html>

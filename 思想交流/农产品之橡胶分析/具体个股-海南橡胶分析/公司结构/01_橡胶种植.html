@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>海南橡胶（601118）· 橡胶种植业务分析</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf6f1;
+    --surface: #fffbf7;
+    --border: #ece3d8;
+    --text: #2c241b;
+    --text-secondary: #7a6b5d;
+    --accent: #c8642a;
+    --accent-light: #f0dac8;
+    --tag-bg: #f2e6da;
+    --card-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.02);
+    --max-width: 820px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Noto Serif SC', 'Source Han Serif SC', serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.85;
+    font-size: 15.5px;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px 256px;
+  }
+
+  .hero {
+    position: relative;
+    padding: 100px 24px 40px;
+    text-align: center;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -40%;
+    left: 50%;
+    translate: -50% 0;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 50%, rgba(200,100,42,.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero h1 {
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 700;
+    letter-spacing: .04em;
+    color: var(--text);
+    position: relative;
+    animation: fadeUp .8s ease both;
+    line-height: 1.4;
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero .subtitle {
+    margin-top: 8px;
+    font-size: .9rem;
+    color: var(--text-secondary);
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    animation: fadeUp .8s .15s ease both;
+  }
+  .hero .stock-id {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 5px 18px;
+    border: 1px solid var(--accent-light);
+    border-radius: 100px;
+    font-size: .78rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: .06em;
+    animation: fadeUp .8s .3s ease both;
+  }
+
+  .container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 24px 100px;
+  }
+
+  .section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 36px 38px;
+    margin-bottom: 20px;
+    box-shadow: var(--card-shadow);
+    opacity: 0;
+    translate: 0 20px;
+    animation: fadeUp .6s ease forwards;
+  }
+  .section:hover { box-shadow: 0 4px 28px rgba(200,100,42,.07); }
+
+  .section h2 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--accent-light);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section h2 .num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: var(--accent-light);
+    font-size: .75rem;
+    font-weight: 700;
+    color: var(--accent);
+    font-family: 'Inter', sans-serif;
+    flex-shrink: 0;
+  }
+  .section h3 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 22px 0 8px;
+    color: var(--text);
+  }
+  .section h4 {
+    font-size: .95rem;
+    font-weight: 600;
+    margin: 16px 0 6px;
+    color: var(--text);
+  }
+  .section p {
+    margin-bottom: 12px;
+    text-align: justify;
+  }
+  .section p:last-child { margin-bottom: 0; }
+
+  .section ul, .section ol { margin: 12px 0; padding-left: 26px; }
+  .section ul { list-style: disc; }
+  .section ol { list-style: decimal; }
+  .section li { margin: 6px 0; line-height: 1.8; }
+  .section li strong { color: var(--accent); }
+
+  code {
+    font-family: 'SF Mono', 'Consolas', monospace;
+    background: var(--tag-bg);
+    padding: 1px 6px;
+    border-radius: 5px;
+    font-size: .85em;
+    color: var(--accent);
+  }
+
+  .highlight {
+    background: var(--tag-bg);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-size: .93rem;
+    color: var(--text);
+  }
+  .highlight strong { color: var(--accent); }
+
+  .sub-note {
+    font-size: .85rem;
+    color: var(--text-secondary);
+    padding: 8px 14px;
+    background: var(--tag-bg);
+    border-radius: 8px;
+    margin: 10px 0;
+  }
+
+  .section-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: .88rem;
+  }
+  .section-table th {
+    background: var(--tag-bg);
+    font-weight: 600;
+    text-align: left;
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+  }
+  .section-table td {
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .section-table tr:hover td { background: var(--tag-bg); }
+
+  .risk-item {
+    margin: 10px 0;
+    padding: 12px 16px;
+    background: var(--tag-bg);
+    border-radius: 8px;
+    border-left: 3px solid var(--accent);
+  }
+  .risk-item strong { color: var(--accent); }
+
+  .footer {
+    text-align: center;
+    padding: 30px 24px 40px;
+    color: var(--text-secondary);
+    font-size: .78rem;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: .03em;
+    opacity: .7;
+  }
+  .footer a { color: var(--accent); text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+
+  @keyframes fadeUp {
+    to { opacity: 1; translate: 0 0; }
+  }
+
+  .section:nth-child(1) { animation-delay: .1s; }
+  .section:nth-child(2) { animation-delay: .15s; }
+  .section:nth-child(3) { animation-delay: .2s; }
+  .section:nth-child(4) { animation-delay: .25s; }
+  .section:nth-child(5) { animation-delay: .3s; }
+  .section:nth-child(6) { animation-delay: .35s; }
+  .section:nth-child(7) { animation-delay: .4s; }
+  .section:nth-child(8) { animation-delay: .45s; }
+
+  @media (max-width: 600px) {
+    .section { padding: 24px 18px; }
+    .hero { padding: 70px 18px 30px; }
+    .section-table { font-size: .8rem; }
+    .section-table th, .section-table td { padding: 6px 8px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>海南橡胶（601118）<br><span>橡胶种植业务分析</span></h1>
+  <div class="subtitle">海南天然橡胶产业集团股份有限公司</div>
+  <div class="stock-id">601118.SH · 上海证券交易所主板</div>
+</div>
+
+<div class="container">
+
+  <!-- 一、本章结构说明 -->
+  <div class="section">
+    <h2><span class="num">一</span>本章结构说明</h2>
+    <p>首先来分析橡胶种植的业务，由于这部分有国内国外两部分，所以我将按照国内国外两方面进行展开分析。在此之前先来看看公司橡胶种植业务总的大体情况。</p>
+  </div>
+
+  <!-- 二、集团橡胶种植业务基本面 -->
+  <div class="section">
+    <h2><span class="num">二</span>集团橡胶种植业务基本面</h2>
+
+    <h3>2.1 业务占比与盈利情况</h3>
+    <table class="section-table">
+      <tr><th>业务板块</th><th>收入（亿元）</th><th>占比</th><th>估算毛利率</th><th>估算毛利贡献</th><th>业务功能定性</th><th>数据来源</th></tr>
+      <tr><td>橡胶种植</td><td>17.5</td><td>3.52%</td><td>≈ 3%</td><td>≈ 0.53 亿元</td><td>原料自给（仅占贸易量 2.82%），核心原料仍依赖外购</td><td>估算（自产干胶 11.67 万吨 × 均价 1.4–1.5 万元/吨）</td></tr>
+    </table>
+    <div class="highlight"><strong>结论</strong>：目前橡胶种植收入仅占总收入的 3.52%，利润贡献偏低，处于"原料自给、战略储备"的功能定位。原因：橡胶成本价格高，天然橡胶价格还没有走强，所以利润低</div>
+
+    <h3>2.2 土地与种植规模</h3>
+    <table class="section-table">
+      <tr><th>区域</th><th>管理土地（万亩）</th><th>橡胶种植面积（万亩）</th><th>备注</th></tr>
+      <tr><td>国内</td><td>360</td><td>约 300</td><td>2024 年因台风报废 23 万亩，可用胶园约 277 万亩</td></tr>
+      <tr><td>国外</td><td>164</td><td>60（合盛农业）</td><td>另含 100 万亩潜在增长空间</td></tr>
+      <tr><td><strong>合计</strong></td><td><strong>524</strong></td><td><strong>约 360</strong></td><td>—</td></tr>
+    </table>
+
+    <h3>2.3 关键数据聚焦</h3>
+    <p>需重点跟踪两项核心指标：<strong>自产胶量</strong>与<strong>橡胶种植面积</strong>。</p>
+
+    <h4>2.3.1 自产胶量</h4>
+    <table class="section-table">
+      <tr><th>区域</th><th>自产胶量（万吨）</th></tr>
+      <tr><td>境内</td><td>9–10</td></tr>
+      <tr><td>境外</td><td>2.2</td></tr>
+      <tr><td><strong>合计</strong></td><td><strong>约 10.4–12</strong></td></tr>
+    </table>
+
+    <h4>2.3.2 橡胶总面积（含未产胶与储备土地）</h4>
+    <table class="section-table">
+      <tr><th>区域</th><th>面积（万亩）</th><th>备注</th></tr>
+      <tr><td>国内</td><td>300</td><td>其中 180 万亩需做标准化改造</td></tr>
+      <tr><td>国外</td><td>164</td><td>—</td></tr>
+      <tr><td><strong>合计</strong></td><td><strong>约 490</strong></td><td>—</td></tr>
+    </table>
+
+    <h4>2.3.3 实际产胶面积</h4>
+    <table class="section-table">
+      <tr><th>区域</th><th>面积（万亩）</th></tr>
+      <tr><td>国内</td><td>277–300</td></tr>
+      <tr><td>国外</td><td>约 60</td></tr>
+      <tr><td><strong>合计</strong></td><td><strong>约 360</strong></td></tr>
+      <tr><td><strong>潜在增长空间</strong></td><td><strong>约 100 万亩（主要在海外）</strong></td></tr>
+    </table>
+
+    <p>这里需要声明一下境内外土地结构的计划变化：</p>
+    <p><strong>对于国内</strong></p>
+    <ul>
+      <li>（1）目前计划是将原有的180万亩橡胶林进行改造，打造成省级标准化橡胶林。</li>
+      <li>（2）将原来30万亩橡胶林打造成特种橡胶林。</li>
+    </ul>
+    <p><strong>对于国外：</strong></p>
+    <ul>
+      <li>（1）160万亩中的60万亩是被保护的，不能用来种植橡胶</li>
+      <li>（2）目前已经种植的是60万亩，这部分是公司已经种植的，然后这部分面积上的橡胶林在进行翻新，计划将使成熟橡胶树数量从 2020 年的 460 万株提升至 2030 年的 1,300 万株，覆盖现有的 36,419 公顷橡胶种植土地。由此，产量将从 2020 年的 19,000 吨提升至 2030 年的 89,000 吨。</li>
+      <li>（3）3.剩下的40万亩用来进行</li>
+    </ul>
+    <h4>喀麦隆小农合作种植计划（Cameroon Outgrower Programme）</h4>
+    <p>Corrie MacColl 认识到小农合作伙伴在开拓新市场机遇、促进农村经济发展方面的重要价值。喀麦隆小农合作种植计划旨在为 13,000 名小农提供教育与融资支持，以开发 27,000 公顷的可持续农场。</p>
+    <p>13,000 名小农将从该计划中受益。</p>
+    <p>预计将种植天然橡胶的土地总面积为 27,000 公顷。</p>
+    <p>请注意：该数字为预测值，这些土地不会归公司所有或由公司管理，目前尚未最终确定具体地块。</p>
+    <p>所有土地必须符合我们的《可持续天然橡胶供应链政策（SNRSCP）》要求。</p>
+    <p>位于高保护价值（HCV）或高碳储量（HCS）区域的土地将被排除在外，且在开发前必须取得合法且适当的土地权属文件。</p>
+    <p>已有 467 名小农通过由 Proforest 制定的入职评估标准，符合我们可持续发展政策中的社会与环境准则。</p>
+    <p>截至 2023 年 1 月，该计划已在 150 公顷土地上开展。</p>
+    <p>该计划允许小农在橡胶种植之外，结合 agroforestry（农林复合经营）模式。</p>
+    <p>项目为小农提供定期的课堂培训与实践培训，确保其持续符合我们的可持续发展政策要求。小农在培训之外仍可获得团队支持与学习资源。</p>
+    <p>"零毁林"政策通过独立第三方 MapHubs 的外部核查得以落实。</p>
+    <p>MapHubs 作为独立 GIS 卫星影像服务机构，基于所有小农土地的坐标，对毁林情况进行分析：</p>
+    <ul>
+      <li>参考 2018 年 12 月前的 Planet 季度影像</li>
+      <li>对比入职评估时的 Planet 月度影像与 Sentinel‑2 / Landsat 中分辨率影像</li>
+      <li>后续数据将以 5 年为周期进行审查。</li>
+    </ul>
+    <p>CRTV 报道："行政长官 Jean Claude Eloundou 先生称该计划是消除贫困的真正机遇。小农 Zolo Ndongo 先生与 Ngo Nkock 女士（未在照片中出现）表达了感激之情，并希望未来能够更轻松地支付家庭的教育、医疗、营养及其他生活费用。"</p>
+    <p>此外，该计划与公司可持续发展 KPI 的一致性每年由全球独立咨询公司 ERM 进行评估。</p>
+    <p><a href="https://www.halcyonagri.com/wp-content/uploads/2024/02/Halcyon-Agri-Plantations-Fact-Sheet-2024.pdf" target="_blank" style="color: var(--accent);">https://www.halcyonagri.com/wp-content/uploads/2024/02/Halcyon-Agri-Plantations-Fact-Sheet-2024.pdf</a></p>
+
+    <h3>2.4 产量增长空间测算</h3>
+
+    <h4>海外端</h4>
+    <ul>
+      <li>剩余可种植面积约 100 万亩，按平均亩产 80–100 kg 计算；</li>
+      <li>远期产量增长空间约 <strong>8–10 万吨</strong>。</li>
+    </ul>
+
+    <h4>国内端</h4>
+    <p>之前计划对180万亩现有的橡胶林进行标准化改造，对现有30万亩橡胶林改造成特种橡胶林。</p>
+    <ul>
+      <li>180 万亩橡胶林标准化改造后，亩产可提升 10–20 kg；</li>
+      <li>增量约 <strong>1.8–3.6 万吨</strong>。</li>
+    </ul>
+  </div>
+
+  <!-- 三、国内外橡胶种植面积变化分析 -->
+  <div class="section">
+    <h2><span class="num">三</span>国内外橡胶种植面积变化分析</h2>
+
+    <h3>3.1 国内橡胶种植面积与产能结构</h3>
+    <p>国内共 300 万亩橡胶种植用地，按功能划分为三类：</p>
+    <table class="section-table">
+      <tr><th>类型</th><th>面积（万亩）</th><th>估算亩产</th><th>估算产量（万吨）</th></tr>
+      <tr><td>特种橡胶林</td><td>30</td><td>100 kg</td><td>3</td></tr>
+      <tr><td>普通橡胶林</td><td>90</td><td>60–80 kg</td><td>5.4–7.2</td></tr>
+      <tr><td>省级标准化橡胶林</td><td>180</td><td>111 kg</td><td>20</td></tr>
+      <tr><td><strong>国内合计上限</strong></td><td><strong>300</strong></td><td>—</td><td><strong>28.4–30.2</strong></td></tr>
+    </table>
+    <div class="highlight"><strong>现实落差</strong>：2025 年实际产量仅约 10 万吨，距上限有较大差距，核心瓶颈在于 180 万亩标准化胶园尚处改造期。</div>
+
+    <h3>3.2 国外橡胶种植面积与产能结构（合盛农业）</h3>
+
+    <h4>3.2.1 土地构成总览</h4>
+    <table class="section-table">
+      <tr><th>资产指标</th><th>面积（公顷）</th><th>折合（万亩）</th><th>占海外总土地比例</th></tr>
+      <tr><td>海外种植园土地总面积</td><td>约 10.8 万</td><td>约 162</td><td>100%</td></tr>
+      <tr><td>实际已种植总面积</td><td>约 3.95 万</td><td>约 59.25</td><td>≈ 36.5%</td></tr>
+      <tr><td>其中：实际已种植橡胶面积</td><td>约 3.78 万</td><td>约 56.7</td><td>≈ 35.0%</td></tr>
+      <tr><td>其余土地（保护区/生态/储备）</td><td>约 6.85 万</td><td>约 102.75</td><td>≈ 63.5%</td></tr>
+    </table>
+
+    <h4>3.2.2 其余土地（保护区/储备）细分</h4>
+    <table class="section-table">
+      <tr><th>土地类别</th><th>占比</th><th>面积（公顷）</th><th>折合（万亩）</th><th>核心功能与法律属性</th></tr>
+      <tr><td>高保护价值区与保护林 (HCV &amp; Protected)</td><td>39%</td><td>41,773</td><td>约 62.6</td><td>原始热带雨林、生物多样性走廊、水源保护区；受《零砍伐政策》约束，永久禁止开垦</td></tr>
+      <tr><td>社区森林与土著保留地 (Community Forest)</td><td>23%</td><td>25,000</td><td>约 37.5</td><td>划拨给当地原住民（Baka/Bagyeli 部落）及周边社区的林地，保障其传统生活与小农耕作</td></tr>
+      <tr><td>对比项：已种植区与基础设施</td><td>38%</td><td>40,895</td><td>约 61.3</td><td>天然橡胶/油棕种植区（36%）及道路、加工厂、员工营地（2%）</td></tr>
+    </table>
+
+    <h4>3.2.3 三大种植园详情</h4>
+    <table class="section-table">
+      <tr><th>种植园</th><th>总面积（公顷）</th><th>总面积（万亩）</th><th>核心构成</th></tr>
+      <tr><td>喀麦隆 Hevecam</td><td>52,607</td><td>约 78.9</td><td>高保护价值/生态林 30,067 公顷（57%）；橡胶种植区 21,590 公顷；基础设施 950 公顷</td></tr>
+      <tr><td>喀麦隆 Sudcam</td><td>45,217</td><td>约 67.8</td><td>社区森林 25,000 公顷（55%）；高保护价值/生态缓冲区 9,706 公顷；橡胶种植区 9,768 公顷；基础设施 744 公顷</td></tr>
+      <tr><td>马来西亚 JFL</td><td>9,844</td><td>约 14.8</td><td>含约 2,000 公顷水土保持林、绿化走廊与自然保护地块</td></tr>
+    </table>
+
+    <h4>3.2.4 保护区土地无法开发的核心理由</h4>
+    <ul>
+      <li><strong>生态保护</strong>：Sudcam 紧邻 UNESCO 世界自然遗产——贾动物保护区（Dja Faunal Reserve），为保护西部低地大猩猩、黑猩猩及森林象等濒危物种，划定近 1 万公顷永久生态隔离走廊；公司签署《零砍伐、零开垦、零焚烧（NDPE）》公约及 GPSNR 标准，"高碳储量（HCS）"与"高保护价值（HCV）"森林禁止二次开发。</li>
+      <li><strong>原住民权益</strong>：Sudcam 内部 2.5 万公顷社区森林保障巴卡（Baka）与巴吉利（Bagyeli）土著居民的传统采摘、狩猎及小农耕作权利，受当地法律与 NGO 联合监督。</li>
+    </ul>
+
+    <h4>3.2.5 现有 60 万亩橡胶林翻新计划</h4>
+    <ul>
+      <li>目标：成熟橡胶树数量从 2020 年 460 万株提升至 2030 年 1,300 万株；</li>
+      <li>覆盖：现有 36,419 公顷橡胶种植土地；</li>
+      <li>预期产量：2020 年 19,000 吨 → 2030 年 89,000 吨。</li>
+    </ul>
+
+    <h4>3.2.6 喀麦隆小农合作种植计划（Cameroon Outgrower Programme）</h4>
+    <table class="section-table">
+      <tr><th>指标</th><th>数据</th></tr>
+      <tr><td>受益小农数量</td><td>13,000 名</td></tr>
+      <tr><td>预计开发可持续农场面积</td><td>27,000 公顷</td></tr>
+      <tr><td>截至 2023 年 1 月已开展面积</td><td>150 公顷</td></tr>
+      <tr><td>已通过 Proforest 入职评估的小农</td><td>467 名</td></tr>
+    </table>
+    <div class="highlight"><strong>备注</strong>：该数字为预测值，相关土地不归公司所有或管理，地块尚未最终确定；所有土地须符合《可持续天然橡胶供应链政策（SNRSCP）》，HCV/HCS 区域土地将被排除；开发前须取得合法土地权属文件；项目允许结合 agroforestry（农林复合经营）模式；"零毁林"政策通过 MapHubs 独立卫星核查落实；与公司可持续发展 KPI 的一致性每年由 ERM 评估。</div>
+  </div>
+
+  <!-- 四、集团橡胶种植产量演变推演 -->
+  <div class="section">
+    <h2><span class="num">四</span>集团橡胶种植产量演变推演</h2>
+
+    <h3>4.1 国内产量推演</h3>
+
+    <h4>4.1.2 180万亩橡胶林改造节奏，线性增长情景（8 万亩/年）</h4>
+    <table class="section-table">
+      <tr><th>年份</th><th>已改造累计面积（万亩）</th><th>当年成熟面积（万亩）</th><th>当年产量（万吨）</th></tr>
+      <tr><td>2022</td><td>8</td><td>0</td><td>0</td></tr>
+      <tr><td>2023</td><td>16</td><td>0</td><td>0</td></tr>
+      <tr><td>2024</td><td>24</td><td>0</td><td>0</td></tr>
+      <tr><td>2025</td><td>32</td><td>0</td><td>0</td></tr>
+      <tr><td>2026</td><td>40</td><td>0</td><td>0</td></tr>
+      <tr><td>2027</td><td>48</td><td>0</td><td>0</td></tr>
+      <tr><td>2028</td><td>56</td><td>0</td><td>0</td></tr>
+      <tr><td>2029</td><td>64</td><td>8</td><td>≈ 0.89</td></tr>
+      <tr><td>2030</td><td>72</td><td>16</td><td>≈ 1.78</td></tr>
+      <tr><td>2031</td><td>80</td><td>24</td><td>≈ 2.66</td></tr>
+      <tr><td>2032</td><td>88</td><td>32</td><td>≈ 3.55</td></tr>
+      <tr><td>2033</td><td>96</td><td>40</td><td>4.44</td></tr>
+      <tr><td>2034</td><td>104</td><td>48</td><td>≈ 5.33</td></tr>
+      <tr><td>2035</td><td>112</td><td>56</td><td>≈ 6.22</td></tr>
+    </table>
+    <div class="highlight"><strong>线性结论</strong>：在 8 万亩/年的匀速改造下，新增产胶放量须等到 2029 年后；2030 年该部分产量约 5 万吨；在此之前，国内增量贡献有限。</div>
+
+    <h4>4.1.3 非线性增长情景（2026 年橡胶牛市启动后）</h4>
+    <p>改造速度函数：<code>F(y) = 8 + 0.75·(y − 2026)²</code></p>
+    <table class="section-table">
+      <tr><th>年份</th><th>改造函数值（万亩）</th><th>实际值取整（万亩）</th></tr>
+      <tr><td>2026</td><td>8</td><td>8</td></tr>
+      <tr><td>2027</td><td>8.75</td><td>8.75</td></tr>
+      <tr><td>2028</td><td>11</td><td>11</td></tr>
+      <tr><td>2029</td><td>14.75</td><td>14.75</td></tr>
+      <tr><td>2030</td><td>20</td><td>20</td></tr>
+    </table>
+    <h4>非线性情景产量推演（2022–2035）</h4>
+    <table class="section-table">
+      <tr><th>年份</th><th>当年改造面积（万亩）</th><th>已改造累计面积（万亩）</th><th>当年新增成熟面积（万亩）</th><th>累计成熟面积（万亩）</th><th>当年产量（万吨）</th></tr>
+      <tr><td>2022</td><td>8</td><td>8</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><td>2023</td><td>8</td><td>16</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><td>2024</td><td>8</td><td>24</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><td>2025</td><td>8</td><td>32</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><td>2026</td><td>8</td><td>40</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><td>2027</td><td>8.75</td><td>48.75</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><td>2028</td><td>11</td><td>59.75</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><td>2029</td><td>14.75</td><td>74.5</td><td>8</td><td>8</td><td>≈ 0.89</td></tr>
+      <tr><td>2030</td><td>20</td><td>94.5</td><td>8</td><td>16</td><td>≈ 1.78</td></tr>
+      <tr><td>2031</td><td>8</td><td>102.5</td><td>8</td><td>24</td><td>≈ 2.66</td></tr>
+      <tr><td>2032</td><td>8</td><td>110.5</td><td>8</td><td>32</td><td>≈ 3.55</td></tr>
+      <tr><td>2033</td><td>8</td><td>118.5</td><td>8</td><td>40</td><td>4.44</td></tr>
+      <tr><td>2034</td><td>8.75</td><td>127.25</td><td>8.75</td><td>48.75</td><td>≈ 5.41</td></tr>
+      <tr><td>2035</td><td>11</td><td>138.25</td><td>11</td><td>59.75</td><td>≈ 6.64</td></tr>
+    </table>
+    <div class="highlight"><strong>关键判断</strong>：在牛市驱动的非线性情景下，改造节奏明显加快，但成熟放量仍集中在 2029 年之后；<strong>2026–2030 年的产量增量主要依靠海外基地</strong>。</div>
+
+    <h4>4.1.4 国内产量区间结论</h4>
+    <table class="section-table">
+      <tr><th>时段</th><th>产量区间（万吨）</th></tr>
+      <tr><td>2030 年之前</td><td>10–12</td></tr>
+      <tr><td>2030–2035 年</td><td>13–15</td></tr>
+    </table>
+
+    <h3>4.2 海外产量推演</h3>
+
+    <h4>4.2.1 现有 60 万亩橡胶林（合盛农业）</h4>
+    <ul>
+      <li>主要种植于 1995–2010 年；</li>
+      <li>按亩产 100 kg 计算，理论峰值约 6 万吨；</li>
+      <li>2025 年实际仅约 2 万吨，约 2/3 已进入成熟老化或更新阶段；</li>
+      <li>已开割成熟胶园约 28.4 万亩（18,934 公顷），未开割约 18.7 万亩（12,486 公顷）；</li>
+      <li>2026–2030 年平均产量按 3.5 万吨估算。</li>
+    </ul>
+
+    <h4>4.2.2 喀麦隆小农合作种植计划（约 40 万亩）</h4>
+    <ul>
+      <li>规划：2020–2031 年种植；</li>
+      <li>2025 年产量 0 万吨；</li>
+      <li>2026–2030 年平均按 2 万吨估算；</li>
+      <li>2030 年后逐步进入开割，2030 年后产量约 3 万吨。</li>
+    </ul>
+
+    <h4>4.2.3 海外产量区间结论</h4>
+    <table class="section-table">
+      <tr><th>时段</th><th>产量区间（万吨）</th></tr>
+      <tr><td>2030 年之前</td><td>3.5–4</td></tr>
+      <tr><td>2030 年之后</td><td>6–7</td></tr>
+    </table>
+
+    <h3>4.3 集团总产量汇总</h3>
+    <table class="section-table">
+      <tr><th>时段</th><th>国内（万吨）</th><th>海外（万吨）</th><th>集团总产量（万吨）</th></tr>
+      <tr><td>2030 年之前</td><td>10–12</td><td>3.5–4</td><td><strong>13.5–16</strong></td></tr>
+      <tr><td>2030 年之后</td><td>13–15</td><td>6–7</td><td><strong>19–22</strong></td></tr>
+    </table>
+
+    <h3>4.4 综合利润测算</h3>
+    <p><strong>综合利润：</strong><br>以平均成本每吨1.8万为标准进行计算，假设30年之前橡胶价格突破3万元/t<br>则每吨利润：1.2万</p>
+    <p><strong>综合利润：</strong><br>30年前：16.2-19.2亿元</p>
+
+    <h3>4.5 员工成本测算</h3>
+    <p>再来计算一下员工人数：总的27500人，海外非洲是7000人，国内是20500人<br>国内一名普通的胶工100亩左右开割胶园/年。<br>再把之前的非线性增长的表拿出来</p>
+    <table class="section-table">
+      <tr><th>年份</th><th>当年改造面积（万亩）</th><th>已改造累计面积（万亩）</th><th>当年新增成熟面积（万亩）</th><th>累计成熟面积（万亩）</th><th>当年产量（万吨）</th></tr>
+      <tr><td>2022</td><td>8</td><td>8</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><td>2023</td><td>8</td><td>16</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><td>2024</td><td>8</td><td>24</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><td>2025</td><td>8</td><td>32</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><td>2026</td><td>8</td><td>40</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><td>2027</td><td>8.75</td><td>48.75</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><td>2028</td><td>11</td><td>59.75</td><td>0</td><td>0</td><td>0</td></tr>
+      <tr><td>2029</td><td>14.75</td><td>74.5</td><td>8</td><td>8</td><td>≈ 0.89</td></tr>
+      <tr><td>2030</td><td>20</td><td>94.5</td><td>8</td><td>16</td><td>≈ 1.78</td></tr>
+    </table>
+    <p>一名海南橡胶普通胶工 ≈ 100亩左右开割胶园/年=</p>
+    <p>改造后，就是智能化割胶，不需要人工干预，这部分的人工成本大幅下降，按最保守的节省50%成本来计算<br>这是对应计算后的</p>
+    <table class="section-table">
+      <tr><th>年份</th><th>当年改造面积（万亩）</th><th>当年对应割胶工（个）</th><th>已改造累计面积（万亩）</th><th>累计替代割胶工规模（个）</th></tr>
+      <tr><td>2022</td><td>8</td><td>800</td><td>8</td><td>800</td></tr>
+      <tr><td>2023</td><td>8</td><td>800</td><td>16</td><td>1,600</td></tr>
+      <tr><td>2024</td><td>8</td><td>800</td><td>24</td><td>2,400</td></tr>
+      <tr><td>2025</td><td>8</td><td>800</td><td>32</td><td>3,200</td></tr>
+      <tr><td>2026</td><td>8</td><td>800</td><td>40</td><td>4,000</td></tr>
+      <tr><td>2027</td><td>8.75</td><td>875</td><td>48.75</td><td>4,875</td></tr>
+      <tr><td>2028</td><td>11</td><td>1,100</td><td>59.75</td><td>5,975</td></tr>
+      <tr><td>2029</td><td>14.75</td><td>1,475</td><td>74.5</td><td>7,450</td></tr>
+      <tr><td>2030</td><td>20</td><td>2,000</td><td>94.5</td><td>9,450</td></tr>
+      <tr><td>2031</td><td>8</td><td>800</td><td>102.5</td><td>10,250</td></tr>
+      <tr><td>2032</td><td>8</td><td>800</td><td>110.5</td><td>11,050</td></tr>
+      <tr><td>2033</td><td>8</td><td>800</td><td>118.5</td><td>11,850</td></tr>
+      <tr><td>2034</td><td>8.75</td><td>875</td><td>127.25</td><td>12,725</td></tr>
+      <tr><td>2035</td><td>11</td><td>1,100</td><td>138.25</td><td>13,825</td></tr>
+    </table>
+    <p>由于这部分产量爆发是在30年之后，那么这部分是用来看30年之后的利润<br>国内 20,500 割胶员工的年人工总成本大致在 12–18 亿元区间，取中位估算约 15 亿元/年<br>到35年的时候27年之前的这部分橡胶已经成熟，而这部分原来大概需要5000人，占总员工的四分之，四分之一的百分之50%是1.875亿元/年。<br>180万亩全部改造完可以节省1.8万名割胶员工，成本节省6-7亿元</p>
+
+    <h3>4.6 海外成本与集团利润测算</h3>
+    <p>接下来看海外的成本，和上面一样，海外的橡胶产能爆发基本上都在30年后，海外平均成本按保守的9000/t计算</p>
+    <table class="section-table">
+      <tr><th>时段</th><th>国内（万吨）</th><th>海外（万吨）</th><th>集团总产量（万吨）</th></tr>
+      <tr><td>2030 年之前</td><td>10–12</td><td>3.5–4</td><td><strong>13.5–16</strong></td></tr>
+      <tr><td>2030 年之后</td><td>13–15</td><td>6–7</td><td><strong>19–22</strong></td></tr>
+    </table>
+
+    <h4>26-30年的利润</h4>
+    <p>产量：13.5–16万吨，30年年橡胶价格按照3万/吨计算</p>
+    <p><strong>假设条件</strong></p>
+    <ul>
+      <li>产量区间：13.5–16 万吨（来自文档预估）</li>
+      <li>橡胶价格：3 万元/吨</li>
+      <li>完全成本：1.8 万元/吨</li>
+    </ul>
+    <h4>1. 区间测算</h4>
+    <table class="section-table">
+      <tr><th>项目</th><th>下限（13.5 万吨）</th><th>中值（14.75 万吨）</th><th>上限（16 万吨）</th></tr>
+      <tr><td>收入（亿元）</td><td>40.50</td><td>44.25</td><td>48.00</td></tr>
+      <tr><td>完全成本（亿元）</td><td>24.30</td><td>26.55</td><td>28.80</td></tr>
+      <tr><td>利润（亿元）</td><td>16.20</td><td>17.70</td><td>19.20</td></tr>
+      <tr><td>单位毛利（万元/吨）</td><td>1.20</td><td>1.20</td><td>1.20</td></tr>
+      <tr><td>毛利率</td><td>40.0%</td><td>40.0%</td><td>40.0%</td></tr>
+    </table>
+    <h4>2. 综合结果</h4>
+    <table class="section-table">
+      <tr><th>指标</th><th>数值</th></tr>
+      <tr><td>年总利润区间</td><td>16.20 – 19.20 亿元</td></tr>
+      <tr><td>综合单位毛利</td><td>1.2 万元/吨</td></tr>
+      <tr><td>毛利率</td><td>40.0%</td></tr>
+    </table>
+
+    <h4>敏感性参考</h4>
+    <table class="section-table">
+      <tr><th>产量\价格</th><th>1.5 万/吨</th><th>2 万/吨</th><th>3 万/吨</th><th>3.37 万/吨</th></tr>
+      <tr><td>13.5 万吨</td><td>-4.05</td><td>2.70</td><td>16.20</td><td>21.20</td></tr>
+      <tr><td>14 万吨</td><td>-4.20</td><td>2.80</td><td>16.80</td><td>21.98</td></tr>
+      <tr><td>14.75 万吨</td><td>-4.43</td><td>2.95</td><td>17.70</td><td>23.16</td></tr>
+      <tr><td>15 万吨</td><td>-4.50</td><td>3.00</td><td>18.00</td><td>23.55</td></tr>
+      <tr><td>16 万吨</td><td>-4.80</td><td>3.20</td><td>19.20</td><td>25.12</td></tr>
+    </table>
+    <div class="sub-note">（按 1.8 万/吨成本口径计算，单位：亿元）</div>
+
+    <hr style="border: none; border-top: 1px dashed var(--border); margin: 20px 0;">
+
+    <h4>30-35年利润测算（2.2 万元/吨）</h4>
+    <p>30-35年橡胶价格按照2.2万/吨计算<br><strong>综合下来利润（保守计算）：</strong></p>
+    <p>国内（12000每吨成本）：13万吨&nbsp;&nbsp;&nbsp;&nbsp;13亿利润<br>国外（9000每吨成本）：6万吨&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7.8亿利润<br>综合：20.8亿利润</p>
+    <h4>敏感性参考</h4>
+    <table class="section-table">
+      <tr><th>橡胶价格</th><th>国内利润</th><th>国外利润</th><th>合计利润</th></tr>
+      <tr><td>1.5 万/吨</td><td>3.9 亿</td><td>3.6 亿</td><td>7.5 亿</td></tr>
+      <tr><td>1.7 万/吨</td><td>6.5 亿</td><td>4.8 亿</td><td>11.3 亿</td></tr>
+      <tr><td>1.9 万/吨</td><td>9.1 亿</td><td>6.0 亿</td><td>15.1 亿</td></tr>
+      <tr><td>2.0 万/吨</td><td>10.4 亿</td><td>6.6 亿</td><td>17.0 亿</td></tr>
+      <tr><td>2.2 万/吨</td><td>13.0 亿</td><td>7.8 亿</td><td>20.8 亿</td></tr>
+      <tr><td>2.5 万/吨</td><td>16.9 亿</td><td>9.6 亿</td><td>26.5 亿</td></tr>
+    </table>
+
+    <h4>利润计算（按 3.37 万元/吨）</h4>
+    <p><strong>假设条件</strong></p>
+    <ul>
+      <li>橡胶价格：3.37 万元/吨（33,700 元/吨，相当于 2011 年牛市峰值水平）</li>
+      <li>国内产量：13 万吨，完全成本 1.2 万元/吨</li>
+      <li>国外产量：6 万吨，完全成本 0.9 万元/吨</li>
+    </ul>
+    <h4>1. 国内利润</h4>
+    <table class="section-table">
+      <tr><th>项目</th><th>计算</th><th>金额（亿元）</th></tr>
+      <tr><td>收入</td><td>13 万吨 × 3.37 万/吨</td><td>43.81</td></tr>
+      <tr><td>成本</td><td>13 万吨 × 1.2 万/吨</td><td>15.6</td></tr>
+      <tr><td>单位毛利</td><td>3.37 − 1.2</td><td>2.17 万/吨</td></tr>
+      <tr><td>国内利润</td><td>43.81 − 15.6</td><td>28.21</td></tr>
+    </table>
+    <h4>2. 国外利润</h4>
+    <table class="section-table">
+      <tr><th>项目</th><th>计算</th><th>金额（亿元）</th></tr>
+      <tr><td>收入</td><td>6 万吨 × 3.37 万/吨</td><td>20.22</td></tr>
+      <tr><td>成本</td><td>6 万吨 × 0.9 万/吨</td><td>5.4</td></tr>
+      <tr><td>单位毛利</td><td>3.37 − 0.9</td><td>2.47 万/吨</td></tr>
+      <tr><td>国外利润</td><td>20.22 − 5.4</td><td>14.82</td></tr>
+    </table>
+    <h4>3. 汇总</h4>
+    <table class="section-table">
+      <tr><th>项目</th><th>国内</th><th>国外</th><th>合计</th></tr>
+      <tr><td>产量（万吨）</td><td>13</td><td>6</td><td>19</td></tr>
+      <tr><td>收入（亿元）</td><td>43.81</td><td>20.22</td><td>64.03</td></tr>
+      <tr><td>完全成本（亿元）</td><td>15.6</td><td>5.4</td><td>21.0</td></tr>
+      <tr><td>利润（亿元）</td><td>28.21</td><td>14.82</td><td>43.03</td></tr>
+    </table>
+    <h4>三档价格对比</h4>
+    <table class="section-table">
+      <tr><th>指标</th><th>1.9 万/吨</th><th>2.2 万/吨</th><th>3.37 万/吨</th></tr>
+      <tr><td>国内利润（亿）</td><td>9.10</td><td>13.00</td><td>28.21</td></tr>
+      <tr><td>国外利润（亿）</td><td>6.00</td><td>7.80</td><td>14.82</td></tr>
+      <tr><td>合计利润（亿）</td><td>15.10</td><td>20.80</td><td>43.03</td></tr>
+      <tr><td>综合单位毛利（万/吨）</td><td>0.79</td><td>1.09</td><td>2.26</td></tr>
+      <tr><td>综合毛利率</td><td>41.8%</td><td>49.8%</td><td>67.2%</td></tr>
+      <tr><td>国内/国外利润比</td><td>60:40</td><td>62.5:37.5</td><td>65.5:34.5</td></tr>
+    </table>
+
+    <h4>3.37 万/吨情景下的毛利率测算</h4>
+    <p>3.37万/吨的情况下，如果他因为节省了人工成本，多了6个亿的利润。即算下来综合利润达到49亿时，他的毛利率是多少<br>与其他价格档对比</p>
+    <table class="section-table">
+      <tr><th>价格情境</th><th>收入</th><th>调整后成本</th><th>综合利润</th><th>综合毛利率</th></tr>
+      <tr><td>1.9 万/吨</td><td>36.10</td><td>15.00</td><td>21.10</td><td>58.45%</td></tr>
+      <tr><td>2.2 万/吨</td><td>41.80</td><td>15.00</td><td>26.80</td><td>64.11%</td></tr>
+      <tr><td>3.37 万/吨</td><td>64.03</td><td>15.00</td><td>49.03</td><td>76.57%</td></tr>
+    </table>
+  </div>
+
+  <!-- 五、土地资源与估值测算 -->
+  <div class="section">
+    <h2><span class="num">五</span>土地资源与估值测算</h2>
+    <ul>
+      <li>6000亿亩按农用地去计算，</li>
+      <li>青苗 一亩42朱</li>
+      <li>天胶一万下的时候，价格没有跌出3元</li>
+      <li>热带水果</li>
+      <li>十几万亿亩动物园</li>
+      <li>社会福利补贴</li>
+      <li>国家如果征收的话大概在</li>
+      <li>50万亩产权明确 需要归类 置换土地</li>
+      <li>海南岛征地</li>
+      <li>合盛农业土地资源按十几亿计算</li>
+      <li>第二部分计算土地资源 =》用来推算他的股票下限 =&gt;熊市中打三折</li>
+      <li>关联=》海南自贸港</li>
+    </ul>
+    <div class="highlight"><strong>附注</strong>：非洲浓缩乳胶年产量约 3 万吨，可作为海外胶源结构的补充参考。</div>
+  </div>
+
+</div>
+
+<div class="footer">
+  数据来源：公司年报、公开公告 · 仅供研究参考，不构成投资建议<br>
+  整理于 2026 年 8 月
+</div>
+
+</body>
+</html>
